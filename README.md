@@ -31,7 +31,7 @@ You would then create a config  subdirectory and move all the files there:
 ```
 	home/
 		<user>/
-			**arch-config/**
+			arch-config/
 				zsh/
 					.zshrc
 					... (some files and folders)
