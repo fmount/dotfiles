@@ -5,7 +5,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+"Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
