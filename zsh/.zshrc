@@ -119,6 +119,8 @@ alias tmux='tmux -2'
 alias tma='tmux attach -d -t'
 alias git-tmux='tmux new -s $(basename $(pwd))'
 alias nopaste="curl -F 'sprunge=<-' http://sprunge.us"
+alias qemu='qemu-system-x86_64 -enable-kvm'
+alias rss='newsbeuter -r'
 
 #TEST VULN
 alias vuln="curl -A '() { :; }; /bin/cat /etc/passwd > dumped_file' $1"
@@ -196,3 +198,11 @@ setup_tmux_layout() {
         tmux split-window -v
 }
 
+
+tl(){
+	if [[ -z "$1" ]]; then
+		task list && task summary
+	else
+		task list project:$1 && task summary project:$1
+	fi
+}

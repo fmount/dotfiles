@@ -11,13 +11,15 @@ Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
 Plug 'rip-rip/clang_complete'
 "Plug 'ekalinin/Dockerfile'
+"Plug 'tclem/vim-arduino'
+Plug 'tpope/vim-rails'
 
 call plug#end()
 
 filetype plugin indent on     " required!
 
-"source ~/.vim/.vimrc_mdlive_module
-source ~/.vim/.vimrc_texlive
+source ~/.vim/.vimrc_mdlive_module
+"source ~/.vim/.vimrc_texlive
 
 " #### EDITOR CONF #### "
 set encoding=utf-8
@@ -26,7 +28,8 @@ syntax on
 set wrap
 set number
 "colorscheme desertEx
-colorscheme jellybeans
+"colorscheme jellybeans
+colorscheme atom-dark-256
 set shortmess+=IA
 set selectmode=mouse
 set ignorecase
@@ -39,8 +42,8 @@ set noexpandtab
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-  "set showtabline=2
-set textwidth=80
+"set showtabline=2
+set textwidth=100
 "set shell=/bin/bash\ -i
 set mousehide " Hide the mouse cursor while typing
 set history=1000 " Store a ton of history (default is 20)
@@ -58,6 +61,7 @@ set clipboard=unnamed
 "set shellcmdflag=-ic
 	"set mapleader="!"
 "
+"set showmatch
 
 "Live_md.py configs
 "set backup
