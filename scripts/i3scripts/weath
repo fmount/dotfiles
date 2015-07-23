@@ -1,17 +1,15 @@
 #!/bin/sh
 
-#!/bin/sh
-#AccuWeather (r) RSS weather tool for conky
+#AccuWeather (r) RSS weather tool
 #
 #USAGE: weather.sh <locationcode>
 #
-#(c) Michael Seiler 2007
 
 METRIC=1 #Should be 0 or 1; 0 for F, 1 for C
 #locCode=95041
 #locCode="EUR|IT|IT248|TORINO"
 #locCode="venaria%20reale"
-#locCode="torino"
+#locCode="turin"
 
 #TODO: BUG: Not work with location name with spaces such as "Venaria Reale". So we have to check for
 #any space and transform it in %20: curl will thanks us! :D

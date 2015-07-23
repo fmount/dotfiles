@@ -1,5 +1,7 @@
 #!/bin/perl
 
+package main;
+
 =begin comment
 Author: frances-co
 v.0.1.alpha
@@ -7,22 +9,27 @@ v.0.1.alpha
 
 
 =begin
-TODO: READ AND CHECK FANs STATE / SMART START AND STOP
+TODO: collect values using the Plotter module ...
 =cut
 
 use strict;
 use warnings;
 use Switch;
+#use Plotter;
 
-my $path = "/sys/bus/platform/devices/coretemp.0/hwmon/hwmon1/";
-my $regex = "temp[0123456789]_input";
-my $critical_max = 62;
-my $checkTime = 120;
-
-my $fanLock = -1; # -1 = fan turned off - 0 = fan turned on..
 my %conf = ();
+#our $DBG = -1;
+our $DBG = 0;
 
-our $name = substr $0, 2;
+our $round = 9;  #Critical_max - critical_min => 9 is the default value..
+
+
+#Adding i8kctl support
+sub i8k{
+  my $i8 = `i8kctl`;
+  return split(/ /,$i8);
+}
+
 
 sub init{
   my $file = shift;
@@ -33,22 +40,23 @@ sub init{
 	$conf{$tokens[0]} = $tokens[1];
   }
   close($handler);
-  print(%conf);
+
+  $round = $conf{'critical_temp_max'} - $conf{'critical_temp_min'};
 }
 
 sub get_temps(){
-  opendir(DIR, $path) || die "Can't find the dir";
+  opendir(DIR, $conf{'bus_path'}) || die "Can't find the dir";
   my @temps=[];
   my $tmp_file;
   while($tmp_file = readdir(DIR)){
-  	if($tmp_file =~ $regex){
+  	if($tmp_file =~ $conf{'fname'}){
   	  push @temps, $tmp_file;
       }
   }
   closedir(DIR);
   for(my $i=0;$i<scalar(@temps); $i++){
-	if($temps[$i] =~ $regex){
-      my $fname = $path . $temps[$i];
+	if($temps[$i] =~ $conf{'fname'}){
+      my $fname = $conf{'bus_path'} . $temps[$i];
       open(my $fh,$fname) || die "Can't open '$fname': $!";
       my $temp1 = <$fh>;
       $temps[$i] = $temp1;
@@ -69,47 +77,51 @@ sub avg{
 }
 
 
+sub i8kact{
+	my($temp, $speed) = @_;
+	print($temp . " - " . $speed . "\n");
+	switch($speed){
+	  case 0{
+	    if($temp >= $conf{'critical_temp_max'}){
+		  print("Turn on");
+		  system("i8kfan", "-1", "2");
+		}
+	  }
+	  case 2800{
+		if($temp >= $conf{'critical_temp_max'}){
+		  print("Turn on");
+		  system("i8kfan", "-1", "2");
+		}
+	  }
+	  else{
+	    if($temp < ($conf{'critical_temp_max'}-$round)){
+		  print("Turn off");
+		  system("i8kfan", "-1", "0");
+		}
+		elsif($temp >= $conf{'critical_temp_max'}){
+		  print("Turn on");
+		  system("i8kfan", "-1", "2");
+		}
+		else{
+			print("Medium is ok");
+		    system("i8kfan", "-1", "1");
+		}
+	  }
+	}
+}
 
 sub main{
 
-  my $pid = `pgrep mon.pl`;
-  print("The PGREP of the script " . $name . " returns: " . $pid);
-
-  while(1){
-    my @te = get_temps();
-    print(@te);
-    my $avg_temp = avg(@te);
+  while($DBG == 0){	
+    #Refreshing parameters..
+    my @i8params = i8k();
 
 
-=begin comment
-    switch($fanLock){
-    case -1{
-	  print "Fan off\n";
-    }
-    case 0{
-      print "Fan on\n";
-	}
-    else{
-      print "previous case not true"
-	}
-  }
-=cut
+    my $temp = $i8params[3];
+    my $fspeed = $i8params[7];
+    i8kact($temp, $fspeed);
 
-    print("FAN: " . $fanLock . "\n");
-    if($avg_temp >= $critical_max && $fanLock != 0){
-	    print("Turn ON the FanS\n");
-	    $fanLock = 0;
-	    system("i8kfan", "-1", "2");
-    }
-    elsif($avg_temp <= $critical_max && $fanLock == 0){
-	    print("Turn OFF the FanS\n");
-	    $fanLock = -1;
-	    system("i8kfan", "-1", "1");
-    }
-    else{
-	  print("Do nothing!\n");
-    }
-    sleep($checkTime);
+    sleep($conf{'check_time'});
   }
 }
 
