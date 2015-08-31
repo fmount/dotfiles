@@ -116,7 +116,6 @@ sub main{
     #Refreshing parameters..
     my @i8params = i8k();
 
-
     my $temp = $i8params[3];
     my $fspeed = $i8params[7];
     i8kact($temp, $fspeed);

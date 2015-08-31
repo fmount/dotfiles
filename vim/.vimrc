@@ -5,20 +5,17 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-"Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
 Plug 'rip-rip/clang_complete'
-"Plug 'ekalinin/Dockerfile'
-"Plug 'tclem/vim-arduino'
-Plug 'tpope/vim-rails'
+"Plug 'tpope/vim-rails'
 
 call plug#end()
 
 filetype plugin indent on     " required!
 
-source ~/.vim/.vimrc_mdlive_module
+"source ~/.vim/.vimrc_mdlive_module
 "source ~/.vim/.vimrc_texlive
 
 " #### EDITOR CONF #### "
@@ -57,6 +54,7 @@ set showcmd
 set backspace=2 "more powerful backspacing
 set diffopt+=iwhite
 set clipboard=unnamed
+
 "if !&diff|set shell=/bin/bash\ -i|endif
 "set shellcmdflag=-ic
 	"set mapleader="!"
