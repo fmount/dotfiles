@@ -9,8 +9,15 @@ Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
 Plug 'rip-rip/clang_complete'
+Plug 'Townk/vim-autoclose'
+Plug 'qpkorr/vim-bufkill'
+Plug 'fatih/vim-go'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
+
+
+"Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -96,3 +103,4 @@ let g:airline_section_warning=""
 " put filetype in fifth section
 let g:airline_section_y="%y"
 let g:airline_theme='simple'
+let g:airline_detect_whitespace=0
