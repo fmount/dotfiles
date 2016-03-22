@@ -1,18 +1,16 @@
-# The following lines were added by compinstall
-
 source /usr/share/zsh/scripts/antigen/antigen.zsh
 
 antigen use oh-my-zsh
 
-antigen theme gentoo
-#antigen theme kardan
+antigen bundle git
+
+antigen theme dstufft01
 
 antigen apply
 
 #TEMP WORKAROUND
 cd $HOME
 
-#zstyle ':completion:*' completer _complete _ignored
 zstyle ':completion:::*:default' menu no select list-colors ${(s.:.)LS_COLORS}
 zstyle :compinstall filename '/home/francesco/.zshrc'
 
@@ -20,10 +18,15 @@ autoload -Uz compinit promptinit colors
 autoload -U run-help
 autoload run-help-git
 alias help=run-help
+
+autoload -Uz up-line-or-beginning-search
+zle -N up-line-or-beginning-search
+autoload -Uz down-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
 compinit
 promptinit
 colors
-#prompt walters
 
 #history options
 setopt hist_allow_clobber
@@ -44,7 +47,8 @@ unsetopt beep
 unsetopt global_rcs
 
 
-bindkey -e
+bindkey -v
+export KEYTIMEOUT=1
 
 typeset -A key
 
@@ -59,7 +63,7 @@ key[Right]=${terminfo[kcuf1]}
 key[PageUp]=${terminfo[kpp]}
 key[PageDown]=${terminfo[knp]}
 
-# setup key accordingly
+# setup key according to my Italian Keyboard
 [[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
 [[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
 [[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
@@ -73,16 +77,40 @@ key[PageDown]=${terminfo[knp]}
 
 
 
- #DIRSTACK CONF
+# Searching autocompl using <Ctrl>j/k
+bindkey -M vicmd 'j' down-line-or-beginning-search
+bindkey -M vicmd 'k' up-line-or-beginning-search
 
+bindkey '\eOA' up-line-or-beginning-search
+bindkey '\e[A' up-line-or-beginning-search
+bindkey '\eOB' down-line-or-beginning-search
+bindkey '\e[B' down-line-or-beginning-search
+bindkey '^k' up-line-or-beginning-search
+bindkey '^j' down-line-or-beginning-search
+
+
+# Finally, make sure the terminal is in application mode, when zle is
+# # active. Only then are the values from $terminfo valid.
+
+function zle-line-init zle-keymap-select {
+    RPS1="${${KEYMAP/vicmd/ [NORMAL]}/(main|viins)/[INSERT]}"
+    RPS2=$RPS1
+    zle reset-prompt
+}
+
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+
+#DIRSTACK CONF
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
-	dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
-	[[ -d $dirstack[1] ]] && cd $dirstack[1]
+	   dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+	     [[ -d $dirstack[1] ]] && cd $dirstack[1]
 fi
-
 chpwd() {
-	print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+   print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
 }
 
 DIRSTACKSIZE=20
@@ -93,20 +121,28 @@ setopt pushdignoredups
 setopt pushdminus
 
 
+
+alias docker='sudo docker'
+alias ..='cd ..'
+alias c='clear'
+alias mount='mount |column -t'
+alias h='history'
+alias now='date +"%T"'
 alias ls='ls --color=auto'
-alias ll='ls -lF --color=auto'
-alias la='ls -a'
-alias lla='ls -la'
+alias ll='ls -i -lF --color=auto'
+alias la='ls -i'
+alias lla='ls -la -i'
 alias vimtest='vim -u ~/.vimrctest'
+alias gvimtest='gvim -u ~/.vimrctest'
 alias gvim='gvim -geometry 55x39'
 alias pingg='ping -c 3 www.google.com'
+alias ffox='firefox'
 alias httppingg='curl -I http://google.com/ > /dev/null 2>&1 && echo success || echo failure'
 alias lock-screen='xscreensaver-command -lock'
 alias i3lock='i3lock -c 000000 -n'
 alias xtime='date +%T'
-alias connect_unict='ssh -v ubuntu@151.97.12.231'
 alias mountt='sudo mount -t ntfs-3g $1 $2'
-alias ntpsync='sudo ntpd -qg'
+alias ntpsync='ntpdate -q 0.rhel.pool.ntp.org'
 alias reboot='sudo systemctl reboot'
 alias suspend='sudo systemctl suspend'
 alias poweroff='sudo systemctl poweroff'
@@ -119,34 +155,35 @@ alias tmux='tmux -2'
 alias tma='tmux attach -d -t'
 alias git-tmux='tmux new -s $(basename $(pwd))'
 alias nopaste="curl -F 'sprunge=<-' http://sprunge.us"
-alias qemu='qemu-system-x86_64 -enable-kvm'
+#alias openstack-compute='qemu-system-x86_64 -enable-kvm -hda ~/VMs/ubuntu_compute.img -m 2048 -cpu host &'
 alias rss='newsbeuter -r'
+alias reddit='rtv'
 
 #TEST VULN
 alias vuln="curl -A '() { :; }; /bin/cat /etc/passwd > dumped_file' $1"
 
-
-#GIT ALIASES
-alias gl="git log --oneline --decorate"
-
 #alias hiddensrv-start="sudo /usr/bin/thttpd -c /etc/thttpd.conf -d /srv/http/hiddensrv/"
 #alias hiddensrv-stop="sudo kill -9 '$(pgrep thttpd)'"
 
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-
+export SSH_ASKPASS=''
 export VISUAL="vim"
 export EDITOR="vim"
-
-#[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
+export BROWSER=w3m
+export GOPATH=$HOME/golang-book
+export PATH="$PATH:$HOME/.gem/ruby/2.2.0/bin":$GOPATH/bin
 
 
 #MY OLD BASHRC CONFIG FUNCTs
+tl() {
+	if [[ -z "$1" ]]; then
+		task list && task summary
+	else
+		task list project:$1 && task summary project:$1
+	fi
+}
+
 
 # ** TOR HIDDEN SERVICE **
-
 alias hiddensrv-start="sudo /usr/bin/thttpd -c /etc/thttpd.conf -d /var/lib/tor/hiddensrv/"
 #alias hiddensrv-stop="sudo kill -9 '$(pgrep thttpd)'"
 function hiddensrv-stop(){
@@ -157,7 +194,6 @@ function hiddensrv-stop(){
 		echo "[thttpd] Stop: $pid"
 		sudo kill -9 $pid
 	fi
-
 }
 
 
@@ -196,13 +232,4 @@ setup_tmux_layout() {
         # Now split it twice, first horizontally and then  vertically.
         tmux split-window -h
         tmux split-window -v
-}
-
-
-tl(){
-	if [[ -z "$1" ]]; then
-		task list && task summary
-	else
-		task list project:$1 && task summary project:$1
-	fi
 }
