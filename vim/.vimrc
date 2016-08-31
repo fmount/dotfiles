@@ -15,9 +15,11 @@ Plug 'fatih/vim-go'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'tpope/vim-vinegar'
 
+Plug 'junegunn/goyo'
+Plug 'danielbmarques/vim-ditto'
 
-"Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -31,8 +33,8 @@ set fileencoding=utf-8
 syntax on
 set wrap
 set number
-colorscheme desertEx
-"colorscheme jellybeans
+"colorscheme desertEx
+colorscheme jellybeans
 set shortmess+=IA
 set selectmode=mouse
 set ignorecase
@@ -55,6 +57,14 @@ set backspace=2 "more powerful backspacing
 set diffopt+=iwhite
 set clipboard=unnamed
 
+"netrw try..
+let g:netrw_altv=1
+let g:netrw_banner = 0
+let g:netrw_liststyle=3
+let g:netrw_winsize = -28
+let g:netrw_browse_split = 4
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro rnu'
+
 " Windows navigation "
 nmap <C-Down> :wincmd j<CR>
 nmap <C-Left> :wincmd h<CR>
@@ -66,11 +76,12 @@ vnoremap <C-C> "+y
 vnoremap <C-V> "+gP
 "CTRL-X => Cut
 vnoremap <C-X> "+x
+
 "Disabling arrow keys
-noremap <Up> <Nop>
-noremap <Down> <Nop>
-noremap <Left> <Nop>
-noremap <Right> <Nop>
+"noremap"<Up> <Nop>
+"noremap"<Down> <Nop>
+"noremap"<Left> <Nop>
+"noremap"<Right> <Nop>
 
 ""Buffer2Tab Config 
 set hidden
@@ -89,6 +100,7 @@ inoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType python set noet ts=4 | %retab!
 autocmd FileType cpp set omnifunc=ccomplete#Complete
+autocmd BufEnter * silent! lcd %:p:h
 
 let g:airline_powerline_fonts=0
 "set second section to filename
@@ -104,3 +116,6 @@ let g:airline_section_warning=""
 let g:airline_section_y="%y"
 let g:airline_theme='simple'
 let g:airline_detect_whitespace=0
+
+"Try to write something about gui
+set guifont=Droid\ Sans\ Mono\ Slashed\ 11
