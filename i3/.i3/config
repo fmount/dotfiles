@@ -179,7 +179,7 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-	status_command	i3blocks -c ~/.i3/i3blocks.conf
+	status_command	i3blocks -c ~/.config/i3/i3blocks.conf
 	position	top
 	workspace_buttons	yes
 	font pango:Lat2-Terminus16 12
@@ -196,13 +196,13 @@ bar {
 	}
 }
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id dropboxd
+#exec --no-startup-id dropboxd
 #exec xpad --hide
 exec start-pulseaudio-x11
 exec xrdb ~/.Xresources
-exec --no-startup-id i3-msg 'workspace _>; append_layout /home/francesco/.i3/workspace_1.json'
+#exec --no-startup-id i3-msg 'workspace _>; append_layout /home/francesco/.i3/workspace_1.json'
 #exec --no-startup-id i3-msg 'workspace _>; exec firefox; exec xterm -name topright; exec xterm -name bottomright'
-exec --no-startup-id i3-msg 'workspace _>; exec firefox; exec xterm -name topright; exec i3-sensible-terminal -g ~/.config/terminator/config_chat -T terminator'
+#exec --no-startup-id i3-msg 'workspace _>; exec firefox; exec xterm -name topright; exec i3-sensible-terminal -g ~/.config/terminator/config_chat -T terminator'
 exec --no-startup-id terminator --layout=myL 
 
 #workspace $_ output LVDS1
