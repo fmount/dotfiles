@@ -170,8 +170,8 @@ export VISUAL="vim"
 export EDITOR="vim"
 export BROWSER=w3m
 export GOPATH=$HOME/golang-book
-export PATH="$PATH:$HOME/.gem/ruby/2.2.0/bin":$GOPATH/bin
-
+export PATH="$PATH:$HOME/.gem/ruby/2.3.0/bin":$GOPATH/bin
+export GPG_TTY=$(tty)
 
 #MY OLD BASHRC CONFIG FUNCTs
 tl() {
