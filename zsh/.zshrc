@@ -1,81 +1,48 @@
-source /usr/share/zsh/scripts/antigen/antigen.zsh
+#
+#
+#
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
-antigen use oh-my-zsh
 
-antigen bundle git
-
-antigen theme dstufft01
-
-antigen apply
-
-#TEMP WORKAROUND
-cd $HOME
-
-zstyle ':completion:::*:default' menu no select list-colors ${(s.:.)LS_COLORS}
-zstyle :compinstall filename '/home/francesco/.zshrc'
+zstyle ":completion:*:commands" rehash 1
+zstyle ':completion:::*:default' menu no select
 
 autoload -Uz compinit promptinit colors
-autoload -U run-help
-autoload run-help-git
-alias help=run-help
+compinit
+promptinit
+colors
+prompt steeef
 
+#history options
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt extended_history
+setopt inc_append_history
+HISTFILE=~/.histfile
+HISTSIZE=50000
+SAVEHIST=50000
+
+unsetopt beep
+
+bindkey -v
+
+# History Search
 autoload -Uz up-line-or-beginning-search
 zle -N up-line-or-beginning-search
 autoload -Uz down-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
-compinit
-promptinit
-colors
+bindkey "^R" history-incremental-search-backward
+bindkey "^A" history-beginning-search-backward
+bindkey "^B" history-beginning-search-forward
 
-#history options
-setopt hist_allow_clobber
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt hist_no_store
-setopt hist_expire_dups_first
-setopt hist_find_no_dups
-setopt extended_history
-setopt inc_append_history
-
-HISTFILE=~/.histfile
-HISTSIZE=50000
-SAVEHIST=50000
-
-
-unsetopt beep
-unsetopt global_rcs
-
-
-bindkey -v
 export KEYTIMEOUT=1
 
+
 typeset -A key
-
-key[Home]=${terminfo[khome]}
-key[End]=${terminfo[kend]}
-key[Insert]=${terminfo[kich1]}
-key[Delete]=${terminfo[kdch1]}
-key[Up]=${terminfo[kcuu1]}
-key[Down]=${terminfo[kcud1]}
-key[Left]=${terminfo[kcub1]}
-key[Right]=${terminfo[kcuf1]}
-key[PageUp]=${terminfo[kpp]}
-key[PageDown]=${terminfo[knp]}
-
-# setup key according to my Italian Keyboard
-[[ -n "${key[Home]}"    ]]  && bindkey  "${key[Home]}"    beginning-of-line
-[[ -n "${key[End]}"     ]]  && bindkey  "${key[End]}"     end-of-line
-[[ -n "${key[Insert]}"  ]]  && bindkey  "${key[Insert]}"  overwrite-mode
-[[ -n "${key[Delete]}"  ]]  && bindkey  "${key[Delete]}"  delete-char
-#[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"	  history-beginning-search-backward
-#[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"   history-beginning-search-forward
-[[ -n "${key[Up]}"      ]]  && bindkey  "${key[Up]}"	  history-search-backward
-[[ -n "${key[Down]}"    ]]  && bindkey  "${key[Down]}"   history-search-forward
-[[ -n "${key[Left]}"    ]]  && bindkey  "${key[Left]}"   backward-char
-[[ -n "${key[Right]}"   ]]  && bindkey  "${key[Right]}"  forward-char
-
-
 
 # Searching autocompl using <Ctrl>j/k
 bindkey -M vicmd 'j' down-line-or-beginning-search
@@ -87,7 +54,8 @@ bindkey '\eOB' down-line-or-beginning-search
 bindkey '\e[B' down-line-or-beginning-search
 bindkey '^k' up-line-or-beginning-search
 bindkey '^j' down-line-or-beginning-search
-
+bindkey '^[[3~'	delete-char
+bindkey '^[3;5~' delete-char
 
 # Finally, make sure the terminal is in application mode, when zle is
 # # active. Only then are the values from $terminfo valid.
@@ -103,17 +71,36 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 
-#DIRSTACK CONF
-DIRSTACKFILE="$HOME/.cache/zsh/dirs"
-if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
-	   dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
-	     [[ -d $dirstack[1] ]] && cd $dirstack[1]
-fi
-chpwd() {
-   print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+# *** Yank in the clipboard ***
+x-yank() {
+    zle copy-region-as-kill
+    print -rn -- $CUTBUFFER | xclip -in -selection clipboard
 }
+zle -N x-yank
 
-DIRSTACKSIZE=20
+x-cut() {
+    zle kill-region
+    print -rn -- $CUTBUFFER | xclip -in -selection clipboard
+}
+zle -N x-cut
+
+x-paste() {
+    CUTBUFFER=$(xclip -selection clipboard -o)
+    zle yank
+}
+zle -N x-paste
+
+#DIRSTACK CONF
+#DIRSTACKFILE="$HOME/.cache/zsh/dirs"
+#if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
+#	   dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+#	     [[ -d $dirstack[1] ]] && cd $dirstack[1]
+#fi
+#chpwd() {
+#   print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+#}
+
+#DIRSTACKSIZE=20
 setopt autopushd pushdsilent pushdtohome
 ## Remove duplicate entries
 setopt pushdignoredups
@@ -121,13 +108,11 @@ setopt pushdignoredups
 setopt pushdminus
 
 
-
 alias docker='sudo docker'
 alias ..='cd ..'
 alias c='clear'
 alias mount='mount |column -t'
 alias h='history'
-alias now='date +"%T"'
 alias ls='ls --color=auto'
 alias ll='ls -i -lF --color=auto'
 alias la='ls -i'
@@ -136,35 +121,32 @@ alias vimtest='vim -u ~/.vimrctest'
 alias gvimtest='gvim -u ~/.vimrctest'
 alias gvim='gvim -geometry 55x39'
 alias pingg='ping -c 3 www.google.com'
-alias ffox='firefox'
+alias ping8='ping -c 3 8.8.8.8'
 alias httppingg='curl -I http://google.com/ > /dev/null 2>&1 && echo success || echo failure'
-alias lock-screen='xscreensaver-command -lock'
 alias i3lock='i3lock -c 000000 -n'
 alias xtime='date +%T'
 alias mountt='sudo mount -t ntfs-3g $1 $2'
 alias ntpsync='ntpdate -q 0.rhel.pool.ntp.org'
-alias reboot='sudo systemctl reboot'
-alias suspend='sudo systemctl suspend'
-alias poweroff='sudo systemctl poweroff'
 alias myip='curl ifconfig.me'
 alias netctl-current='netctl list | grep "*"'
-alias py2=python2.7
-alias py3=python3
-alias eclipse='eclipse -vmargs -Xmx1024M'
-alias tmux='tmux -2'
-alias tma='tmux attach -d -t'
-alias git-tmux='tmux new -s $(basename $(pwd))'
 alias nopaste="curl -F 'sprunge=<-' http://sprunge.us"
-#alias openstack-compute='qemu-system-x86_64 -enable-kvm -hda ~/VMs/ubuntu_compute.img -m 2048 -cpu host &'
-alias rss='newsbeuter -r'
-alias reddit='rtv'
+alias st='st -e /bin/zsh'
+alias windows='xfreerdp +clipboard /u:francesco /p:francesco /v:192.168.122.185 /size:1920x1040'
+eval $(thefuck --alias)
+alias jekylldraft='jekyll server --watch --drafts'
+alias k9='kill -9'
+alias vp="vim -c 'set nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' -c 'colorscheme jellybeans' - "
+alias gvp="gvim -c 'set nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' -c 'colorscheme jellybeans' - "
+alias jc='journalctl'
 
-#TEST VULN
-alias vuln="curl -A '() { :; }; /bin/cat /etc/passwd > dumped_file' $1"
+# *** Spotify ***
+alias spn="~/script/sp next"
+alias spp="~/script/sp prev"
+alias sps="~/script/sp play"
+alias spc="~/script/sp current"
+alias sp="~/script/sp"
 
-#alias hiddensrv-start="sudo /usr/bin/thttpd -c /etc/thttpd.conf -d /srv/http/hiddensrv/"
-#alias hiddensrv-stop="sudo kill -9 '$(pgrep thttpd)'"
-
+# *** Settings Exported ***
 export SSH_ASKPASS=''
 export VISUAL="vim"
 export EDITOR="vim"
@@ -172,6 +154,10 @@ export BROWSER=w3m
 export GOPATH=$HOME/golang-book
 export PATH="$PATH:$HOME/.gem/ruby/2.3.0/bin":$GOPATH/bin
 export GPG_TTY=$(tty)
+export LC_COLLATE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' - \""
+export TERM=xterm-256color
 
 #MY OLD BASHRC CONFIG FUNCTs
 tl() {
@@ -183,21 +169,7 @@ tl() {
 }
 
 
-# ** TOR HIDDEN SERVICE **
-alias hiddensrv-start="sudo /usr/bin/thttpd -c /etc/thttpd.conf -d /var/lib/tor/hiddensrv/"
-#alias hiddensrv-stop="sudo kill -9 '$(pgrep thttpd)'"
-function hiddensrv-stop(){
-	pid=$(pgrep thttpd)
-	if [ "$pid" == ""  ]; then
-		echo "[thttpd] Service not running"
-	else
-		echo "[thttpd] Stop: $pid"
-		sudo kill -9 $pid
-	fi
-}
-
-
-#LATEX ALIASes
+# Old LaTeX Building
 function texbuild(){
 	filename=$(basename "$1")
 	extension="${filename##*.}"
@@ -215,21 +187,11 @@ function texbuild(){
 	fi
 }
 
-function ytdownload(){
+function swapring(){
 	if [[ -z "$1" ]]; then
-		echo "Usage:  ytdownload <URL>"
+		echo "Usage: swapring /path/to/ring"
 	else
-		echo "[Retrieving media]"
-		youtube-dl -x --audio-format mp3 $1 -o  $MUSIC_DIR'%(title)s.%(ext)s'
-		#echo "Updating mpc"
-		#mpc update
+		export PASSWORD_STORE_DIR=$1
+		export PASSWORD_STORE_GIT=$1
 	fi
-}
-
-setup_tmux_layout() {
-	# Create a new window.
-	tmux new-window -a -n '$1'
-        # Now split it twice, first horizontally and then  vertically.
-        tmux split-window -h
-        tmux split-window -v
 }
