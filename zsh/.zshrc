@@ -1,6 +1,3 @@
-#
-#
-#
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
@@ -20,11 +17,11 @@ prompt steeef
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt extended_history
-setopt inc_append_history
+#setopt inc_append_history
 HISTFILE=~/.histfile
 HISTSIZE=50000
 SAVEHIST=50000
-
+HISTTIMEFORMAT='%F %T  '
 unsetopt beep
 
 bindkey -v
@@ -156,7 +153,7 @@ export PATH="$PATH:$HOME/.gem/ruby/2.3.0/bin":$GOPATH/bin
 export GPG_TTY=$(tty)
 export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
-export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' - \""
+#export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' - \""
 export TERM=xterm-256color
 
 #MY OLD BASHRC CONFIG FUNCTs

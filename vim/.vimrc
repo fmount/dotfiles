@@ -6,9 +6,14 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+"Plug 'tpope/vim-vinegar'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
 Plug 'rip-rip/clang_complete'
+
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 Plug 'Townk/vim-autoclose'
 Plug 'qpkorr/vim-bufkill'
 Plug 'fatih/vim-go'
@@ -21,13 +26,11 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-obsession'
 Plug 'skywind3000/asyncrun.vim'
-"Plug 'tmux-plugins/tmux-focus-events'
 
 Plug 'danielbmarques/vim-ditto'
 
 "For Fun
 Plug 'ryanss/vim-hackernews'
-"Plug 'vim-scripts/DoxygenToolkit.vim'
 
 
 call plug#end()
@@ -112,8 +115,7 @@ let g:buftabline_separators=1
 
 " *** Some mappings *** "
 nmap <F2> :TagbarToggle<CR>
-"nmap <F3> :NERDTreeToggle<CR>
-nmap <F3> :Lex<CR>
+nmap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 3 * &spell, 3)<CR>
 inoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 3 * &spell, 3)<CR>i
 nnoremap <F5> <Esc>:redraw!<CR>
@@ -204,21 +206,19 @@ let g:lightline = {
 \ }
 
 
-" *** NETRW *** "
-autocmd FileType netrw nnoremap <buffer> <C-l> <nop>
-autocmd FileType netrw nnoremap <buffer> <C-h> <nop>
-autocmd FileType netrw unmap <buffer> qL
-autocmd FileType netrw unmap <buffer> qF
-autocmd FileType netrw unmap <buffer> qf
-autocmd FileType netrw unmap <buffer> qb
-autocmd FileType netrw nnoremap <buffer> q :q<CR><C-l>
-autocmd FileType netrw nnoremap <buffer> <F3> :q<CR><C-l>
-let g:netrw_altv=1
-let g:netrw_banner = 0
-let g:netrw_liststyle=3
-let g:netrw_winsize = -28
-let g:netrw_browse_split = 4
-let g:netrw_bufsettings = 'noma nomod nobl nonu nowrap ro'
+" *** nerdTree GIT Plugin *** "
+
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
 
 
 " *** Mark plugin configuration ***
@@ -258,5 +258,8 @@ highlight Cursor guifg=white guibg=#BC6A00
 
 "[GVIM]Try to write something about gui
 set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline\ 11
+set guioptions-=m "remove menu bar
+set guioptions-=T "remove toolbar"
+set guioptions-=r  "scrollbar"
 
 set clipboard=unnamed
