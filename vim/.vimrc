@@ -153,6 +153,7 @@ let g:jedi#popup_select_first = 1
 let g:jedi#auto_vim_configuration = 0
 let g:jedi#show_call_signatures = 2
 let g:jedi#completions_enabled = 1
+
 "CtRLp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -169,7 +170,7 @@ let g:ctrlp_extensions = [
 
 
 " Ctrl-P mappings.
-nnoremap <silent> <C-p> :CtrlP<cr>
+nnoremap <silent> <C-p> :CtrlPMixed<cr>
 nnoremap <silent> <C-o> :CtrlPBuffer<cr>
 nnoremap <silent> <C-u> :CtrlPTag<cr>
 nnoremap <silent> <C-y> :CtrlPQuickfix<cr>
