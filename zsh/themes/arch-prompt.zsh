@@ -36,12 +36,13 @@ fi
 
 
 is_ahead(){
-	remote_branch="$(command git rev-parse --abbrev-ref --symbolic-full-name @{u})"
-
-	ah0="$(command git rev-list --count --left-right $remote_branch...$prompt_local_branch | awk '{print $1}')"
-	ah1="$(command git rev-list --count --left-right $remote_branch...$prompt_local_branch | awk '{print $2}')"
-	[ ${ah0} -ne 0 ] && echo " ${orange}$GIT_PULL_ARROW${reset}${cyan}$ah0${reset}"
-	[ ${ah1} -ne 0 ] && echo " ${orange}$GIT_PUSH_ARROW${reset}${cyan}$ah1${reset}"
+	remote_branch="$(command git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)"
+	if [ -n "$remote_branch" ]; then
+		ah0="$(command git rev-list --count --left-right $remote_branch...$prompt_local_branch | awk '{print $1}')"
+		ah1="$(command git rev-list --count --left-right $remote_branch...$prompt_local_branch | awk '{print $2}')"
+		[ ${ah0} -ne 0 ] && echo " ${orange}$GIT_PULL_ARROW${reset}${cyan}$ah0${reset}"
+		[ ${ah1} -ne 0 ] && echo " ${orange}$GIT_PUSH_ARROW${reset}${cyan}$ah1${reset}"
+  fi
 }
 
 is_dirty(){
