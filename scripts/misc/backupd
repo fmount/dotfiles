@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+echo "Backup duplicity job"
+# s3 params
+export AWS_ACCESS_KEY_ID='ACCESS_KEY'
+export AWS_SECRET_ACCESS_KEY='SECRET_key'
+
+# gpg pub key
+export GPG_KEY='1FCA0620'
+export GPG_SIGN_KEY='C66B3D3F'
+
+ORIGIN="/home/fpantano/fastcloud"
+BUCKET="fpantano-backup"
+
+duplicity --verbosity notice --encrypt-key "$GPG_KEY" --sign-key "$GPG_SIGN_KEY" --full-if-older-than 7D --asynchronous-upload --volsize=100 --log-file "$HOME/.duplicity/notice.log" --s3-unencrypted-connection $ORIGIN s3://s3.fastcloud.it/$BUCKET
+ 

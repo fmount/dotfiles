@@ -27,6 +27,9 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-obsession'
 Plug 'skywind3000/asyncrun.vim'
 
+Plug 'ryanoasis/vim-devicons'
+
+Plug 'mhinz/vim-startify'
 Plug 'danielbmarques/vim-ditto'
 
 "For Fun
