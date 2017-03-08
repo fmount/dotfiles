@@ -1,8 +1,8 @@
 #!/bin/bash
 
 files=(/usr/share/cows/*);
-baseCmd="fortune -o | cowsay"
-delay=60
+baseCmd="fortune  | cowsay"
+delay=10
 
 menu(){
 for item in "${!avatar[@]}"
