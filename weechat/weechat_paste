@@ -1,0 +1,159 @@
+/mouse disable
+/secure passphrase <pass>
+/secure set bncpass <pass>
+/secure set bitlbeepass <pass>
+/set irc.server_default.nicks fmount9
+/set irc.server_default.ssl_verify off
+/set irc.server_default.capabilities "account-notify,away-notify,cap-notify,multi-prefix,server-time,znc.in/self-message"
+/server add bitlbee localhost/6667 -autoconnect
+
+/set irc.server.bitlbee.password fmount/bitlbee:${sec.data.bncpass}
+/set irc.server.bitlbee.command /msg &bitlbee identify;/oper anything ${sec.data.bitlbeepass}
+
+# OR
+
+/set irc.server.freenode.command '/shell -o echo "/msg NickServ identify $(pass IRC/freenode/fmount9)"'
+/filter add hide_me * * .*NickServ.*: identify\ .*
+
+/server add freenode chat.freenode.net/7000 -ssl -autoconnect
+/set irc.server.freenode.password fmount9/freenode:${sec.data.bncpass}
+
+/set weechat.plugin.autoload "*,!lua,!tcl,!ruby,!fifo,!xfer"
+/set aspell.check.default_dict en
+/set aspell.check.suggestions 3
+/set aspell.color.suggestions *green
+/aspell enable
+/trigger add setdict signal *,irc_in2_join
+/trigger set setdict conditions "${nick} == ${info:irc_nick,${server}} && ${channel} =~ [.-](it|en)$ && ${aspell.dict.irc.${server}.${channel}} =="
+/trigger set setdict regex "/.*[.-](it|en)$/${re:1}/"
+/trigger set setdict command "/set aspell.dict.irc.${server}.${channel} ${tg_signal_data}"
+/set logger.level.irc 0
+/set logger.file.path /home/launch/.znc/users/fmount/moddata/log
+/set logger.mask.irc %Y/$server/$channel.%m-%d.log
+/script install buffers.pl highmon.pl buffer_autoset.py iset.pl grep.py text_item.py vimode.py perlexec.pl
+/set plugins.var.perl.highmon.alignment "hchannel"
+/set iset.color.bg_selected 31
+/set iset.color.option_selected *white
+/set iset.color.type_selected *229
+/set iset.color.value_selected *121
+/set iset.color.type 229
+/set iset.color.value 121
+/autosort replacements add ## #
+/autosort rules add irc.server.*.&* = 0
+/autosort rules add irc.server.*.#* = 1
+/autosort rules add irc.server.*.\*status = 2
+/bar set vi_line_numbers conditions ${active} && ${weechat.bar.vi_cmd.hidden} == 0
+/set aspell.dict.exec.exec.weather en
+/trigger add weather command weather
+/trigger set weather command "/exec -noflush -norc -noln -buffer weather curl -s http://wttr.in/${tg_argv_eol1}?lang=en"
+/set irc.look.server_buffer independent
+/set buffers.look.indenting on
+/set buffers.color.current_fg 31
+/set buffers.color.current_bg white
+/set buffers.color.hotlist_message_fg 229
+/set buffers.color.hotlist_private_fg 121
+/set buffers.color.hotlist_highlight_fg 163
+/set buffers.color.whitelist_default_bg 31
+/set buffers.color.whitelist_highlight_bg 31
+/set buffers.color.whitelist_low_bg 31
+/set buffers.color.whitelist_message_bg 31
+/set buffers.color.whitelist_private_bg 31
+/set buffers.color.whitelist_highlight_fg *white
+/set buffers.color.whitelist_message_fg *white
+/set buffers.color.whitelist_private_fg *white
+/set weechat.bar.buffers.size_max 14
+/set buffers.color.number 239
+/set buffers.color.number_char 245
+/bar add activetitle window top 1 0 buffer_title
+/set weechat.bar.activetitle.priority 500
+/set weechat.bar.activetitle.conditions "${active}"
+/set weechat.bar.activetitle.color_fg white
+/set weechat.bar.activetitle.color_bg 31
+/set weechat.bar.activetitle.separator on
+/set weechat.bar.title.conditions "${inactive}"
+/set weechat.bar.title.color_fg black
+/set weechat.bar.title.color_bg 31
+/bar add rootstatus root bottom 1 0 [time],[buffer_count],[buffer_plugin],buffer_number+:+buffer_name+(buffer_modes)+{buffer_nicklist_count}+buffer_filter,[bitlbee_typing_notice],[lag],[aspell_dict],[aspell_suggest],[hotlist],completion,scroll
+/set weechat.bar.rootstatus.color_fg 31
+/set weechat.bar.rootstatus.color_bg 234
+/set weechat.bar.rootstatus.separator on
+/set weechat.bar.rootstatus.priority 500
+/bar del status
+/bar set rootstatus name status
+/bar add rootinput root bottom 1 0 [mode_indicator]+[buffer_name]+[input_prompt]+(away),[input_search],[input_paste],input_text,[vi_buffer]"
+/set weechat.bar.rootinput.color_bg black
+/set weechat.bar.rootinput.priority 1000
+/bar del input
+/bar set rootinput name input
+/set weechat.bar.nicklist.color_fg 229
+/set weechat.bar.nicklist.separator on
+/set weechat.bar.nicklist.conditions "${nicklist} && ${window.number} == 1"
+/set weechat.bar.nicklist.size_max 14
+/set weechat.bar.nicklist.size 14
+/perlexec my $total = weechat::hdata_integer(weechat::hdata_get("window"), weechat::current_window(), "win_height"); weechat::command($buffer, "/window splith " . int(8 / $total * 100));
+/buffer perl.highmon
+/window 1
+/layout store highlight
+
+/filter add rss irc.freenode.##news irc_privmsg !^\[(/r/netsec|XKCD|Ars Technica|Wired|Wikinews|freenode|EFF|erry|techdirt|TorrentFreak|Science Daily)
+/trigger add redirect_newsbin_to_news modifier weechat_print
+/trigger set redirect_newsbin_to_news conditions "${tg_buffer} == irc.freenode.#newsbin && ${tg_tag_nick} == slack3r"
+/trigger set redirect_newsbin_to_news regex "/.*//"
+/trigger set redirect_newsbin_to_news command "/print -buffer irc.freenode.##news ${tg_prefix}\t${tg_message}"
+/autosetbuffer add irc.freenode.#newsbin hidden 1
+
+
+/trigger add upgrade_scripts signal day_changed
+/trigger set upgrade_scripts command "/script update;/wait 10s /script upgrade"
+/set irc.look.smart_filter on
+/filter add irc_smart *,!irc.undernet.* irc_smart_filter *
+/set weechat.color.chat_prefix_join 121
+/set weechat.color.chat_host 31
+/set irc.color.message_join 121
+/set weechat.color.chat_prefix_quit 131
+/set irc.color.message_quit 131
+/set irc.server_default.away_check 5
+/set irc.server_default.away_check_max_nicks 25
+/set irc.color.nick_prefixes "q:lightred;a:lightcyan;o:121;h:lightmagenta;v:229;*:lightblue"
+/set irc.network.ban_mask_default "*!*@$host"
+/set irc.look.buffer_switch_autojoin off
+/set irc.look.buffer_switch_join off
+/set irc.look.color_nicks_in_nicklist on
+/set irc.look.part_closes_buffer on
+/set weechat.look.bar_more_down "▼"
+/set weechat.look.bar_more_left "◀"
+/set weechat.look.bar_more_right "▶"
+/set weechat.look.bar_more_up "▲"
+/set weechat.look.buffer_time_format "${253}%H:${245}%M"
+/set weechat.look.color_inactive_message off
+/set weechat.look.color_inactive_prefix off
+/set weechat.look.color_inactive_prefix_buffer off
+/set weechat.look.color_inactive_window off
+/set weechat.look.day_change_message_1date >> %a, %d %b %Y <<
+/set weechat.look.day_change_message_2dates >> %%a, %%d %%b %%Y (%a, %d %b %Y) <<
+/set weechat.look.hotlist_count_max 0
+/set weechat.look.hotlist_names_count 10
+/set weechat.look.item_buffer_filter "•"
+/set weechat.look.prefix_align_min 0
+/set weechat.look.prefix_align_max 10
+/set weechat.look.prefix_join ">>"
+/set weechat.look.prefix_quit "<<"
+/set weechat.look.prefix_suffix "│"
+/set weechat.look.read_marker_string "─"
+/set weechat.look.separator_horizontal "="
+/set weechat.color.bar_more 229
+/set weechat.color.chat_highlight lightred
+/set weechat.color.chat_highlight_bg default
+/set weechat.color.chat_nick_colors 25,31,37,43,49,61,67,73,79,85,97,103,109,115,121,133,139,145,151,157,163,169,175,181,187,193,199,205,211,217,223,229
+/set weechat.color.chat_prefix_more 229
+/set weechat.color.chat_prefix_suffix 31
+/set weechat.color.chat_read_marker 31
+/set weechat.color.chat_time 239
+/set weechat.color.chat_delimiters 31
+/set weechat.color.separator 31
+/set weechat.color.status_data_highlight 163
+/set weechat.color.status_data_msg 229
+/set weechat.color.status_data_private 121
+/set weechat.color.status_more 229
+/set weechat.color.status_name 195
+/set weechat.color.status_name_ssl 195
