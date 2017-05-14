@@ -1,0 +1,27 @@
+#!/bin/env bash
+
+TARGET="Master"
+FILTER="Front\ Left\:"
+PROVIDER="pulse"
+DISABLED="[mute]"
+
+is_enabled() {
+	local ena
+	ena=$(amixer -D "${PROVIDER}" get "${TARGET}" | awk ' /Front\ Left\:/ {print $6}' | tr '[|]' ' ')
+	echo $ena
+}
+
+
+VOL_VALUE=$(is_enabled)
+case ${VOL_VALUE} in
+	"on")
+		amixer -D "${PROVIDER}" get "${TARGET}" | awk ' /Front\ Left\:/ {print $5}' | tr '[|]' ' ' 
+		;;
+	"off")
+		tput setaf 1; echo -n " [mute]"
+		amixer -D "${PROVIDER}" get "${TARGET}" | awk ' /Front\ Left\:/ {print $5}' | tr '[|]' ' ' 
+		;;
+	"default")
+		echo "ERROR!"
+		;;
+esac
