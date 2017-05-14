@@ -14,7 +14,7 @@ set fifo_dir   = /tmp
 set socket_dir = /tmp
 
 set shell_cmd       = sh -c
-set proxy_url =  http://lelapomi.telecomitalia.local:8080
+#set proxy_url =  http://lelapomi.telecomitalia.local:8080
 # === General config aliases =================================================
 
 # Config related events (use the request function):
