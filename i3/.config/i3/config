@@ -16,9 +16,9 @@ set $right l
 #Set workspace name and icons
 set $ws1 
 set $ws2 
-set $ws3 :S
-set $ws4 \#
-set $ws5 :@
+set $ws3 
+set $ws4 
+set $ws5 
 set $ws6 
 set $ws7 
 set $ws8 
