@@ -27,6 +27,8 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-obsession'
 Plug 'skywind3000/asyncrun.vim'
 
+Plug 'mbbill/undotree'
+
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'mhinz/vim-startify'
@@ -34,7 +36,6 @@ Plug 'danielbmarques/vim-ditto'
 
 "For Fun
 Plug 'ryanss/vim-hackernews'
-
 
 call plug#end()
 
@@ -123,6 +124,7 @@ nnoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 
 inoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 3 * &spell, 3)<CR>i
 nnoremap <F5> <Esc>:redraw!<CR>
 inoremap <F5> <Esc>:redraw!<CR>
+nmap <F6> :UndotreeToggle<CR>
 
 " *** Windows Resizing ***
 nnoremap < :vertical resize +5<CR>
@@ -223,6 +225,13 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Clean"     : "✔︎",
     \ "Unknown"   : "?"
     \ }
+
+" ** UndoTree conf ** "
+
+if has("persistent_undo")
+    set undodir=~/.undodir/
+    set undofile
+endif
 
 
 " *** Mark plugin configuration ***
