@@ -24,9 +24,9 @@ HISTTIMEFORMAT='%F %T  '
 unsetopt beep
 
 
-. ~/export.source
-. ~/alias.source
-#. ~/arch.zsh-theme
+. ~/.zsh/export.zsh
+. ~/.zsh/alias.zsh
+. ~/.zsh/arch-prompt.zsh
 
 bindkey -v
 
@@ -43,7 +43,9 @@ bindkey "^B" history-beginning-search-forward
 export KEYTIMEOUT=1
 
 
+
 typeset -A key
+
 
 # Searching autocompl using <Ctrl>j/k
 bindkey -M vicmd 'j' down-line-or-beginning-search
@@ -57,6 +59,14 @@ bindkey '^k' up-line-or-beginning-search
 bindkey '^j' down-line-or-beginning-search
 bindkey '^[[3~'	delete-char
 bindkey '^[3;5~' delete-char
+
+# Fix backward delete
+bindkey -v '^?' backward-delete-char
+# Fix vi mode search on zsh history session
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -v "^[[3~"   delete-char
+bindkey -v "^[3;5~"  delete-char
+
 
 # Finally, make sure the terminal is in application mode, when zle is
 # # active. Only then are the values from $terminfo valid.
@@ -99,7 +109,7 @@ setopt pushdignoredups
 setopt pushdminus
 
 
-#MY OLD BASHRC CONFIG FUNCTs
+## Good old task list and summary
 tl() {
 	if [[ -z "$1" ]]; then
 		task list && task summary
