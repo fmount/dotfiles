@@ -66,10 +66,10 @@ check_git(){
 check_path() {
 	path=$(pwd)
 	IFS='/' read -A mypath <<< "$path"
-	if [ "${#mypath[@]}" -gt 6 ]; then
-		printf "[..]/%s/%s" "$mypath[-2]" "$mypath[-1]"
+	if [ "${#mypath[@]}" -gt 8 ]; then
+		printf "\[..] %s/%s" "$mypath[-2]" "$mypath[-1]"
 	else
-		printf "%s" "$path"
+		printf "%s" "~"
 	fi
 }
 
@@ -78,11 +78,11 @@ check_path() {
 
 if [ $? -ne 0 ]; then
 PROMPT=$'
-${heavenly}%n${PR_RST} at %{$orange%}%m${PR_RST} in %{$limegreen%}% $(check_path) ${PR_RST}$(check_git)
+${heavenly}%n${PR_RST} at %{$orange%}%m${PR_RST} in %{$limegreen%}%$(check_path)${PR_RST}$(check_git)
 ${heavenly} %F{grey} '
 else
 PROMPT=$'
-${heavenly}%n${PR_RST} at %{$orange%}%m${PR_RST} in %{$limegreen%}% $(check_path) ${PR_RST}$(check_git)
+${heavenly}%n${PR_RST} at %{$orange%}%m${PR_RST} in %{$limegreen%}%$(check_path)${PR_RST}$(check_git)
 ${heavenly} %F{grey} '
 fi
 #RPROMPT='[%F{yellow}%?%f]'
