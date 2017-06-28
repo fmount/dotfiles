@@ -18,8 +18,8 @@ case ${VOL_VALUE} in
 		amixer -D "${PROVIDER}" get "${TARGET}" | awk ' /Front\ Left\:/ {print $5}' | tr '[|]' ' ' 
 		;;
 	"off")
-		tput setaf 1; echo -n " [mute]"
-		amixer -D "${PROVIDER}" get "${TARGET}" | awk ' /Front\ Left\:/ {print $5}' | tr '[|]' ' ' 
+		a="$(amixer -D "${PROVIDER}" get "${TARGET}" | awk ' /Front\ Left\:/ {print $5}' | tr '[|]' ' ')"
+		tput setaf 1; echo -n "$a [mute]"
 		;;
 	"default")
 		echo "ERROR!"
