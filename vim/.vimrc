@@ -183,7 +183,7 @@ nnoremap <silent> <C-y> :CtrlPQuickfix<cr>
 "nnoremap <silent> <F8> :CtrlPBookmarkDir<cr>
 
 
-let g:gutentags_exclude = ['venv', 'build', 'static', 'node_modules']
+let g:gutentags_ctags_exclude = ['venv', 'build', 'static', 'node_modules']
 let g:gutentags_cache_dir = expand("<sfile>:h").'/tags'
 let g:gutentags_options_file = expand("<sfile>:h").'/ctagsrc'
 
