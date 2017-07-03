@@ -269,6 +269,11 @@ autocmd FileType vim setlocal expandtab
 " *** Set cursor color ***
 highlight Cursor guifg=white guibg=#BC6A00
 
+" *** Load templates according to filetype *** "
+autocmd BufNewFile *.py 0r /usr/share/vim/vimfiles/python.spec
+autocmd BufNewFile *.sh 0r /usr/share/vim/vimfiles/bash.spec
+"
+
 "[GVIM]Try to write something about gui
 set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline\ 11
 set guioptions-=m "remove menu bar
