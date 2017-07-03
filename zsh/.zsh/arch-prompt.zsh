@@ -65,8 +65,9 @@ check_git(){
 
 check_path() {
 	path=$(pwd)
+	plen=8
 	IFS='/' read -A mypath <<< "$path"
-	if [ "${#mypath[@]}" -gt 8 ]; then
+	if [ "${#mypath[@]}" -gt "$plen" ]; then
 		printf "\[..] %s/%s" "$mypath[-2]" "$mypath[-1]"
 	else
 		printf "%s" "~"
