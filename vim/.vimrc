@@ -101,12 +101,12 @@ vnoremap <C-V> "+gP
 "CTRL-X => Cut
 vnoremap <C-X> "+x
 
-"Disabling arrow keys
+"Disabling unused keys
 "noremap"<Up> <Nop>
 "noremap"<Down> <Nop>
 "noremap"<Left> <Nop>
 "noremap"<Right> <Nop>
-
+noremap <F1> <Nop>
 
 " *** Buffer2Tab Config and navigation *** "
 set hidden
