@@ -26,7 +26,8 @@ unsetopt beep
 
 . ~/.zsh/export.zsh
 . ~/.zsh/alias.zsh
-. ~/.zsh/arch-prompt.zsh
+. ~/.zsh/arch-git-prompt.zsh
+. ~/.zsh/function.zsh
 
 bindkey -v
 
