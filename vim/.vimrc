@@ -71,7 +71,7 @@ set showcmd
 set backspace=2 "more powerful backspacing
 set diffopt+=iwhite
 set clipboard=unnamed
-set timeoutlen=30  "Fix for the lightline lag on ESC !!
+"set timeoutlen=30  "Fix for the lightline lag on ESC !!
 
 " ** Setting Leader Key** "
 let mapleader=","
@@ -102,11 +102,17 @@ vnoremap <C-V> "+gP
 vnoremap <C-X> "+x
 
 "Disabling unused keys
-"noremap"<Up> <Nop>
-"noremap"<Down> <Nop>
-"noremap"<Left> <Nop>
-"noremap"<Right> <Nop>
+noremap"<Up> <Nop>
+noremap"<Down> <Nop>
+noremap"<Left> <Nop>
+noremap"<Right> <Nop>
 noremap <F1> <Nop>
+
+" *** ESC like a boss ***
+"#noremap jj <Esc>
+inoremap jj <Esc>
+"#cnoremap jj <Esc>
+"map jj <Esc>
 
 " *** Buffer2Tab Config and navigation *** "
 set hidden
