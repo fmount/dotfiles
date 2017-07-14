@@ -22,17 +22,3 @@ export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
 #export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' - \""
 export TERM=xterm-256color
-
-
-## PASS EXPORT THE CORRENT RING ##
-
-function swapring(){
-  
-	if [[ -z "$1" ]]; then
-		echo "Usage: swapring /path/to/ring"
-	else
-		export PASSWORD_STORE_DIR=$1
-    export PASSWORD_STORE_GIT=$1
-	fi
-
-}
