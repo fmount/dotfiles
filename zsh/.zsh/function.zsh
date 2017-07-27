@@ -35,4 +35,16 @@ function swapring(){
 
 }
 
+function aping {
+	if ! ping -c1 -w 5 "$1" &>/dev/null; then echo "Host is down"; else echo "isalive"; fi
+}
+
+#task list and summary
+function tl() {
+	if [[ -z "$1" ]]; then
+		task list && task summary
+	else
+		task list project:$1 && task summary project:$1
+	fi
+}
 
