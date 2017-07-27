@@ -1,7 +1,8 @@
 
-#zstyle ":completion:*:commands" rehash 1
+zstyle ":completion:*:commands" rehash 1
 zstyle ':completion:::*:default' menu no select
 #zstyle ':completion:*' hosts off
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' use-cache on
 #zstyle ':completion:*' cache-path ~/.zsh/cache
 
@@ -33,8 +34,8 @@ bindkey -v
 
 # History Search
 autoload -Uz up-line-or-beginning-search
-zle -N up-line-or-beginning-search
 autoload -Uz down-line-or-beginning-search
+zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
 bindkey "^R" history-incremental-search-backward
@@ -42,16 +43,10 @@ bindkey "^A" history-beginning-search-backward
 bindkey "^B" history-beginning-search-forward
 
 export KEYTIMEOUT=1
-
-
-
 typeset -A key
-
-
 # Searching autocompl using <Ctrl>j/k
 bindkey -M vicmd 'j' down-line-or-beginning-search
 bindkey -M vicmd 'k' up-line-or-beginning-search
-
 bindkey '\eOA' up-line-or-beginning-search
 bindkey '\e[A' up-line-or-beginning-search
 bindkey '\eOB' down-line-or-beginning-search
@@ -108,32 +103,3 @@ setopt autopushd pushdsilent pushdtohome
 setopt pushdignoredups
 ### This reverts the +/- operators.
 setopt pushdminus
-
-
-## Good old task list and summary
-tl() {
-	if [[ -z "$1" ]]; then
-		task list && task summary
-	else
-		task list project:$1 && task summary project:$1
-	fi
-}
-
-
-# Old LaTeX Building
-function texbuild(){
-	filename=$(basename "$1")
-	extension="${filename##*.}"
-	filename="${filename%.*}"
-	if [ -f "$1" ]; then
-		latex $filename
-		latex $filename
-		echo "Making dvi.."
-		dvips $filename.dvi #-o $filename.ps
-		echo "Making ps.."
-		ps2pdf $filename.ps
-		echo "Making pdf"
-		rm *.log *.ps *.dvi *.out *.aux
-		#evince $filename.pdf
-	fi
-}
