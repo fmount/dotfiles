@@ -3,7 +3,7 @@ zstyle ":completion:*:commands" rehash 1
 zstyle ':completion:::*:default' menu no select
 #zstyle ':completion:*' hosts off
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
-zstyle ':completion:*' use-cache on
+#zstyle ':completion:*' use-cache on
 #zstyle ':completion:*' cache-path ~/.zsh/cache
 
 autoload -Uz compinit promptinit colors
@@ -25,10 +25,12 @@ HISTTIMEFORMAT='%F %T  '
 unsetopt beep
 
 
-. ~/.zsh/export.zsh
-. ~/.zsh/alias.zsh
-. ~/.zsh/arch-git-prompt.zsh
-. ~/.zsh/function.zsh
+source ~/.zsh/export.zsh
+source ~/.zsh/alias.zsh
+source ~/.zsh/arch-git-prompt.zsh
+source ~/.zsh/function.zsh
+source ~/.zsh/termsupport.zsh
+
 
 bindkey -v
 
@@ -68,8 +70,11 @@ bindkey -v "^[3;5~"  delete-char
 # # active. Only then are the values from $terminfo valid.
 
 function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/ [NORMAL]}/(main|viins)/[INSERT]}"
-    RPS2=$RPS1
+    #RPS1="${${KEYMAP/vicmd/[NOR]}/(main|viins)/[INS]}"
+    #RPS2=$RPS1
+	VIM_PROMPT="%{$fg_bold[yellow]%}[% NOR]% %{$reset_color%} "
+	NOR_PROMPT="%{$fg_bold[grey]%}[% INS]% %{$reset_color%} "
+	VIMPROMPT="${${KEYMAP/vicmd/${VIM_PROMPT}}/(main|viins)/${NOR_PROMPT}}"
     zle reset-prompt
 }
 

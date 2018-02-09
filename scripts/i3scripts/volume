@@ -1,15 +1,15 @@
 #!/bin/bash
 # Displays the default device, volume, and mute status for i3blocks
 
-AUDIO_HIGH_SYMBOL='  '
+#AUDIO_HIGH_SYMBOL=' '
 
 AUDIO_MED_THRESH=50
-AUDIO_MED_SYMBOL='  '
+#AUDIO_MED_SYMBOL=' '
 
 AUDIO_LOW_THRESH=0
-AUDIO_LOW_SYMBOL='  '
+#AUDIO_LOW_SYMBOL=' '
 
-AUDIO_MUTED_SYMBOL='  '
+#AUDIO_MUTED_SYMBOL=' '
 
 DEFAULT_COLOR="#ffffff"
 MUTED_COLOR="#a0a0a0"
@@ -64,6 +64,12 @@ function set_default_playback_device_next {
     pacmd set-default-sink $default_sink
 }
 
+
+function get_default_playback_status {
+	echo $(amixer get Master | awk '$0 ~ /Playback / {print $6}')
+}
+
+
 case "$BLOCK_BUTTON" in
     1) set_default_playback_device_next ;;
     2) amixer -q -D pulse sset Master toggle ;;
@@ -91,18 +97,16 @@ fi
 
 function print_format {
     PERCENT="%"
+	STAT=$(get_default_playback_status)
     [[ $USE_PERCENT == 0 ]] && PERCENT=""
     case "$1" in
         1) echo "$SYMBOL$VOL$PERCENT [$NAME]" ;;
         2) echo "$SYMBOL$VOL$PERCENT [$INDEX]";;
         3) echo "$SYMBOL$VOL$PERCENT" ;;
-        *) echo "$SYMBOL$VOL$PERCENT [$INDEX:$NAME]" ;;
+		*) echo "$SYMBOL$VOL$PERCENT" " $STAT " ;;
     esac
 }
 
 print_format "$LONG_FORMAT"
-print_format "$SHORT_FORMAT"
-echo "$COLOR"
-
-0
-
+#print_format "$SHORT_FORMAT"
+#echo "$COLOR"
