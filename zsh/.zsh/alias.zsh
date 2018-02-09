@@ -3,7 +3,7 @@ setopt pushd_ignore_dups
 setopt pushdminus
 
 # *** Common ***
-alias ../='cd ../'
+alias ..='cd ../'
 alias -- -='cd -'
 alias d='dirs -v | head -10'
 alias c='clear'
@@ -23,7 +23,8 @@ alias httppingg='curl -I http://google.com/ > /dev/null 2>&1 && echo success || 
 alias i3lock='i3lock -c 000000 -n'
 alias xtime='date +%T'
 alias mountt='sudo mount -t ntfs-3g $1 $2'
-alias ntpsync='ntpdate -q 0.rhel.pool.ntp.org'
+#alias ntpsync='ntpdate -q 0.rhel.pool.ntp.org'
+alias cysnc='sudo chronyc waitsync'
 alias myip='curl ifconfig.me'
 alias netctl-current='netctl list | grep "*"'
 alias nopaste="curl -F 'sprunge=<-' http://sprunge.us"
@@ -37,7 +38,9 @@ alias jc='journalctl'
 alias hg='history 0 | grep'
 alias css='cscope -bqR'
 alias w1='watch -n1 '
-eval $(thefuck --alias)
+alias wtf='dmesg'
+alias s='sudo'
+alias ipr='ip r'
 
 # *** Spotify ***
 alias spn="~/script/sp next"
@@ -51,14 +54,14 @@ alias sp="~/script/sp"
 if [ $UID -eq 0 ]; then
 	alias mount='mount |column -t'
 	alias umount='umount '
-	alias systemctl='systemctl '
+	#alias systemctl='systemctl '
 	alias netctl='netctl '
 	alias pc='pacman '
 	alias docker='docker '
 else
 	alias mount='sudo mount | column -t'
 	alias umount='sudo umount '
-	alias systemctl='sudo systemctl '
+	#alias systemctl=' systemctl '
 	alias netctl='sudo netctl '
 	alias pc='sudo pacman '
 	alias docker='sudo docker '
