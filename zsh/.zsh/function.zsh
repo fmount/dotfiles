@@ -4,8 +4,18 @@
 #
 #
 
+_settitle() {
+	printf "\033k$1\033\\"
+}
+
+ssh() {
+    _settitle "${@: -1}"
+    command ssh "$@"
+    _settitle "zsh"
+}
+
 # Old LaTeX Building
-function texbuild(){
+texbuild(){
         filename=$(basename "$1")
         extension="${filename##*.}"
         filename="${filename%.*}"
@@ -24,7 +34,7 @@ function texbuild(){
 
 # PASS EXPORT THE CORRENT RING ##
 
-function swapring(){
+swapring(){
 
         if [[ -z "$1" ]]; then
                 echo "Usage: swapring /path/to/ring"
@@ -40,7 +50,7 @@ function aping {
 }
 
 #task list and summary
-function tl() {
+tl() {
 	if [[ -z "$1" ]]; then
 		task list && task summary
 	else
