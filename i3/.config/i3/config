@@ -20,8 +20,8 @@ set $ws3 
 set $ws4 
 set $ws5 
 set $ws6 
-set $ws7 
-set $ws8 
+set $ws7 
+set $ws8 
 set $ws9 
 set $ws0 
 
@@ -32,13 +32,16 @@ font pango: Droid Sans Mono Slashed 11
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec terminator
+#bindsym $mod+Return exec st
 
 # kill focused window
 bindsym $mod+F4 kill
 
 # start dmenu (a program launcher)
-bindsym $mod+F2 exec dmenu_run -b
+bindsym $mod+F2 exec dmenu_run -nf orange -b #-l 10
+
+# bind to passmenu
+bindsym $mod+F3 exec ~/dotfiles/scripts/i3scripts/passmenu
 
 # change focus
 bindsym $mod+$down focus down
@@ -73,6 +76,8 @@ bindsym $mod+Shift+Right move right
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen
 
+#bindsym $mod+h exec xrandr --output DP-2 --auto --left-of eDP-1
+#xrandr --output eDP-1 --off
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
@@ -119,8 +124,12 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
+#bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
+#bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
+#bindsym XF86AudioMute exec amixer sset Master toggle
+
+bindsym XF86AudioRaiseVolume exec amixer set Master 5%+
+bindsym XF86AudioLowerVolume exec amixer set Master 5%-
 bindsym XF86AudioMute exec amixer sset Master toggle
 bindsym XF86MonBrightnessUp exec /usr/bin/xbacklight -inc 10
 bindsym XF86MonBrightnessDown exec /usr/bin/xbacklight -dec 10
@@ -128,8 +137,27 @@ bindsym XF86MonBrightnessDown exec /usr/bin/xbacklight -dec 10
 #Print screen
 bindsym XF86Search exec maim $HOME/screens/`date +%Y-%m-%d_%H:%M:%S`.jpg
 
+#DOCK PANIC BUTTON
+bindsym Ctrl+F7 exec $HOME/dotfiles/scripts/i3scripts/dock.sh "panic"
+
+# Exit Menu
+set $mode_display System (d) dock, (u) undock, (t) together, (r) duplicate, (e) external
+
+mode "$mode_display" {
+    bindsym d exec --no-startup-id $HOME/dotfiles/scripts/i3scripts/dock.sh "dock", mode "default"
+    bindsym u exec --no-startup-id $HOME/dotfiles/scripts/i3scripts/dock.sh "undock", mode "default"
+    bindsym t exec --no-startup-id $HOME/dotfiles/scripts/i3scripts/dock.sh "together" "right", mode "default"
+    bindsym r exec --no-startup-id $HOME/dotfiles/scripts/i3scripts/dock.sh "duplicate", mode "default"
+    #bindsym e exec --no-startup-id $HOME/dotfiles/scripts/i3scripts/dock.sh "external", mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
 # Exit Menu
 set $mode_system System (l) lock, (e) logout, (x) suspend, (r) reboot, (s) shutdown
+
 
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3lock -c 000000 -n, mode "default"
@@ -143,6 +171,13 @@ mode "$mode_system" {
     bindsym Escape mode "default"
 }
 
+bindsym XF86PowerOff mode "$mode_system"
+bindsym XF86Explorer mode "$mode_system"
+bindsym Ctrl+F12 mode "$mode_system"
+bindsym Ctrl+F11 mode "$mode_system"
+bindsym F7 mode "$mode_display"
+
+#bindsym Shift+Mod1+l exec loginctl lock-session
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -171,16 +206,15 @@ mode "resize" {
 
 
 
-
 bindsym $mod+r mode "resize"
 bindsym $mod+m exec i3-input -F 'mark %s' -P 'Mark name: '
 bindsym $mod+g exec i3-input -F '[con_mark=%s] focus' -P 'Go to mark: '
 
 # Assigning applications
 assign [class="Firefox"] $ws1
-assign [class="Evolution"] $ws2
-#assign [class="pavucontrol"] $ws3
-# assign [instance="weechat"] $ws3
+assign [class="qutebrowser"] $ws1
+assign [class="Thunderbird"] $ws2
+assign [instance="weechat"] $ws3
 for_window [class="Spotify"] move to workspace $ws5
 
 # Disable focus following mouse movement
@@ -208,10 +242,10 @@ bar {
 		urgent_workspace   #ffffff #900000
 	}
 }
-#exec --no-startup-id nitrogen --restore
+exec --no-startup-id ~/.fehbg
 exec --no-startup-id xcompmgr
 exec --no-startup-id setxkbmap -option compose:ralt
 exec --no-startup-id dunst
-exec --no-startup-id nm-applet
+exec --no-startup-id unclutter
 exec --no-startup-id redshift -c ~/.config/redshift.conf
 exec xss-lock --ignore-sleep -- /bin/bash -c '(killall -9 gpg-agent; gpg-connect-agent /bye)& i3lock -n -c 000000'&

@@ -3,8 +3,8 @@
 ! see src/config.h for more information about option meanings.
 
 ! These options only take effect on startup.
-st.termname:     st-256color
-#st.termname:     screen-256color
+!st.termname:     screen-256color
+st.termname:     xterm-256color
 ! if you do not set shell, precedence is: -e arg, utmp option, SHELL env var, /etc/passwd shell
 st.shell:        /bin/zsh
 
@@ -28,44 +28,71 @@ st.prompt_char:  $
 st.opacity:      255
 ! Defaults taken from base16-twilight colorscheme.
 st.foreground:   #a7a7a7
-st.background:   #1e1e1e
 
-st.color0:       #1e1e1e
-st.color1:       #cf6a4c
-st.color2:       #8f9d6a
-st.color3:       #f9ee98
-st.color4:       #7587a6
-st.color5:       #9b859d
-st.color6:       #afc4db
-st.color7:       #a7a7a7
-st.color8:       #5f5a60
-st.color9:       #cf6a4c
-st.color10:      #8f9d6a
-st.color11:      #f9ee98
-st.color12:      #7587a6
-st.color13:      #9b859d
-st.color14:      #afc4db
-st.color15:      #ffffff
-st.color16:      #cda869
-st.color17:      #9b703f
-st.color18:      #323537
-st.color19:      #464b50
-st.color20:      #838184
-st.color21:      #c3c3c3
+!More transparent background
+!st.background:   #1e1e1e
+st.background:   #000000
 
-#st.color0:			#353540
-#st.color8:			#545466
-#st.color1:			#8c5760
-#st.color9:			#b26f7a
-#st.color2:			#7b8c58
-#st.color10:			#9db270
-#st.color3:			#8c6e43
-#st.color11:			#b28c55
-#st.color4:			#58698c
-#st.color12:			#7086b2
-#st.color5:			#7b5e7d
-#st.color13:			#9c77b2
-#st.color6:			#66808c
-#st.color14:			#82a2b2
-#st.color7:			#8c8b8b
-#st.color15: 		#b8b8c8
+st.color0: #1e1e1e
+st.color1: #cf6a4c
+st.color2: #8f9d6a
+st.color3: #C4A000
+!st.color3:      #f9ee98
+!st.color4:      #7587a6
+st.color4: #3465A4
+st.color5: #9b859d
+st.color6: #afc4db
+st.color7: #a7a7a7
+
+!st.color8: #5f5a60
+st.color8:  #555753
+
+st.color9:  #cf6a4c
+st.color10: #8f9d6a
+
+!Light Yellow
+st.color11: #f9ee98
+!st.color11: #FCE94F
+
+!Dark yellow
+!st.color11: #C4A000
+
+st.color12: #7587a6
+st.color13: #9b859d
+st.color14: #afc4db
+st.color15: #ffffff
+st.color16: #cda869
+st.color17: #9b703f
+st.color18: #323537
+st.color19: #464b50
+st.color20: #838184
+st.color21: #c3c3c3
+st.color232: #ffffff
+
+
+
+! INFO SECTION CONTAINING ALL COLOR DEFINITIONS !
+!! Black + DarkGrey
+!*color0:  #000000
+!*color8:  #555753
+!! DarkRed + Red
+!*color1:  #ff6565
+!*color9:  #ff8d8d
+!! DarkGreen + Green
+!*color2:  #93d44f
+!*color10: #c8e7a8
+!! DarkYellow + Yellow
+!*color3:  #eab93d
+!*color11: #ffc123
+!! DarkBlue + Blue
+!*color4:  #204a87
+!*color12: #3465a4
+!! DarkMagenta + Magenta
+!*color5:  #ce5c00
+!*color13: #f57900
+!!DarkCyan + Cyan (both not tango)
+!*color6:  #89b6e2
+!*color14: #46a4ff
+!! LightGrey + White
+!*color7:  #cccccc
+!*color15: #ffffff
