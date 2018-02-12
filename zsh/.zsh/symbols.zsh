@@ -14,4 +14,4 @@ readonly ZSH_SYMBOL_CIRCLE=''
 readonly ZSH_SYMBOL_CUBE=''
 readonly ZSH_SYMBOL_USER=''
 readonly ZSH_SYMBOL_SHARP=''
-
+readonly ZSH_SYMBOL_HOME=''
