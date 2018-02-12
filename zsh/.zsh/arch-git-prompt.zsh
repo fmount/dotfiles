@@ -59,8 +59,9 @@ is_ahead(){
 is_dirty(){
 	if [ -n "$(command git status --porcelain)" ]; then 
 		echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)]%F{grey}"
-	#elif [ -z "$(is_ahead)" ]; then
+	elif [ -z "$(is_ahead)" ]; then
 	#	echo "%F{grey}%F{green}$ZSH_SYMBOL_CIRCLE%F{grey}%F{grey}"
+		echo "  "
 	else
 		echo "%F{grey}[%F{grey}$(is_ahead)]%F{grey}"
 	fi
