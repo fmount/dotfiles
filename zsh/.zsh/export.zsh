@@ -10,7 +10,7 @@ export GPG_KEY='1FCA0620'
 export GPG_SIGN_KEY='C66B3D3F'
 
 ## ZSH EXPORT SETTINGS ##
-export KEYTIMEOUT=1
+export KEYTIMEOUT=20
 export SSH_ASKPASS=''
 export VISUAL="vim"
 export EDITOR="vim"
