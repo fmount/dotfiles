@@ -27,9 +27,9 @@ alias mountt='sudo mount -t ntfs-3g $1 $2'
 alias cysnc='sudo chronyc waitsync'
 alias myip='curl ifconfig.me'
 alias netctl-current='netctl list | grep "*"'
-alias nopaste="curl -F 'sprunge=<-' http://sprunge.us"
+alias nopaste="curl -F c=@- https://ptpb.pw/"
 alias st='st -e /bin/zsh'
-alias windows='xfreerdp +clipboard /u:francesco /p:francesco /v:192.168.122.185 /size:1920x1  040'
+alias windows='xfreerdp +clipboard /u:francesco /v:192.168.122.56 /size:1920x1040'
 alias jekylldraft='jekyll server --watch --drafts'
 alias k9='kill -9'
 alias vp="vim -c 'set nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' -c 'colorscheme jellybeans' - "
@@ -38,7 +38,7 @@ alias jc='journalctl'
 alias hg='history 0 | grep'
 alias css='cscope -bqR'
 alias w1='watch -n1 '
-alias wtf='dmesg'
+#alias wtf='dmesg'
 alias s='sudo'
 alias ipr='ip r'
 
