@@ -6,10 +6,10 @@
 # Fully supports screen, iterm, and probably most modern xterm and rxvt
 # (In screen, only short_tab_title is used)
 # Limited support for Apple Terminal (Terminal can't set window and tab separately)
+
 function title {
   emulate -L zsh
   setopt prompt_subst
-
   [[ "$EMACS" == *term* ]] && return
 
   # if $2 is unset use $1 as default
@@ -18,8 +18,11 @@ function title {
 
   case "$TERM" in
     cygwin|xterm*|putty*|rxvt*|ansi)
-      print -Pn "\e]2;$2:q\a" # set window name
-      print -Pn "\e]1;$1:q\a" # set tab name
+
+    print -Pn "\e]2;$2:q\a" # set window name
+    print -Pn "\e]1;$1:q\a" # set tab name
+    #[[ "$1" == "$ZSH_THEME_TERM_TAB_TITLE_IDLE" ]] && print -Pn "\033k $ZSH_SYMBOL_HOME \033\\" || print -Pn "\033k$1\033\\"
+    print -Pn "\033k $1 \033\\"
       ;;
     screen*)
       print -Pn "\ek$1:q\e\\" # set screen hardstatus
@@ -52,10 +55,6 @@ fi
 function omz_termsupport_precmd {
   emulate -L zsh
 
-  if [[ "$DISABLE_AUTO_TITLE" == true ]]; then
-    return
-  fi
-
   title $ZSH_THEME_TERM_TAB_TITLE_IDLE $ZSH_THEME_TERM_TITLE_IDLE
 }
 
@@ -72,7 +71,7 @@ function omz_termsupport_preexec {
   local CMD=${1[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]:gs/%/%%}
   local LINE="${2:gs/%/%%}"
 
-  title '$CMD' '%100>...>$LINE%<<'
+  title "$CMD" "%100>...>$LINE%<<"
 }
 
 precmd_functions+=(omz_termsupport_precmd)
