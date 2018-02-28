@@ -1,6 +1,7 @@
 
 zstyle ":completion:*:commands" rehash 1
 zstyle ':completion:::*:default' menu no select
+zstyle ':completion:*' rehash true
 #zstyle ':completion:*' hosts off
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 #zstyle ':completion:*' use-cache on
@@ -31,6 +32,25 @@ source ~/.zsh/arch-git-prompt.zsh
 source ~/.zsh/function.zsh
 source ~/.zsh/termsupport.zsh
 
+DIRSTACKFILE="$HOME/.cache/zsh/dirs"
+if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
+  dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
+  [[ -d $dirstack[1] ]] && cd $dirstack[1]
+fi
+
+chpwd() {
+  print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+}
+
+DIRSTACKSIZE=20
+
+setopt AUTO_PUSHD PUSHD_SILENT PUSHD_TO_HOME
+
+## Remove duplicate entries
+setopt PUSHD_IGNORE_DUPS
+
+## This reverts the +/- operators.
+setopt PUSHD_MINUS
 
 bindkey -v
 
@@ -44,7 +64,6 @@ bindkey "^R" history-incremental-search-backward
 bindkey "^A" history-beginning-search-backward
 bindkey "^B" history-beginning-search-forward
 
-export KEYTIMEOUT=1
 typeset -A key
 # Searching autocompl using <Ctrl>j/k
 bindkey -M vicmd 'j' down-line-or-beginning-search
@@ -57,6 +76,14 @@ bindkey '^k' up-line-or-beginning-search
 bindkey '^j' down-line-or-beginning-search
 bindkey '^[[3~'	delete-char
 bindkey '^[3;5~' delete-char
+
+
+# *** super esc vi style ***
+bindkey 'jj' vi-cmd-mode
+
+# *** Vim mode movements
+bindkey -M vicmd 'H' vi-beginning-of-line
+bindkey -M vicmd 'L' vi-end-of-line
 
 # Fix backward delete
 bindkey -v '^?' backward-delete-char
