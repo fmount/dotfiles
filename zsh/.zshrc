@@ -135,3 +135,6 @@ setopt autopushd pushdsilent pushdtohome
 setopt pushdignoredups
 ### This reverts the +/- operators.
 setopt pushdminus
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/vault vault
