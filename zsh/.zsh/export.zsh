@@ -1,10 +1,6 @@
 # Export all env variables in my laptop
 # v.0.1alpha
 
-
-# Backupd section (using duplicity)
-export AWS_ACCESS_KEY_ID='ACCESS_KEY'
-export AWS_SECRET_ACCESS_KEY='SECRET_key'
 # gpg pub key
 export GPG_KEY='1FCA0620'
 export GPG_SIGN_KEY='C66B3D3F'

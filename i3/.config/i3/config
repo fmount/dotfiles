@@ -26,7 +26,10 @@ set $ws9 
 set $ws0 
 
 #font pango:DejaVu Sans Mono 8
-font pango: Droid Sans Mono Slashed 11
+#font pango: Droid Sans Mono Slashed 11
+set $fp pango: Iosevka Term Medium 11
+set $dmenu_font "Iosevka Term Medium:11"
+font $fp
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -38,10 +41,12 @@ floating_modifier $mod
 bindsym $mod+F4 kill
 
 # start dmenu (a program launcher)
-bindsym $mod+F2 exec dmenu_run -nf orange -b #-l 10
+bindsym $mod+F2 exec dmenu_run -fn $dmenu_font #-l 10
 
 # bind to passmenu
 bindsym $mod+F3 exec ~/dotfiles/scripts/i3scripts/passmenu
+
+bindsym $mod+F10 exec dmenu_qutebrowser
 
 # change focus
 bindsym $mod+$down focus down
@@ -225,7 +230,7 @@ bindsym $mod+g exec i3-input -F '[con_mark=%s] focus' -P 'Go to mark: '
 for_window [class="(?i)keybase"] move to scratchpad
 #assign [class="Firefox"] $ws1
 #assign [class="Thunderbird"] $ws2
-#assign [class="(?i)qutebrowser"] $ws1
+assign [class="(?i)qutebrowser"] $ws1
 
 # Disable focus following mouse movement
 focus_follows_mouse no
@@ -235,10 +240,10 @@ workspace_layout tabbed
 # finds out, if available)
 bar {
    	status_command	i3blocks -c ~/.config/i3/i3blocks.conf
-	font pango:DejaVu Sans Mono, Icons 8
+	font pango: $fp
 	position		top
 	workspace_buttons	yes
-	font pango:Lat2-Terminus16 12
+	#font pango:Lat2-Terminus16 12
 	mode 		 dock
     #output               HDMI2
     #output               VGA1
