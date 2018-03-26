@@ -4,7 +4,8 @@ shopt -s nullglob globstar
 
 GPGAGENTHOME=~/.gnupg/gpg-agent.conf
 DEFAULT_LEN=10
-STORE="$1"
+#STORE="$1"
+#DMENU_FONT="Iosevka Term Medium:11"
 
 function reload_agent(){
 	rl=$(gpg-connect-agent reloadagent /bye)
@@ -44,7 +45,7 @@ password_files=( "$prefix"/**/*.gpg )
 password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
-password=$(printf '%s\n' "${password_files[@]}" | dmenu "$@" -l "$DEFAULT_LEN")
+password=$(printf '%s\n' "${password_files[@]}" | dmenu "$@" -l "$DEFAULT_LEN" -fn "Iosevka Term Medium:11")
 
 [[ -n $password ]] || exit
 
