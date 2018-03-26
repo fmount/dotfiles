@@ -281,7 +281,9 @@ autocmd BufNewFile *.sh 0r /usr/share/vim/vimfiles/bash.spec
 "
 
 "[GVIM]Try to write something about gui
-set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline\ 11
+" set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline\ 11
+set guifont=Share\ Tech\ Mono\ 12
+" set guifont=Iosevka\ Term\ 12
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
 set guioptions-=r  "scrollbar"
