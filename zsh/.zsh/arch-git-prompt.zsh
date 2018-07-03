@@ -42,6 +42,10 @@ send_tmux() {
     tmux set-option -g @current-git "$tprompt"
 }
 
+_commit_count() {
+	count="$(command git rev-list --all --count)"
+	echo "$count"
+}
 
 is_ahead(){
 	remote_branch="$(command git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)"
@@ -52,18 +56,18 @@ is_ahead(){
 		[ ${ah1} -ne 0 ] && echo "${orange}$GIT_PUSH_ARROW${reset}${cyan}$ah1${reset}"
 	else
 		echo "%F{yellow}$ERROR_FETCH_REMOTE_INFO%F{grey}"
-  fi
+	fi
 }
 
 
 is_dirty(){
-	if [ -n "$(command git status --porcelain)" ]; then 
-		echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)]%F{grey}"
+	if [ -n "$(command git status --porcelain)" ]; then
+		echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)$(_commit_count)]%F{grey}"
 	elif [ -z "$(is_ahead)" ]; then
-	#	echo "%F{grey}%F{green}$ZSH_SYMBOL_CIRCLE%F{grey}%F{grey}"
-		echo "  "
+		echo "%F{grey}[%F{grey}$(_commit_count)%F{grey}]%F{grey}"
+		#echo "  "
 	else
-		echo "%F{grey}[%F{grey}$(is_ahead)]%F{grey}"
+		echo "%F{grey}[%F{grey}$(is_ahead)|C:$(_commit_count)]%F{grey}"
 	fi
 	#remote_branch="$(command git rev-parse --abbrev-ref --symbolic-full-name @{u})"
 	#[ -n "$(command git log $remote_branch...HEAD)" ] && echo "%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL$(is_ahead)%F{grey}"
