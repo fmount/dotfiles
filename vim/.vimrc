@@ -1,51 +1,50 @@
-set nocompatible			   " be iMproved
-filetype off				   " required!
+set nocompatible               " be iMproved
+filetype off                   " required!
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-"Plug 'tpope/vim-vinegar'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
-Plug 'rip-rip/clang_complete'
+"Plug 'rip-rip/clang_complete'
+"Plug 'tpope/vim-vinegar'
+"Plug 'Townk/vim-autoclose'
+"Plug 'davidhalter/jedi-vim'
+"Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-Plug 'Townk/vim-autoclose'
 Plug 'qpkorr/vim-bufkill'
 Plug 'fatih/vim-go'
 Plug 'itchyny/lightline.vim'
 Plug 'neomake/neomake'
 Plug 'pearofducks/ansible-vim'
 Plug 'lepture/vim-jinja'
-Plug 'davidhalter/jedi-vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'tpope/vim-obsession'
 Plug 'skywind3000/asyncrun.vim'
-
-Plug 'mbbill/undotree'
-
+Plug 'Valloric/YoucompleteMe'
+Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 
-Plug 'mhinz/vim-startify'
+"Write better
 Plug 'danielbmarques/vim-ditto'
+Plug 'mbbill/undotree'
 
 "For Fun
-Plug 'ryanss/vim-hackernews'
+Plug 'dansomething/vim-hackernews'
 
 call plug#end()
 
-filetype plugin indent on	  " required!
+filetype plugin indent on    " required!
 "set encoding=utf-8
 set fileencoding=utf-8
 syntax on
 set wrap
 set number
-"colorscheme desertEx
 colorscheme jellybeans
 set shortmess+=IA
 set selectmode=mouse
@@ -60,8 +59,9 @@ set smartindent
 set noexpandtab
 set tabstop=4
 set softtabstop=4
+set showtabline=2
 set shiftwidth=4
-set textwidth=100
+set textwidth=0
 set mousehide " Hide the mouse cursor while typing
 set history=1000 " Store a ton of history
 set list
@@ -77,10 +77,10 @@ set clipboard=unnamed
 let mapleader=","
 
 " *** Folding settings *** "
-set foldmethod=indent	"fold based on indent
-set foldnestmax=10		"deepest fold is 10 levels
-set nofoldenable		"dont fold by default
-set foldlevel=1			"this is just what i use
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set nofoldenable        "dont fold by default
+set foldlevel=1         "this is just what i use
 
 
 " Windows navigation "
@@ -152,19 +152,21 @@ autocmd! BufEnter,BufWritePost * Neomake
 
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_python_flake8_maker = { 'args': ['--ignore=E701,W191,E303,E302,E711, \
-			\ W191,F401,E128,E501,E502,E115,E265,W293'], }
+            \ W191,F401,E128,E501,E502,E115,E265,W293'], }
 
 
-let g:jedi#auto_initialization = 1
-let g:jedi#completions_enabled = 1
-let g:jedi#use_tabs_not_buffers = 1
-let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#popup_on_dot = 1
-let g:jedi#popup_select_first = 1
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#show_call_signatures = 2
-let g:jedi#completions_enabled = 1
+"let g:jedi#auto_initialization = 1
+"let g:jedi#completions_enabled = 1
+"let g:jedi#use_tabs_not_buffers = 1
+"let g:jedi#use_splits_not_buffers = "left"
+"let g:jedi#popup_on_dot = 1
+"let g:jedi#popup_select_first = 1
+"let g:jedi#auto_vim_configuration = 0
+"let g:jedi#show_call_signatures = 2
+"let g:jedi#completions_enabled = 1
 
+" YouCompleteMe conf
+let g:ycm_always_populate_location_list = 0
 "CtRLp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -176,8 +178,8 @@ let g:ctrlp_cache_dir = expand("<sfile>:h").'/cache'
 let g:ctrlp_clear_cache_on_ext = 0
  "Enable some cool extensions.
 let g:ctrlp_extensions = [
-		 \'tag', 'buffertag', 'quickfix', 'mixed', 'bookmarkdir',
-		 \'autoignore' ]
+         \'tag', 'buffertag', 'quickfix', 'mixed', 'bookmarkdir',
+         \'autoignore' ]
 
 
 " Ctrl-P mappings.
@@ -198,23 +200,23 @@ let g:gutentags_options_file = expand("<sfile>:h").'/ctagsrc'
 
 set laststatus=2
 let g:lightline = {
-	   \ 'active': {
-	   \   'left': [ [ 'mode', 'paste' ],
-	   \			 [ 'filename', 'readonly', 'modified' ],
-	   \			 [ 'fugitive', 'async' ] ]
-	   \ },
-	   \ 'component': {
-	   \   'readonly': '%{&filetype=="help"?"":&readonly?"x":""}',
-	   \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-	   \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
-	   \   'async'	 : '%{g:asyncrun_status=="running"?"ASYNC":""}'
-	   \ },
-	   \ 'component_visible_condition': {
-	   \   'readonly': '(&filetype!="help"&& &readonly)',
-	   \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-	   \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
-	   \   'async'	 : '(g:asyncrun_status=="running")'
-	   \ },
+       \ 'active': {
+       \   'left': [ [ 'mode', 'paste' ],
+       \             [ 'filename', 'readonly', 'modified' ],
+       \             [ 'fugitive', 'async' ] ]
+       \ },
+       \ 'component': {
+       \   'readonly': '%{&filetype=="help"?"":&readonly?"x":""}',
+       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
+       \   'async'   : '%{g:asyncrun_status=="running"?"ASYNC":""}'
+       \ },
+       \ 'component_visible_condition': {
+       \   'readonly': '(&filetype!="help"&& &readonly)',
+       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
+       \   'async'   : '(g:asyncrun_status=="running")'
+       \ },
 \ }
 
 
@@ -282,8 +284,8 @@ autocmd BufNewFile *.sh 0r /usr/share/vim/vimfiles/bash.spec
 
 "[GVIM]Try to write something about gui
 " set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline\ 11
-set guifont=Share\ Tech\ Mono\ 12
-" set guifont=Iosevka\ Term\ 12
+"set guifont=Share\ Tech\ Mono\ 12
+set guifont=Iosevka\ Term\ 12
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
 set guioptions-=r  "scrollbar"
