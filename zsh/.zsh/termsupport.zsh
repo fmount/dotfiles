@@ -54,7 +54,7 @@ fi
 # Runs before showing the prompt
 function omz_termsupport_precmd {
   emulate -L zsh
-
+  ZSH_THEME_TERM_TAB_TITLE_IDLE=$(basename $PWD)
   title $ZSH_THEME_TERM_TAB_TITLE_IDLE $ZSH_THEME_TERM_TITLE_IDLE
 }
 
