@@ -25,10 +25,8 @@ set $ws8 
 set $ws9 
 set $ws0 
 
-#font pango:DejaVu Sans Mono 8
-#font pango: Droid Sans Mono Slashed 11
-set $fp pango: Iosevka Term Medium 11
-set $dmenu_font "Iosevka Term Medium:11"
+set $fp pango: Share Tech Mono 11
+set $dmenu_font "Share Tech Mono:11"
 font $fp
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -240,10 +238,8 @@ workspace_layout tabbed
 # finds out, if available)
 bar {
     status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	font pango:$fp
 	position top
 	workspace_buttons yes
-	#font pango:Lat2-Terminus16 12
 	mode dock
     #output               HDMI2
     #output               VGA1
@@ -263,7 +259,7 @@ exec --no-startup-id setxkbmap -option compose:ralt &
 exec --no-startup-id dunst &
 exec --no-startup-id unclutter &
 exec --no-startup-id run_keybase &
-exec --no-startup-id st -g 400x400 -c weechat -e weechat &
+exec --no-startup-id xst -g 400x400 -c weechat -e weechat &
 exec --no-startup-id redshift -c ~/.config/redshift.conf &
 exec xss-lock --ignore-sleep -- /bin/bash -c '(killall dunst; killall -9 gpg-agent; gpg-connect-agent /bye)& i3lock -n -c 000000'&
 exec --no-startup-id ~/dotfiles/scripts/i3scripts/i3floating.sh &
