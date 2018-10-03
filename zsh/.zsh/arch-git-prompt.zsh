@@ -43,7 +43,7 @@ send_tmux() {
 }
 
 _commit_count() {
-	count="$(command git rev-list --all --count)"
+	count="$(command git rev-list --count HEAD)"
 	echo "$count"
 }
 
@@ -62,7 +62,7 @@ is_ahead(){
 
 is_dirty(){
 	if [ -n "$(command git status --porcelain)" ]; then
-		echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)$(_commit_count)]%F{grey}"
+		echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)|C:$(_commit_count)]%F{grey}"
 	elif [ -z "$(is_ahead)" ]; then
 		echo "%F{grey}[%F{grey}$(_commit_count)%F{grey}]%F{grey}"
 		#echo "  "
