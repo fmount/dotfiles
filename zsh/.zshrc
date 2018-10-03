@@ -31,6 +31,7 @@ source ~/.zsh/alias.zsh
 source ~/.zsh/arch-git-prompt.zsh
 source ~/.zsh/function.zsh
 source ~/.zsh/termsupport.zsh
+source ~/fastcloud/zsh/fastweb.zsh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
@@ -60,23 +61,21 @@ autoload -Uz down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
-bindkey "^R" history-incremental-search-backward
-bindkey "^A" history-beginning-search-backward
-bindkey "^B" history-beginning-search-forward
+#bindkey "^R" history-incremental-search-backward
+#bindkey "^A" history-beginning-search-backward
+#bindkey "^B" history-beginning-search-forward
 
 typeset -A key
+
 # Searching autocompl using <Ctrl>j/k
-bindkey -M vicmd 'j' down-line-or-beginning-search
-bindkey -M vicmd 'k' up-line-or-beginning-search
+bindkey '^k' up-line-or-beginning-search
+bindkey '^j' down-line-or-beginning-search
+bindkey -M vicmd '^k' up-line-or-beginning-search
+bindkey -M vicmd '^j' down-line-or-beginning-search
 bindkey '\eOA' up-line-or-beginning-search
 bindkey '\e[A' up-line-or-beginning-search
 bindkey '\eOB' down-line-or-beginning-search
 bindkey '\e[B' down-line-or-beginning-search
-bindkey '^k' up-line-or-beginning-search
-bindkey '^j' down-line-or-beginning-search
-bindkey '^[[3~'	delete-char
-bindkey '^[3;5~' delete-char
-
 
 # *** super esc vi style ***
 bindkey 'jj' vi-cmd-mode
@@ -85,13 +84,20 @@ bindkey 'jj' vi-cmd-mode
 bindkey -M vicmd 'H' vi-beginning-of-line
 bindkey -M vicmd 'L' vi-end-of-line
 
-# Fix backward delete
-bindkey -v '^?' backward-delete-char
 # Fix vi mode search on zsh history session
 bindkey -M vicmd '?' history-incremental-search-backward
 bindkey -v "^[[3~"   delete-char
 bindkey -v "^[3;5~"  delete-char
+# ** Fix backspace
+bindkey -v '^?' backward-delete-char
 
+# Home key variants
+bindkey '\eOH' vi-beginning-of-line
+bindkey -M vicmd '\eOH' vi-beginning-of-line
+
+# End key variants
+bindkey '\eOF' vi-end-of-line
+bindkey -M vicmd '\eOF' vi-end-of-line
 
 # Finally, make sure the terminal is in application mode, when zle is
 # # active. Only then are the values from $terminfo valid.
