@@ -32,11 +32,14 @@ Plug 'ryanoasis/vim-devicons'
 
 "Write better
 Plug 'danielbmarques/vim-ditto'
+Plug 'junegunn/goyo.vim'
 Plug 'mbbill/undotree'
 
 "For Fun
 Plug 'dansomething/vim-hackernews'
 
+"DEV
+"Plug 'fmount/vim-notes'
 call plug#end()
 
 filetype plugin indent on    " required!
@@ -56,7 +59,7 @@ set wrapscan
 set spl=en_gb
 
 set smartindent
-set noexpandtab
+set expandtab
 set tabstop=4
 set softtabstop=4
 set showtabline=2
@@ -90,9 +93,9 @@ nmap <C-Right> :wincmd l<CR>
 nmap <C-Up> :wincmd k<CR>
 
 " *** Directory configuration *** "
-silent ! mkdir -p ~/tmp/
-set dir=~/tmp/
-set viminfo+=n~/tmp/viminfo
+"silent ! mkdir -p ~/tmp/
+"set dir=~/tmp/
+"set viminfo+=n~/tmp/viminfo
 
 "CTRL-C => Copy
 vnoremap <C-C> "+y
@@ -102,10 +105,14 @@ vnoremap <C-V> "+gP
 vnoremap <C-X> "+x
 
 "Disabling unused keys
-noremap"<Up> <Nop>
-noremap"<Down> <Nop>
-noremap"<Left> <Nop>
-noremap"<Right> <Nop>
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>
 noremap <F1> <Nop>
 
 " *** ESC like a boss ***
@@ -140,7 +147,7 @@ nnoremap > :vertical resize -5<CR> "
 map <C-k> <PageUp>
 map <C-j> <PageDown>
 map K 10k
-map J 10j
+"map J 10j
 map H ^
 map L $
 
@@ -155,18 +162,9 @@ let g:neomake_python_flake8_maker = { 'args': ['--ignore=E701,W191,E303,E302,E71
             \ W191,F401,E128,E501,E502,E115,E265,W293'], }
 
 
-"let g:jedi#auto_initialization = 1
-"let g:jedi#completions_enabled = 1
-"let g:jedi#use_tabs_not_buffers = 1
-"let g:jedi#use_splits_not_buffers = "left"
-"let g:jedi#popup_on_dot = 1
-"let g:jedi#popup_select_first = 1
-"let g:jedi#auto_vim_configuration = 0
-"let g:jedi#show_call_signatures = 2
-"let g:jedi#completions_enabled = 1
-
 " YouCompleteMe conf
 let g:ycm_always_populate_location_list = 0
+
 "CtRLp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -261,9 +259,15 @@ let g:markdown_syntax_conceal = 0
 au FileType markdown,text,tex DittoOn  " Turn on Ditto's autocmds
 
 " *** PYTHON *** "
-autocmd FileType python set noet ts=4 | %retab!
+autocmd FileType python set et ts=4 | %retab!
 " autocmd FileType python setlocal completeopt-=preview
 " autocmd FileType cpp set omnifunc=ccomplete#Complete
+
+" *** GO *** "
+"augroup GO
+"  autocmd FileType go set foldmethod=syntax
+"  autocmd BufEnter *.go :normal za<CR>
+"augroup END
 
 " *** YAML *** "
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
@@ -283,9 +287,7 @@ autocmd BufNewFile *.sh 0r /usr/share/vim/vimfiles/bash.spec
 "
 
 "[GVIM]Try to write something about gui
-" set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline\ 11
-"set guifont=Share\ Tech\ Mono\ 12
-set guifont=Iosevka\ Term\ 12
+set guifont=Share\ Tech\ Mono\ 12
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
 set guioptions-=r  "scrollbar"

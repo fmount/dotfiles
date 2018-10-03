@@ -18,6 +18,7 @@ alias vimtest='vim -u ~/.vimrctest'
 alias gvimtest='gvim -u ~/.vimrctest'
 alias gvim='gvim -geometry 55x39'
 alias pingg='ping -c 3 www.google.com'
+alias ping6='ping -6'
 alias ping8='ping -c 3 8.8.8.8'
 alias httppingg='curl -I http://google.com/ > /dev/null 2>&1 && echo success || echo failure  '
 alias i3lock='i3lock -c 000000 -n'
@@ -48,7 +49,7 @@ alias spp="~/script/sp prev"
 alias sps="~/script/sp play"
 alias spc="~/script/sp current"
 alias sp="~/script/sp"
-
+alias sysu="systemctl --user"
 
 # *** SUDO ***
 if [ $UID -eq 0 ]; then
