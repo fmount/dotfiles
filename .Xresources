@@ -9,9 +9,8 @@ st.termname:     xterm-256color
 st.shell:        /bin/zsh
 
 ! The following options options can be reloaded via USR1 signal.
-! st.font:         Droid Sans Mono Slashed for Powerline:pixelsize=14:antialias=true:autohint=true;
-! st.font:         Share Tech Mono:style=Regular:pixelsize=14:antialias=true:autohint=true;
-st.font:         Iosevka Term:style=Regular:pixelsize=16:antialias=true:autohint=true;
+st.font:         Share Tech Mono:style=Regular:pixelsize=16:antialias=true:autohint=true;
+! st.font:         Iosevka Term:style=Regular:pixelsize=16:antialias=true:autohint=true;
 st.borderpx:     10
 ! Available cursor values: 2 4 6 7 = █ _ | ☃ ( 1 3 5 are blinking versions)
 st.cursorshape:  2
