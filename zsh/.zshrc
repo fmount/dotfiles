@@ -31,7 +31,6 @@ source ~/.zsh/alias.zsh
 source ~/.zsh/arch-git-prompt.zsh
 source ~/.zsh/function.zsh
 source ~/.zsh/termsupport.zsh
-source ~/fastcloud/zsh/fastweb.zsh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
@@ -61,9 +60,9 @@ autoload -Uz down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
-#bindkey "^R" history-incremental-search-backward
-#bindkey "^A" history-beginning-search-backward
-#bindkey "^B" history-beginning-search-forward
+bindkey "^R" history-incremental-search-backward
+bindkey "^A" history-beginning-search-backward
+bindkey "^B" history-beginning-search-forward
 
 typeset -A key
 
@@ -144,3 +143,5 @@ setopt pushdminus
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
+
+source /usr/bin/virtualenvwrapper.sh
