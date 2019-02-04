@@ -80,7 +80,7 @@ alias gbr='git branch --remote'
 
 alias gbis='git bisect'
 
-alias gc='git commit -v'
+alias gc='git commit -S -v'
 alias gc!='git commit -v --amend'
 alias gca='git commit -v -a'
 alias gca!='git commit -v -a --amend'

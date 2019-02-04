@@ -2,8 +2,10 @@
 # v.0.1alpha
 
 # gpg pub key
-export GPG_KEY='1FCA0620'
-export GPG_SIGN_KEY='C66B3D3F'
+#export GPG_KEY='1FCA0620'
+#export GPG_SIGN_KEY='C66B3D3F'
+export GPG_KEY='F41BD75C'
+export GPG_SIGN_KEY='7301D458'
 
 ## ZSH EXPORT SETTINGS ##
 export KEYTIMEOUT=20
@@ -18,4 +20,4 @@ export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
 #export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' - \""
 export TERM=xterm-256color
-export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
+#export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
