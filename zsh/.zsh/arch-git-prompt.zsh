@@ -2,7 +2,6 @@ NEWLINE=$'\n'
 PR_RST="%f"
 
 source ~/.zsh/symbols.zsh
-
 git=$(which git)
 
 PLEN=8
@@ -31,6 +30,9 @@ else
   reset="%F{grey}"
 fi
 
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=%F{grey}'
+
 # TODO CHECK YOU ARE IN A TMUX VALID SESSION
 send_tmux() {
     local GSTATUS
@@ -43,7 +45,7 @@ send_tmux() {
 }
 
 _commit_count() {
-	count="$(command git rev-list --count HEAD)"
+	count="$(command git rev-list --count HEAD 2>/dev/null)"
 	echo "$count"
 }
 
@@ -62,12 +64,12 @@ is_ahead(){
 
 is_dirty(){
 	if [ -n "$(command git status --porcelain)" ]; then
-		echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)|C:$(_commit_count)]%F{grey}"
+		echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)|C:$(_commit_count)%{$reset_color%}]%F{grey}"
 	elif [ -z "$(is_ahead)" ]; then
-		echo "%F{grey}[%F{grey}$(_commit_count)%F{grey}]%F{grey}"
+		echo "%F{grey}[%F{grey}$(_commit_count)%F{grey}%{$reset_color%}]%F{grey}"
 		#echo "  "
 	else
-		echo "%F{grey}[%F{grey}$(is_ahead)|C:$(_commit_count)]%F{grey}"
+		echo "%F{grey}[%F{grey}$(is_ahead)|C:$(_commit_count)%{$reset_color%}]%F{grey}"
 	fi
 	#remote_branch="$(command git rev-parse --abbrev-ref --symbolic-full-name @{u})"
 	#[ -n "$(command git log $remote_branch...HEAD)" ] && echo "%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL$(is_ahead)%F{grey}"
@@ -85,7 +87,7 @@ check_git(){
 		prompt_local_branch="$(command git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||')"
         send_tmux $prompt_local_branch
 		#_settitle "$*"
-		echo "(${heavenly}$prompt_local_branch%F{grey})$(is_dirty)%F{grey}"
+		echo "(${heavenly}$prompt_local_branch%{$reset_color%}% %F{grey})$(is_dirty)%F{grey}"
 	else
 		prompt_local_branch="$(command git rev-parse --git-dir > /dev/null 2>&1)"
         send_tmux
@@ -112,11 +114,11 @@ check_path() {
 if [ $? -ne 0 ]; then
 PROMPT=$'
 ${VIMPROMPT}${heavenly}%n${PR_RST} AT %F{yellow}%m${PR_RST} in %{$limegreen%}%$(check_path)${PR_RST}$(check_git)
-%F{red}>> %F{grey} '
+%F{red}>> %F{grey}%{$reset_color%}% '
 else
 PROMPT=$'
 ${VIMPROMPT}${heavenly}%n${PR_RST} AT %F{yellow}%m${PR_RST} in %{$limegreen%}%$(check_path)${PR_RST}$(check_git)
-%F{red}>> %F{grey} '
+%F{red}>> %F{grey}%{$reset_color%}% '
 fi
 
 #RPROMPT='[%F{yellow}%?%f]'
