@@ -1,6 +1,6 @@
 # i3 config file (v5)
 #
-# <fpantano>
+# <fmount>
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -16,14 +16,14 @@ set $right l
 #Set workspace name and icons
 set $ws1 
 set $ws2 
-set $ws3 
+set $ws3 >
 set $ws4 
 set $ws5 
 set $ws6 
-set $ws7 
+set $ws7 <
 set $ws8 
 set $ws9 
-set $ws0 
+set $ws0 
 
 set $fp pango: Share Tech Mono 11
 set $dmenu_font "Share Tech Mono:11"
