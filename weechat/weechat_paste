@@ -2,21 +2,21 @@
 /secure passphrase <pass>
 /secure set bncpass <pass>
 /secure set bitlbeepass <pass>
-/set irc.server_default.nicks fpantano9
+/set irc.server_default.nicks fmount9
 /set irc.server_default.ssl_verify off
 /set irc.server_default.capabilities "account-notify,away-notify,cap-notify,multi-prefix,server-time,znc.in/self-message"
 /server add bitlbee localhost/6667 -autoconnect
 
-/set irc.server.bitlbee.password fpantano/bitlbee:${sec.data.bncpass}
+/set irc.server.bitlbee.password fmount/bitlbee:${sec.data.bncpass}
 /set irc.server.bitlbee.command /msg &bitlbee identify;/oper anything ${sec.data.bitlbeepass}
 
 # OR
 
-/set irc.server.freenode.command '/shell -o echo "/msg NickServ identify $(pass IRC/freenode/fpantano9)"'
+/set irc.server.freenode.command '/shell -o echo "/msg NickServ identify $(pass IRC/freenode/fmount9)"'
 /filter add hide_me * * .*NickServ.*: identify\ .*
 
 /server add freenode chat.freenode.net/7000 -ssl -autoconnect
-/set irc.server.freenode.password fpantano9/freenode:${sec.data.bncpass}
+/set irc.server.freenode.password fmount9/freenode:${sec.data.bncpass}
 
 /set weechat.plugin.autoload "*,!lua,!tcl,!ruby,!fifo,!xfer"
 /set aspell.check.default_dict en
@@ -28,7 +28,7 @@
 /trigger set setdict regex "/.*[.-](it|en)$/${re:1}/"
 /trigger set setdict command "/set aspell.dict.irc.${server}.${channel} ${tg_signal_data}"
 /set logger.level.irc 0
-/set logger.file.path /home/launch/.znc/users/fpantano/moddata/log
+/set logger.file.path /home/launch/.znc/users/fmount/moddata/log
 /set logger.mask.irc %Y/$server/$channel.%m-%d.log
 /script install buffers.pl highmon.pl buffer_autoset.py iset.pl grep.py text_item.py vimode.py perlexec.pl
 /set plugins.var.perl.highmon.alignment "hchannel"

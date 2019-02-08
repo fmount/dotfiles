@@ -15,7 +15,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #
-#    author: fpantano <fpantano9@fastweb.org>
+#    author: fmount <francesco.pan001@gmail.com>
 #    version: 0.1alpha
 #    company: --
 #
