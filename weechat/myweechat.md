@@ -23,7 +23,7 @@
 ### Default settings on server creation
 
 
-    /set irc.server_default.nicks fpantano
+    /set irc.server_default.nicks fmount
     /set irc.server_default.ssl_verify off
     /set irc.server_default.capabilities "account-notify,away-notify,cap-notify,multi-prefix,server-time,znc.in/self-message"
 
@@ -35,38 +35,38 @@ the last line request some IRCv3 capabilities. Capabilities supported by WeeChat
 
 
     /server add bitlbee znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.bitlbee.password fpantano/bitlbee:${sec.data.bncpass}
+    /set irc.server.bitlbee.password fmount/bitlbee:${sec.data.bncpass}
     /set irc.server.bitlbee.command /msg &bitlbee identify;/oper anything ${sec.data.bitlbeepass}
 
     /server add freenode znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.freenode.password fpantano/freenode:${sec.data.bncpass}
+    /set irc.server.freenode.password fmount/freenode:${sec.data.bncpass}
 
     /server add snoonet znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.snoonet.password fpantano/snoonet:${sec.data.bncpass}
+    /set irc.server.snoonet.password fmount/snoonet:${sec.data.bncpass}
 
     /server add oftc znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.oftc.password fpantano/oftc:${sec.data.bncpass}
+    /set irc.server.oftc.password fmount/oftc:${sec.data.bncpass}
 
     /server add divinitycoding znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.divinitycoding.password fpantano/divinitycoding:${sec.data.bncpass}
+    /set irc.server.divinitycoding.password fmount/divinitycoding:${sec.data.bncpass}
 
     /server add tripsit znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.tripsit.password fpantano/tripsit:${sec.data.bncpass}
+    /set irc.server.tripsit.password fmount/tripsit:${sec.data.bncpass}
 
     /server add dairc znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.dairc.password fpantano/dairc:${sec.data.bncpass}
+    /set irc.server.dairc.password fmount/dairc:${sec.data.bncpass}
 
     /server add evolunet znc.pascalpoitras.com/30011 -ssl -autoconnect
-    /set irc.server.evolunet.password fpantano/evolunet:${sec.data.bncpass}
+    /set irc.server.evolunet.password fmount/evolunet:${sec.data.bncpass}
 
     /server add gitter znc.pascalpoitras.com/30011 -ssl
-    /set irc.server.gitter.password fpantano/gitter:${sec.data.bncpass}
+    /set irc.server.gitter.password fmount/gitter:${sec.data.bncpass}
     
     /server add magnet znc.pascalpoitras.com/30011 -ssl
-    /set irc.server.magnet.password fpantano/magnet:${sec.data.bncpass}
+    /set irc.server.magnet.password fmount/magnet:${sec.data.bncpass}
     
     /server add handmade znc.pascalpoitras.com/30011 -ssl
-    /set irc.server.handmade.password fpantano/handmade:${sec.data.bncpass}
+    /set irc.server.handmade.password fmount/handmade:${sec.data.bncpass}
 
     /connect -all
 
@@ -127,7 +127,7 @@ Note: Even if I use a bouncer (_ZNC_), this is quite useful to enable relay. Lik
 
 
     /set logger.level.irc 0
-    /set logger.file.path /home/launch/.znc/users/fpantano/moddata/log
+    /set logger.file.path /home/launch/.znc/users/fmount/moddata/log
     /set logger.mask.irc %Y/$server/$channel.%m-%d.log
     
     
@@ -499,7 +499,7 @@ _##news_ and _#newsbin_ are two channels dedicated to live news. On _##news_, I 
     /trigger add send_to_active_grep_log_nick command send_to_active_grep_log_nick
     /trigger set send_to_active_grep_log_nick conditions ${tg_argv_eol1} && ${type} =~ ^(private|channel)$
     /trigger set send_to_active_grep_log_nick regex /\\\$/\\\\/tg_argv1
-    /trigger set send_to_active_grep_log_nick command /input delete_line;/input insert /exec -sh -norc -pipe "/input insert grep -hiP '^\[\d{2}:\d{2}:\d{2}\] (<|\* )\Q${tg_argv1}\E>? ${tg_argv_eol2} " grep -hiP '^\[\d{2}:\d{2}:\d{2}\] (<|\* )\Q${tg_argv1}\E>? ${tg_argv_eol2}' ~/.znc/users/fpantano/moddata/log/`date "+%Y"`/'${server}'/'${buffer.short_name}'.* | shuf -n 1
+    /trigger set send_to_active_grep_log_nick command /input delete_line;/input insert /exec -sh -norc -pipe "/input insert grep -hiP '^\[\d{2}:\d{2}:\d{2}\] (<|\* )\Q${tg_argv1}\E>? ${tg_argv_eol2} " grep -hiP '^\[\d{2}:\d{2}:\d{2}\] (<|\* )\Q${tg_argv1}\E>? ${tg_argv_eol2}' ~/.znc/users/fmount/moddata/log/`date "+%Y"`/'${server}'/'${buffer.short_name}'.* | shuf -n 1
 
 
 The trigger _upgrade_scripts_ will update the local script cache and then upgrade all the installed scripts at midnight. The _send_to_active_grep_log_nick_ will search in log for something a user said before. Then it will send the output to IRC. I use the _grep.py_ when searching in log for myself but I created this trigger to return a random line from a user.
