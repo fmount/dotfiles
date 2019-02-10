@@ -14,14 +14,6 @@ all: dotfiles
 check:  ## Check if the package manager is available
 		@which $(PKG_MGR) > /dev/null
 
-.PHONY: bin
-bin: ## Installs the bin directory files.
-# add aliases for things in bin
-	for file in $(shell find $(CURDIR)/bin -type f ! -name "*-backlight" ! -name ".*.swp"); do \
-		f=$$(basename $$file); \
-		ln -sf $$file ${HOME}/bin/$$f; \
-	done
-
 .PHONY: pkgs
 pkgs: ## Install the packages provided
 	@if [ -e pkglist ]; then \
