@@ -30,7 +30,7 @@ alias myip='curl ifconfig.me'
 alias netctl-current='netctl list | grep "*"'
 alias nopaste="curl -F c=@- https://ptpb.pw/"
 alias st='st -e /bin/zsh'
-alias windows='xfreerdp +clipboard /u:francesco /v:192.168.122.56 /size:1920x1040 /drive:linuz,/home/fmount/Downloads'
+alias windows='xfreerdp +clipboard /u:francesco /v:192.168.122.56 /size:1920x1040 /drive:linuz,/home/fpantano/Downloads'
 alias jekylldraft='jekyll server --watch --drafts'
 alias k9='kill -9'
 alias vp="vim -c 'set nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' -c 'colorscheme jellybeans' - "

@@ -39,7 +39,7 @@ Plug 'mbbill/undotree'
 Plug 'dansomething/vim-hackernews'
 
 "DEV
-"Plug 'fmount/vim-notes'
+"Plug 'fpantano/vim-notes'
 call plug#end()
 
 filetype plugin indent on    " required!
