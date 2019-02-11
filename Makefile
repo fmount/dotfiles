@@ -10,6 +10,10 @@ CONFIG := ~/.config
 
 BACKUP_DIR := $(HOME)/devnull
 
+define backup_old_config
+    mv $(1) $(BACKUP_DIR)
+endef
+
 .PHONY: all
 all: check pkgs fonts dotfiles gpg ssh
 
@@ -61,10 +65,11 @@ dotfiles: ## Installs the dotfiles.
 	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
 	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
 
+	# (STAGE 6) Configure .config
 	@for dir in $(shell find $(CURDIR)/.config -maxdepth 1 -type d ! -name ".config"); do \
-		echo "Found DIR::: $$dir"; \
 		if [ -d $(HOME)/.config/$$(basename $$dir) ]; then \
 			echo "[$$(basename $$dir)] ...BACKUP"; \
+			$(call backup_old_config, $(HOME)/.config/$$(basename $$dir)); \
 		fi; \
 		ln -sfn $$dir $(CONFIG)/$$(basename $$dir); \
 		echo "[$$(basename $$dir)] ...COPIED"; \
