@@ -32,11 +32,17 @@ dotfiles: ## Installs the dotfiles.
 		ln -sfn $$file /tmp/$$f; \
 	done; \
 
-	@for dir in $(shell find $(CURDIR) -type d -name ".*" ! -name ".git"); do \
+	@for dir in $(shell find $(CURDIR) -links 2 -type d -name ".*" ! -name ".git"); do \
 		echo "LINKING: $$dir in $(HOME)/$$(basename $$dir)"; \
 	done; \
 
+.PHONY: gpg
+gpg: ## Download the public gpg keys from keyserver
+	@echo "TODO: Download gpg keys from keyserver"
 
+.PHONY: ssh
+ssh: ## Download public ssh keys
+	@echo "TODO: Download ssh keys"
 
 
 .PHONY: test
