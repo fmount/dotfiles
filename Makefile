@@ -26,23 +26,32 @@ dotfiles: ## Installs the dotfiles.
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in the $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git" ! -name ".*.swp" ! -name ".gnupg" \
-		! -name ".config" ! -name ".zsh" ! -name ".vim"); do \
+		! -name ".config" ! -name ".zsh" ! -name ".vim" ! -name "*.i3*"); do \
 		f=$$(basename $$file); \
 		echo "Processing file: $$file"; \
 		ln -sfn $$file /tmp/$$f; \
 	done; \
 
-	# (STAGE 2) create .config dir if it doesn't exist
-	@if [ ! -d $(HOME)/.config ];then \
-		echo "Creating .config"; \
-		mkdir $(HOME)/.config; \
-	fi; \
-	
-	# (STAGE 3) linking zsh, gpg and vim stuff
+	# (STAGE 2) linking zsh, gpg and vim stuff
 	@for dir in $(shell find $(CURDIR) -type d -name ".*" ! -name ".git" \
 		! -name ".config" ); do \
 		echo "LINKING: $$dir in $(HOME)/$$(basename $$dir)"; \
 	done; \
+
+	# (STAGE 3) create .config dir if it doesn't exist
+	@if [ ! -d $(HOME)/.config ];then \
+		echo "Creating .config"; \
+		mkdir $(HOME)/.config; \
+	fi; \
+
+	# (STAGE 4) Configure all .config dotfiles
+	@echo "LINKING $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc"
+	@echo "LINKING $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf"
+
+	# (STAGE 5) Configure i3
+	@echo "LINKING $(CURDIR)/i3 $(CONFIG)/i3"
+
+@TODO: Config font
 
 
 .PHONY: gpg
