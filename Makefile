@@ -3,10 +3,10 @@ SHELL := bash
 
 PKG_MGR := pacman
 PKG_FLAGS := -Sy --noconfirm
-STOW := stow
 ROOT := sudo
 
 CURDIR := /home/fmount/dotfiles
+CONFIG := ~/.config
 
 .PHONY: all
 all: dotfiles
@@ -23,7 +23,7 @@ pkgs: ## Install the packages provided
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
-	# add aliases for dotfiles that are expected to be found in the $(HOME) dir
+	# (STAGE 1) add aliases for dotfiles that are expected to be found in the $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git" ! -name ".*.swp" ! -name ".gnupg" \
 		! -name ".config" ! -name ".zsh" ! -name ".vim"); do \
@@ -32,9 +32,18 @@ dotfiles: ## Installs the dotfiles.
 		ln -sfn $$file /tmp/$$f; \
 	done; \
 
-	@for dir in $(shell find $(CURDIR) -links 2 -type d -name ".*" ! -name ".git"); do \
+	# (STAGE 2) create .config dir if it doesn't exist
+	@if [ ! -d $(HOME)/.config ];then \
+		echo "Creating .config"; \
+		mkdir $(HOME)/.config; \
+	fi; \
+	
+	# (STAGE 3) linking zsh, gpg and vim stuff
+	@for dir in $(shell find $(CURDIR) -type d -name ".*" ! -name ".git" \
+		! -name ".config" ); do \
 		echo "LINKING: $$dir in $(HOME)/$$(basename $$dir)"; \
 	done; \
+
 
 .PHONY: gpg
 gpg: ## Download the public gpg keys from keyserver
