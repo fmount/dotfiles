@@ -8,12 +8,16 @@ ROOT := sudo
 CURDIR := /home/fmount/dotfiles
 CONFIG := ~/.config
 
+
 .PHONY: all
-all: dotfiles
+all: check pkgs fonts dotfiles gpg ssh
+
 
 .PHONY: check
 check:  ## Check if the package manager is available
 		@which $(PKG_MGR) > /dev/null
+		@echo "[C----o-] We can eat packages";
+
 
 .PHONY: pkgs
 pkgs: ## Install the packages provided
@@ -21,8 +25,10 @@ pkgs: ## Install the packages provided
 		while read -r pkg; do $(ROOT) $(PKG_MGR) $(PKG_FLAGS) "$$pkg"; done < pkglist; \
 	fi;
 
+
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
+
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in the $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git" ! -name ".*.swp" ! -name ".gnupg" \
@@ -46,7 +52,7 @@ dotfiles: ## Installs the dotfiles.
 
 	# (STAGE 4) Configure all .config dotfiles
 	@echo "[dunst] Linking $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc"
-	ln -sfn $(CURDIR)/.config/dunstrc $(CONFIG)/dunst/dunstrc
+	ln -sfn $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc
 	@echo "[redshift] Linking $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf"
 	ln -sfn $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf
 
@@ -55,16 +61,20 @@ dotfiles: ## Installs the dotfiles.
 	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
 
 
-@TODO: Config font
+.PHONY: fonts
+fonts: ## Copy fonts on /usr/share/fonts
+	@cp $(CURDIR)/archlinux/*.ttf /usr/share/fonts/TTF
+	fc-cache -fv
 
 
 .PHONY: gpg
-gpg: ## Download the public gpg keys from keyserver
-	@echo "TODO: Download gpg keys from keyserver"
+gpg: ## Download the public gpg keys from github
+	gpg --fetch-keys https://github.com/fmount.gpg
+
 
 .PHONY: ssh
-ssh: ## Download public ssh keys
-	@echo "TODO: Download ssh keys"
+ssh: ## Download public ssh keys from github
+	curl https://github.com/fmount.keys >> ~/.ssh/authorized_keys
 
 
 .PHONY: test
