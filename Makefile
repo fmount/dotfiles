@@ -5,9 +5,10 @@ PKG_MGR := pacman
 PKG_FLAGS := -Sy --noconfirm
 ROOT := sudo
 
-CURDIR := /home/fmount/dotfiles
+CURDIR := $(HOME)/dotfiles
 CONFIG := ~/.config
 
+BACKUP_DIR := $(HOME)/devnull
 
 .PHONY: all
 all: check pkgs fonts dotfiles gpg ssh
@@ -30,7 +31,7 @@ pkgs: ## Install the packages provided
 dotfiles: ## Installs the dotfiles.
 
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in the $(HOME) dir
-	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
+	@for file in $(shell find $(CURDIR) -type f -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git" ! -name ".*.swp" ! -name ".gnupg" \
 		! -name ".config" ! -name ".zsh" ! -name ".vim" ! -name "*.i3*"); do \
 		f=$$(basename $$file); \
@@ -59,6 +60,15 @@ dotfiles: ## Installs the dotfiles.
 	# (STAGE 5) Configure i3
 	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
 	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
+
+	@for dir in $(shell find $(CURDIR)/.config -maxdepth 1 -type d ! -name ".config"); do \
+		echo "Found DIR::: $$dir"; \
+		if [ -d $(HOME)/.config/$$(basename $$dir) ]; then \
+			echo "[$$(basename $$dir)] ...BACKUP"; \
+		fi; \
+		ln -sfn $$dir $(CONFIG)/$$(basename $$dir); \
+		echo "[$$(basename $$dir)] ...COPIED"; \
+	done
 
 
 .PHONY: fonts
