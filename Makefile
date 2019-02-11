@@ -3,6 +3,7 @@ SHELL := bash
 
 PKG_MGR := pacman
 PKG_FLAGS := -Sy --noconfirm
+STOW := stow
 ROOT := sudo
 
 CURDIR := /home/fmount/dotfiles
@@ -22,14 +23,20 @@ pkgs: ## Install the packages provided
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
-	# add aliases for dotfiles
-	for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
+	# add aliases for dotfiles that are expected to be found in the $(HOME) dir
+	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git" ! -name ".*.swp" ! -name ".gnupg" \
 		! -name ".config" ! -name ".zsh" ! -name ".vim"); do \
 		f=$$(basename $$file); \
 		echo "Processing file: $$file"; \
 		ln -sfn $$file /tmp/$$f; \
 	done; \
+
+	@for dir in $(shell find $(CURDIR) -type d -name ".*" ! -name ".git"); do \
+		echo "LINKING: $$dir in $(HOME)/$$(basename $$dir)"; \
+	done; \
+
+
 
 
 .PHONY: test
