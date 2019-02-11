@@ -259,7 +259,6 @@ exec --no-startup-id xcompmgr &
 exec --no-startup-id setxkbmap -option compose:ralt &
 exec --no-startup-id dunst &
 exec --no-startup-id unclutter &
-exec --no-startup-id run_keybase &
 exec --no-startup-id xst -g 400x400 -c weechat -e weechat &
 exec --no-startup-id redshift -c ~/.config/redshift.conf &
 exec xss-lock --ignore-sleep -- /bin/bash -c '(killall dunst; killall -9 gpg-agent; gpg-connect-agent /bye)& i3lock -n -c 000000'&
