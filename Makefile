@@ -45,11 +45,15 @@ dotfiles: ## Installs the dotfiles.
 	fi; \
 
 	# (STAGE 4) Configure all .config dotfiles
-	@echo "LINKING $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc"
-	@echo "LINKING $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf"
+	@echo "[dunst] Linking $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc"
+	ln -sfn $(CURDIR)/.config/dunstrc $(CONFIG)/dunst/dunstrc
+	@echo "[redshift] Linking $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf"
+	ln -sfn $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf
 
 	# (STAGE 5) Configure i3
-	@echo "LINKING $(CURDIR)/i3 $(CONFIG)/i3"
+	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
+	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
+
 
 @TODO: Config font
 
