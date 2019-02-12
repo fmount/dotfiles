@@ -142,14 +142,14 @@ function sp-display {
   # Calls display on the artUrl.
 
   require display
-  display $(sp-art)
+  display "$(sp-art)"
 }
 
 function sp-feh {
   # Calls feh on the artURl.
 
   require feh
-  feh $(sp-art)
+  feh "$(sp-art)"
 }
 
 function sp-url {
@@ -170,7 +170,7 @@ function sp-http {
   # xdg-opens the HTTP url.
 
   require xdg-open
-  xdg-open $(sp-url)
+  xdg-open "$(sp-url)"
 }
 
 function sp-help {
@@ -216,7 +216,7 @@ function sp-search {
     | grep -E -o "spotify:track:[a-zA-Z0-9]+" -m 1 \
   )
 
-  sp-open $SPTFY_URI
+  sp-open "$SPTFY_URI"
 }
 
 function sp-version {
