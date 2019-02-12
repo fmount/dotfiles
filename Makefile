@@ -3,16 +3,17 @@ SHELL := bash
 
 PKG_MGR := pacman
 PKG_FLAGS := -Sy --noconfirm
-ROOT := sudo
+ROOT := sudo -E
 
 CURDIR := $(HOME)/dotfiles
 CONFIG := ~/.config
-
 BACKUP_DIR := $(HOME)/devnull
+
 
 define backup_old_config
     mv $(1) $(BACKUP_DIR)
 endef
+
 
 .PHONY: all
 all: check pkgs fonts dotfiles gpg ssh
@@ -44,12 +45,17 @@ dotfiles: ## Installs the dotfiles.
 		echo "Processing element: $$file"; \
 		ln -sfn $$file $(HOME)/$$f; \
 	done; \
+	
+	# (STAGE 2) Configure i3
+	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
+	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
 
-	# (STAGE 2) create .config dir if it doesn't exist
-	@if [ ! -d $(HOME)/.config ];then \
-		echo "Creating .config"; \
-		mkdir $(HOME)/.config; \
-	fi; \
+
+.PHONY: config
+config: ## Install the .config dir
+	
+	# Create .config dir if it doesn't exist
+	CONFIG_DIR_EXIST=$(shell [ ! -d $(HOME)/.config ] && mkdir $(HOME)/.config)
 
 	# (STAGE 3) Configure all .config dotfiles
 	@echo "[dunst] Linking $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc"
@@ -57,18 +63,13 @@ dotfiles: ## Installs the dotfiles.
 	@echo "[redshift] Linking $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf"
 	ln -sfn $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf
 
-	# (STAGE 4) Configure i3
-	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
-	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
-
-	# (STAGE 5) Configure .config
+	# (STAGE 4) Configure .config
 	@for dir in $(shell find $(CURDIR)/.config -maxdepth 1 -type d ! -name ".config"); do \
 		if [ -d $(HOME)/.config/$$(basename $$dir) ]; then \
 			echo "[$$(basename $$dir)] ...BACKUP"; \
 			$(call backup_old_config, $(HOME)/.config/$$(basename $$dir)); \
 		fi; \
 		ln -sfn $$dir $(CONFIG)/$$(basename $$dir); \
-		echo "[$$(basename $$dir)] ...COPIED"; \
 	done
 
 
