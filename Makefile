@@ -26,15 +26,18 @@ check:  ## Check if the package manager is available
 
 
 .PHONY: pkgs
-pkgs: ## Install the packages provided
+pkgs: ## Install the provided packages (pkglist)
 	@if [ -e pkglist ]; then \
 		while read -r pkg; do $(ROOT) $(PKG_MGR) $(PKG_FLAGS) "$$pkg"; done < pkglist; \
 	fi;
 
 
 .PHONY: dotfiles
-dotfiles: ## Installs the dotfiles.
-	# (STAGE 1) add aliases for dotfiles that are expected to be found in the $(HOME) dir
+dotfiles: dot config ## Install the dotfiles
+
+.PHONY: dot
+dot:  ## Install the $(HOME) dotfiles (excluding config)
+	# (STAGE 1) add aliases for dotfiles that are expected to be found in $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git*" ! -name ".*.swp" \
 		! -name ".config" ! -name "*.i3*"); do \
@@ -71,8 +74,8 @@ config: ## Install the .config dir
 
 .PHONY: fonts
 fonts: ## Copy fonts on /usr/share/fonts
-	@cp $(CURDIR)/archlinux/*.ttf /usr/share/fonts/TTF
-	fc-cache -fv
+	$(ROOT) cp $(CURDIR)/archlinux/*.ttf /usr/share/fonts/TTF
+	$(ROOT) fc-cache -fv
 
 
 .PHONY: gpg
