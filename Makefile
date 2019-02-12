@@ -21,14 +21,12 @@ all: check pkgs fonts dotfiles gpg ssh
 
 .PHONY: check
 check:  ## Check if the package manager is available
-
 	@which $(PKG_MGR) > /dev/null
 	@echo "[C----o-] We can eat packages";
 
 
 .PHONY: pkgs
 pkgs: ## Install the packages provided
-
 	@if [ -e pkglist ]; then \
 		while read -r pkg; do $(ROOT) $(PKG_MGR) $(PKG_FLAGS) "$$pkg"; done < pkglist; \
 	fi;
@@ -36,7 +34,6 @@ pkgs: ## Install the packages provided
 
 .PHONY: dotfiles
 dotfiles: ## Installs the dotfiles.
-
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in the $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git*" ! -name ".*.swp" \
@@ -53,7 +50,6 @@ dotfiles: ## Installs the dotfiles.
 
 .PHONY: config
 config: ## Install the .config dir
-	
 	# Create .config dir if it doesn't exist
 	CONFIG_DIR_EXIST=$(shell [ ! -d $(HOME)/.config ] && mkdir $(HOME)/.config)
 
@@ -91,19 +87,18 @@ ssh: ## Download public ssh keys from github
 
 .PHONY: test
 test: shellcheck ## Runs all the tests on the files in the repository.
-
-# if this session isn't interactive, then we don't want to allocate a
-# TTY, which would fail, but if it is interactive, we do want to attach
-# so that the user can send e.g. ^C through.
-INTERACTIVE := $(shell [ -t 0 ] && echo 1 || echo 0)
-ifeq ($(INTERACTIVE), 1)
-    DOCKER_FLAGS += -t
-endif
+	# if this session isn't interactive, then we don't want to allocate a
+	# TTY, which would fail, but if it is interactive, we do want to attach
+	# so that the user can send e.g. ^C through.
+	INTERACTIVE := $(shell [ -t 0 ] && echo 1 || echo 0)
+	ifeq ($(INTERACTIVE), 1)
+		DOCKER_FLAGS += -t
+	endif
 
 
 .PHONY: shellcheck
 shellcheck: ## Runs the shellcheck tests on the scripts.
-	docker run --rm -i $(DOCKER_FLAGS) \
+	$(ROOT) docker run --rm -i $(DOCKER_FLAGS) \
 		--name df-shellcheck \
 		-v $(CURDIR):/usr/src:ro \
 		--workdir /usr/src \
@@ -111,7 +106,6 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 
 .PHONY: update
 update: ## Just update dotfiles
-
 	bash -c $(CURDIR)/scripts/dotupdate.sh
 
 .PHONY: help
