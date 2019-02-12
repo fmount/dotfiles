@@ -100,6 +100,7 @@ ifeq ($(INTERACTIVE), 1)
     DOCKER_FLAGS += -t
 endif
 
+
 .PHONY: shellcheck
 shellcheck: ## Runs the shellcheck tests on the scripts.
 	docker run --rm -i $(DOCKER_FLAGS) \
@@ -107,6 +108,11 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 		-v $(CURDIR):/usr/src:ro \
 		--workdir /usr/src \
 		r.j3ss.co/shellcheck ./test.sh
+
+.PHONY: update
+update: ## Just update dotfiles
+
+	bash -c $(CURDIR)/scripts/dotupdate.sh
 
 .PHONY: help
 help:
