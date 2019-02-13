@@ -22,7 +22,7 @@ all: check pkgs fonts dotfiles gpg ssh
 .PHONY: check
 check:  ## Check if the package manager is available
 	@which $(PKG_MGR) > /dev/null
-	@echo "[C----o-] We can eat packages";
+	@echo "[C----o-] I can eat packages";
 
 
 .PHONY: pkgs
