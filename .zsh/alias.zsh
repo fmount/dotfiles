@@ -3,7 +3,10 @@ setopt pushd_ignore_dups
 setopt pushdminus
 
 # *** Common ***
-alias ..='cd ../'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 alias -- -='cd -'
 alias d='dirs -v | head -10'
 alias c='clear'
