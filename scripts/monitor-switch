@@ -3,7 +3,7 @@
 # monitor-switch - switch outputs using xrand
 #
 #	 Copyright (C) 2019 fmount <fmount@inventati.org>
-#    Based on the work of of Rodrigo Silva (MestreLion) <linux@rodrigosilva.com>
+#	 Based on the work of of Rodrigo Silva (MestreLion) <linux@rodrigosilva.com>
 #
 #	 This program is free software: you can redistribute it and/or modify
 #	 it under the terms of the GNU General Public License as published by
@@ -102,17 +102,17 @@ usage() {
 	Switch monitors using xrandr.
 
 	Options:
-	  -h|--help			 - show this page.
-	  -v|--verbose		 - print in terminal the full xrandr command executed.
-      -d|--dock          - dock mode, disconnect primary and move all to the second
-	  -l|--list			 - list connector and monitor names of connected outputs
-	  -g|--generate		 - generate a config file containing all the detected monitors
-      -p|--panic         - panic button used to restore only the primary monitor
+	  -h|--help		- show this page.
+	  -v|--verbose		- print in terminal the full xrandr command executed.
+	  -d|--dock		- dock mode, disconnect primary and move all to the second
+	  -l|--list		- list connector and monitor names of connected outputs
+	  -g|--generate		- generate a config file containing all the detected monitors
+	  -p|--panic		- panic button used to restore only the primary monitor
 
-	  -a|--all			 - enable all monitors.
-	  -s|--select OUTPUT - enable monitor OUTPUT, disable all others.
-	  -l|--left			 - enable leftmost monitor.  Alias for --select ${monitors[0]}
-	  -r|--right		 - enable rightmost monitor. Alias for --select ${monitors[${#monitors[@]}-1]}
+	  -a|--all		- enable all monitors.
+	  -s|--select OU	- enable monitor OUTPUT, disable all others.
+	  -l|--left		- enable leftmost monitor.  Alias for --select ${monitors[0]}
+	  -r|--right		- enable rightmost monitor. Alias for --select ${monitors[${#monitors[@]}-1]}
 
 	USAGE
 	exit 0
@@ -125,13 +125,13 @@ while (( $# )); do
 	-v|--verbose) verbose=1 ;;
 	-q|--no-notify) notify=0 ;;
 	-l|--list) list=1 ;;
-    -d|--dock) dock "$monitors";;
+	-d|--dock) dock "$monitors";;
 	-a|--all) all=1 ;;
 	-s|--select) shift ; monitor="$1" ;;
-	-g|--generate) $(xrandr | awk '$2 ~/^c/{print $1}' | sort > $config) && while read -r line; do  \
-        monitor+=($line); done < $config ;;
+	-g|--generate) $(xrandr | awk '$2 ~/^c/{print $1}' | sort > $config) && while read -r line; do	\
+		monitor+=($line); done < $config ;;
 	-l|--left ) monitor="${monitors[0]}" ;;
-    -p|--panic ) panic=1; monitor="${monitors[${#monitors[@]}-1]}" ;;
+	-p|--panic ) panic=1; monitor="${monitors[${#monitors[@]}-1]}" ;;
 	-r|--right) monitor="${monitors[${#monitors[@]}-1]}" ;;
 	*) invalid "$1" ;;
 	esac
@@ -145,8 +145,8 @@ if ((list)); then
 fi
 
 if ((panic)); then
-    echo "Restore primary monitor"
-    xrandr --output "${monitor[1]}" --same-as "${monitor[0]}"
+	echo "Restore primary monitor"
+	xrandr --output "${monitor[1]}" --same-as "${monitor[0]}"
 fi
 
 if [[ -z "$monitor" && -z "$all" ]]; then
