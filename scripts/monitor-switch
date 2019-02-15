@@ -125,10 +125,10 @@ while (( $# )); do
 	-v|--verbose) verbose=1 ;;
 	-q|--no-notify) notify=0 ;;
 	-l|--list) list=1 ;;
-	-d|--dock) dock "$monitors";;
+	-d|--dock) dock "$monitors"; monitor="${monitors[0]}" ;;
 	-a|--all) all=1 ;;
 	-s|--select) shift ; monitor="$1" ;;
-	-g|--generate) $(xrandr | awk '$2 ~/^c/{print $1}' | sort > $config) && while read -r line; do	\
+	-g|--generate) $(xrandr | awk '$2 ~/^c/{print $1}' | sort > $config) && while read -r line; do \
 		monitor+=($line); done < $config ;;
 	-l|--left ) monitor="${monitors[0]}" ;;
 	-p|--panic ) panic=1; monitor="${monitors[${#monitors[@]}-1]}" ;;
