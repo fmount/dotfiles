@@ -43,6 +43,11 @@ git pull --rebase
 # Reload configuration vim
 vim +PlugUpgrade +PlugUpdate +qa
 
+# If YouCompleteMe is present we need to recompile YcmServer
+if [ -d ~/.vim/plugged/YoucompleteMe ] ; then
+    "$HOME"/.vim/plugged/YoucompleteMe/install.py --clang-completer \
+        --go-completer --system-boost --system-libclang
+fi
 # Update tmux plugins
 ~/.tmux/plugins/tpm/bin/update_plugins all
 
