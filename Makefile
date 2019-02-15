@@ -9,6 +9,8 @@ CURDIR := $(HOME)/dotfiles
 CONFIG := ~/.config
 BACKUP_DIR := $(HOME)/devnull
 
+# Set this flag if configuring rPI
+RPI := 0
 
 define backup_old_config
     mv $(1) $(BACKUP_DIR)
@@ -46,9 +48,11 @@ dot:  ## Install the $(HOME) dotfiles (excluding config)
 		ln -sfn $$file $(HOME)/$$f; \
 	done; \
 	
-	# (STAGE 2) Configure i3
-	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
-	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
+	ifeq ($(RPI),1)
+		# (STAGE 2) Configure i3
+		@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
+		ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
+	endif
 
 
 .PHONY: config
