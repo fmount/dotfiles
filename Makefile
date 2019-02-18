@@ -48,17 +48,12 @@ dot:  ## Install the $(HOME) dotfiles (excluding config)
 		echo "Processing element: $$file"; \
 		ln -sfn $$file $(HOME)/$$f; \
 	done; \
-	
-	ifeq ($(RPI), 0)
-		@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
-		ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
-	endif
 
 
 .PHONY: config
 config: ## Install the .config dir
 	# Create .config dir if it doesn't exist
-	CONFIG_DIR_EXIST=$(shell [ ! -d $(HOME)/.config ] && mkdir $(HOME)/.config)
+	$(shell [ ! -d $(HOME)/.config ] && mkdir $(HOME)/.config)
 
 	# (STAGE 3) Configure all .config dotfiles
 	@echo "[dunst] Linking $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc"
@@ -75,6 +70,12 @@ config: ## Install the .config dir
 		ln -sfn $$dir $(CONFIG)/$$(basename $$dir); \
 	done
 
+ifeq ($(RPI), 0)
+	$(shell [ ! -d $(CONFIG)/i3 ] && mkdir -p $(CONFIG)/i3)
+
+	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
+	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
+endif
 
 .PHONY: fonts
 fonts: ## Copy fonts on /usr/share/fonts
