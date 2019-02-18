@@ -73,8 +73,8 @@ config: ## Install the .config dir
 ifeq ($(RPI), 0)
 	$(shell [ ! -d $(CONFIG)/i3 ] && mkdir -p $(CONFIG)/i3)
 
-	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
-	ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
+	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/"
+	ln -sfn $(CURDIR)/i3 $(CONFIG)/
 endif
 
 .PHONY: fonts
