@@ -3,7 +3,7 @@ SHELL := bash
 
 #PKG_MGR := pacman
 PKG_MGR := yaourt
-PKG_FLAGS := -Sy --noconfirm
+PKG_FLAGS := -Sy --noconfirm --needed
 ROOT := sudo -E
 
 CURDIR := $(HOME)/dotfiles
