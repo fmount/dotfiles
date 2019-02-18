@@ -1,7 +1,8 @@
 SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 
-PKG_MGR := pacman
+#PKG_MGR := pacman
+PKG_MGR := yaourt
 PKG_FLAGS := -Sy --noconfirm
 ROOT := sudo -E
 
@@ -29,8 +30,8 @@ check:  ## Check if the package manager is available
 
 .PHONY: pkgs
 pkgs: ## Install the provided packages (pkglist)
-	@if [ -e pkglist ]; then \
-		while read -r pkg; do $(ROOT) $(PKG_MGR) $(PKG_FLAGS) "$$pkg"; done < pkglist; \
+	@if [ -e $(CURDIR)/archlinux/pkglist ]; then \
+		$(PKG_MGR) $(PKG_FLAGS) $(< $(CURDIR)/archlinux/pkglist)
 	fi;
 
 
@@ -48,8 +49,7 @@ dot:  ## Install the $(HOME) dotfiles (excluding config)
 		ln -sfn $$file $(HOME)/$$f; \
 	done; \
 	
-	ifeq ($(RPI),1)
-		# (STAGE 2) Configure i3
+	ifeq ($(RPI), 0)
 		@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/i3"
 		ln -sfn $(CURDIR)/i3 $(CONFIG)/i3
 	endif
