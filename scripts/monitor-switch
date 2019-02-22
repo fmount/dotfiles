@@ -80,6 +80,7 @@ fi
 
 # Right now just two monitors are supported ..
 dock() { xrandr --output "${monitors[1]}" --off --output "${monitors[0]}" --auto --primary; }
+undock() { xrandr --output "${monitors[0]}" --off --output "${monitors[1]}" --auto --primary; }
 
 message() { printf "%s\n" "$1" >&2 ; }
 fatal()   { [[ "$1" ]] && message "$myname: error: $1" ; exit ${2:-1} ; }
@@ -108,6 +109,7 @@ usage() {
 	  -l|--list		- list connector and monitor names of connected outputs
 	  -g|--generate		- generate a config file containing all the detected monitors
 	  -p|--panic		- panic button used to restore only the primary monitor
+	  -u|--undock		- undock mode, disconnect the connected monitor to restore the primary
 
 	  -a|--all		- enable all monitors.
 	  -s|--select OU	- enable monitor OUTPUT, disable all others.
