@@ -29,10 +29,10 @@ check:  ## Check if the package manager is available
 
 
 .PHONY: pkgs
-pkgs: ## Install the provided packages (pkglist)
+pkgs:  ## Install the provided packages (pkglist)
 	@if [ -e $(CURDIR)/archlinux/pkglist ]; then \
-		$(PKG_MGR) $(PKG_FLAGS) $(< $(CURDIR)/archlinux/pkglist)
-	fi;
+		$(PKG_MGR) $(PKG_FLAGS) $(< $(CURDIR)/archlinux/pkglist); \
+	fi; \
 
 
 .PHONY: dotfiles
@@ -90,6 +90,7 @@ gpg: ## Download the public gpg keys from github
 
 .PHONY: ssh
 ssh: ## Download public ssh keys from github
+	$(shell [ -d $(HOME)/.ssh ] && mkdir -p $(HOME)/.ssh)
 	curl https://github.com/fmount.keys >> ~/.ssh/authorized_keys
 
 
