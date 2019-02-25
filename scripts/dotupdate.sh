@@ -48,6 +48,11 @@ if [ -d ~/.vim/plugged/YoucompleteMe ] ; then
     "$HOME"/.vim/plugged/YoucompleteMe/install.py --clang-completer \
         --go-completer --system-boost --system-libclang
 fi
+
+TMUX_MGR="$HOME/.tmux/plugins/tpm"
+[ ! -d ~/.tmux/plugins/tpm ] && git clone https://github.com/tmux-plugins/tpm \
+    "$TMUX_MGR"
+
 # Update tmux plugins
 ~/.tmux/plugins/tpm/bin/update_plugins all
 
