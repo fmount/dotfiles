@@ -44,7 +44,7 @@ dot:  ## Install the $(HOME) dotfiles (excluding config)
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git*" ! -name ".*.swp" \
-		! -name ".config" ! -name "*.i3*"); do \
+		! -name ".config" ! -name "*.i3*" ! -path "*.vim/plugged/*"); do \
 		f=$$(basename $$file); \
 		echo "Processing element: $$file"; \
 		ln -sfn $$file $(HOME)/$$f; \
