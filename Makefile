@@ -36,10 +36,11 @@ pkgs:  ## Install the provided packages (pkglist)
 
 
 .PHONY: dotfiles
-dotfiles: dot config ## Install the dotfiles
+dotfiles: dot config update ## Install the dotfiles
 
 .PHONY: dot
 dot:  ## Install the $(HOME) dotfiles (excluding config)
+	
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git*" ! -name ".*.swp" \
@@ -55,19 +56,14 @@ config: ## Install the .config dir
 	# Create .config dir if it doesn't exist
 	$(shell [ ! -d $(HOME)/.config ] && mkdir $(HOME)/.config)
 
-	# (STAGE 3) Configure all .config dotfiles
-	@echo "[dunst] Linking $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc"
-	ln -sfn $(CURDIR)/.config/dunstrc $(CONFIG)/dunstrc
-	@echo "[redshift] Linking $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf"
-	ln -sfn $(CURDIR)/.config/redshift.conf $(CONFIG)/redshift.conf
-
-	# (STAGE 4) Configure .config
-	@for dir in $(shell find $(CURDIR)/.config -maxdepth 1 -type d ! -name ".config"); do \
-		if [ -d $(HOME)/.config/$$(basename $$dir) ]; then \
-			echo "[$$(basename $$dir)] ...BACKUP"; \
-			$(call backup_old_config, $(HOME)/.config/$$(basename $$dir)); \
+	# (STAGE 3) Configure .config
+	@for item in $(shell find $(CURDIR)/.config -maxdepth 1 ! -name ".config"); do \
+		if [ -d $(HOME)/.config/$$(basename $$item) ]; then \
+			echo "[$$(basename $$item)] ...BACKUP"; \
+			$(call backup_old_config, $(HOME)/.config/$$(basename $$item)); \
 		fi; \
-		ln -sfn $$dir $(CONFIG)/$$(basename $$dir); \
+		echo "[$$(basename $$item)] Linking $$item $(CONFIG)/$$(basename $$item)"; \
+		ln -sfn $$item $(CONFIG)/$$(basename $$item); \
 	done
 
 ifeq ($(RPI), 0)
