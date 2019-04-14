@@ -35,6 +35,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=%F{grey}'
 
 # TODO CHECK YOU ARE IN A TMUX VALID SESSION
 send_tmux() {
+    [[ -z $(ps -efwww | grep tmux | grep -v grep) ]] && return 0
     local GSTATUS
     GSTATUS=$1
     tprompt=""
