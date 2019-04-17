@@ -14,6 +14,7 @@ colors
 
 
 #history options
+setopt interactivecomments
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt extended_history
