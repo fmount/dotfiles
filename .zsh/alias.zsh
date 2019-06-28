@@ -45,6 +45,7 @@ alias w1='watch -n1 '
 #alias wtf='dmesg'
 alias s='sudo'
 alias ipr='ip r'
+alias k='kubectl'
 
 # *** Spotify ***
 alias spn="~/script/sp next"
