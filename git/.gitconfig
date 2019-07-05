@@ -1,0 +1,41 @@
+[user]
+    email = fpantano@redhat.com
+    #email = fmount@inventati.org
+    name = fpantano
+    #name = fmount
+    signingkey = 0458D4D1F41BD75C
+[core]
+    editor = vim
+    excludesfile = ~/.cvsignore
+[alias]
+    cs = commit -s
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    pr = "!f() { git fetch $1 refs/pull/$2/head:pr/$1/$2 && git checkout pr/$1/$2;  } ; f"
+    obr = "!f() { git fetch $1 refs/heads/$2:obr/$1/$2 && git checkout obr/$1/$2;  } ; f"
+[color]
+    ui = auto
+[push]
+    default = simple
+[sendemail]
+    smtpencryption = tls
+    smtpserver = smtp.gmail.com
+    smtpuser = fpantano@redhat.com
+    smtpserverPort = 587
+    suppresscc = self
+[github]
+    user = fmount
+[commit]
+    gpgsign = true
+[merge]
+    log = true
+[apply]
+    whitespace = fix
+[credential]
+    helper = store
+[http]
+    cookiefile = /home/fmount/.gitcookies
+[gpg]
+    program = gpg2
