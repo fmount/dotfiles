@@ -78,6 +78,15 @@ fonts: ## Copy fonts on /usr/share/fonts
 	$(ROOT) cp $(CURDIR)/archlinux/*.ttf /usr/share/fonts/TTF
 	$(ROOT) fc-cache -fv
 
+.PHONY: git
+git: ## Copy git config in $HOME dir
+	@echo "copy git files"
+	@for file in $(shell find $(CURDIR)/git -name ".*"); do \
+		f=$$(basename $$file); \
+		echo "Applying git config: $$file"; \
+		cp $(CURDIR)/git/$$f $(HOME); \
+	done
+
 
 .PHONY: gpg
 gpg: ## Download the public gpg keys from github
