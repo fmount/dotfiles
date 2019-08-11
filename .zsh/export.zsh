@@ -21,3 +21,4 @@ export LANG=en_US.UTF-8
 #export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' - \""
 export TERM=xterm-256color
 #export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
+export PASSWORD_STORE_DIR=$HOME/.password-store_black
