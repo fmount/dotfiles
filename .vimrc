@@ -38,6 +38,8 @@ Plug 'mbbill/undotree'
 "For Fun
 Plug 'dansomething/vim-hackernews'
 
+Plug 'fmount/vim-notes'
+
 "DEV
 "Plug 'fmount/vim-notes'
 call plug#end()
@@ -78,6 +80,7 @@ set clipboard=unnamed
 
 " ** Setting Leader Key** "
 let mapleader=","
+"let mapleader=" "
 
 " *** Folding settings *** "
 set foldmethod=indent   "fold based on indent
@@ -287,9 +290,24 @@ autocmd BufNewFile *.sh 0r /usr/share/vim/vimfiles/bash.spec
 "
 
 "[GVIM]Try to write something about gui
-set guifont=Share\ Tech\ Mono\ 12
+set guifont=Share\ Tech\ Mono\ 16
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
 set guioptions-=r  "scrollbar"
 
 set clipboard=unnamed
+
+
+" VIM-NOTES overrides "
+"
+let g:default_keymap = 0
+nmap <Leader>ni (note-new-cbox-inline)
+nmap <Leader>ni (note-new-cbox-inline)
+imap <Leader>ni (note-new-cbox-inline)
+nmap <Leader>no (note-new-cbox-below)
+imap <Leader>no (note-new-cbox-below)
+nmap <Leader>nO (note-new-cbox-above)
+imap <Leader>nO (note-new-cbox-above)
+nmap <Leader>nx :call notes#toggle_checkbox(line('.'))<cr>
+" Fast Export function
+nmap <leader>ne :call notes#export() <cr>

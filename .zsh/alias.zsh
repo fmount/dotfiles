@@ -27,7 +27,6 @@ alias httppingg='curl -I http://google.com/ > /dev/null 2>&1 && echo success || 
 alias i3lock='i3lock -c 000000 -n'
 alias xtime='date +%T'
 alias mountt='sudo mount -t ntfs-3g $1 $2'
-#alias ntpsync='ntpdate -q 0.rhel.pool.ntp.org'
 alias cysnc='sudo chronyc waitsync'
 alias myip='curl ifconfig.me'
 alias netctl-current='netctl list | grep "*"'

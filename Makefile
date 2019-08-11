@@ -109,7 +109,6 @@ test: shellcheck ## Runs all the tests on the files in the repository.
 		DOCKER_FLAGS += -t
 	endif
 
-
 .PHONY: shellcheck
 shellcheck: ## Runs the shellcheck tests on the scripts.
 	$(ROOT) docker run --rm -i $(DOCKER_FLAGS) \
@@ -117,6 +116,20 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 		-v $(CURDIR):/usr/src:ro \
 		--workdir /usr/src \
 		r.j3ss.co/shellcheck ./test.sh
+
+.PHONY: systemd
+systemd: ## Update $(HOME) user systemd units (Work in progress)
+	@echo "Applying user systemd unit"
+	@if [ ! -d $(HOME)/.config/systemd/user ]; then \
+		echo "mkdir $(HOME)/.config/systemd/user"; \
+	fi; \
+	for file in $(shell find $(CURDIR)/systemd/user -name "*.service"); do \
+		f=$$(basename $$file); \
+		echo "Applying systemd service: $$file"; \
+		cp $$file $(HOME)/.config/systemd/user; \
+		systemctl --user enable $$f; \
+	done
+
 
 .PHONY: update
 update: ## Just update dotfiles
