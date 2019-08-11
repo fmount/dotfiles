@@ -47,10 +47,15 @@ send_tmux() {
 
 _commit_count() {
 	count="$(command git rev-list --count HEAD 2>/dev/null)"
+    [ -z "$count" ] && count=0
 	echo "$count"
 }
 
 is_ahead(){
+    if [ $(_commit_count) -eq 0 ]; then
+        echo "%F{yellow}(INIT_REPO)%F{grey}"
+        return
+    fi
 	remote_branch="$(command git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)"
 	if [ -n "$remote_branch" ]; then
 		ah0="$(command git rev-list --count --left-right $remote_branch...$prompt_local_branch | awk '{print $1}')"
