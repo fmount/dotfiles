@@ -33,6 +33,7 @@ source ~/.zsh/docker.zsh
 source ~/.zsh/arch-git-prompt.zsh
 source ~/.zsh/function.zsh
 source ~/.zsh/termsupport.zsh
+source ~/.zsh/redhat.zsh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then

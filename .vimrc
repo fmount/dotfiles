@@ -1,6 +1,14 @@
 set nocompatible               " be iMproved
 filetype off                   " required!
 
+" Vim-plug auto download
+if empty(glob('~/.vim/autoload/plug.vim'))
+silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+"---------------------:
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
@@ -290,7 +298,7 @@ autocmd BufNewFile *.sh 0r /usr/share/vim/vimfiles/bash.spec
 "
 
 "[GVIM]Try to write something about gui
-set guifont=Share\ Tech\ Mono\ 16
+set guifont=Share\ Tech\ Mono\ 12
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
 set guioptions-=r  "scrollbar"

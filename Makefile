@@ -81,10 +81,16 @@ fonts: ## Copy fonts on /usr/share/fonts
 .PHONY: git
 git: ## Copy git config in $HOME dir
 	@echo "copy git files"
+	$(shell [ ! -d $(CONFIG)/gitconfig ] && mkdir -p $(CONFIG)/gitconfig)
+
 	@for file in $(shell find $(CURDIR)/git -name ".*"); do \
 		f=$$(basename $$file); \
 		echo "Applying git config: $$file"; \
-		cp $(CURDIR)/git/$$f $(HOME); \
+		if [[ "$$f" =~ ".gitconfig-" ]]; then \
+			cp $(CURDIR)/git/$$f $(CONFIG)/gitconfig; \
+		else \
+			cp $(CURDIR)/git/$$f $(HOME); \
+		fi; \
 	done
 
 
