@@ -1,0 +1,10 @@
+[user]
+    email = fpantano@redhat.com
+    name = Francesco Pantano
+    signingkey = 77E083236F07A75A4EE3E9800458D4D1F41BD75C
+[sendemail]
+    smtpencryption = tls
+    smtpserver = smtp.gmail.com
+    smtpuser = fpantano@redhat.com
+    smtpserverPort = 587
+    suppresscc = self
