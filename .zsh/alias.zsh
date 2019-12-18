@@ -30,7 +30,8 @@ alias mountt='sudo mount -t ntfs-3g $1 $2'
 alias cysnc='sudo chronyc waitsync'
 alias myip='curl ifconfig.me'
 alias netctl-current='netctl list | grep "*"'
-alias nopaste="curl -F c=@- https://ptpb.pw/"
+alias nopaste="curl -F 'f:1=<-' ix.io"
+alias t="todo.sh"
 alias st='st -e /bin/zsh'
 alias windows='xfreerdp +clipboard /u:francesco /v:192.168.122.56 /size:1920x1040 /drive:linuz,/home/fmount/Downloads'
 alias jekylldraft='jekyll server --watch --drafts'
@@ -105,7 +106,3 @@ alias gp='git push '
 
 alias gsb='git status -sb'
 alias gs='git status -s'
-
-# *** TEST on PTPB ***
-
-alias nopastept="curl -F c=@- https://ptpb.pw/"
