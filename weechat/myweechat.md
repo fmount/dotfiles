@@ -15,7 +15,6 @@
     /secure set relaypass <pass>
     /secure set bitlbeepass <pass>
     /secure set pushbulletapikey <key>
-    
 
 ## Network
 
@@ -86,22 +85,22 @@ Once you're connected to _bitlbee_, _WeeChat_ will send a _PRIVMSG_ to the _&bit
 this will load all module except lua, tcl, ruby, fifo and xfer
 
 
-### Aspell
+### Spell
 
 
-    /set aspell.check.default_dict en
-    /set aspell.check.suggestions 3
-    /set aspell.color.suggestions *green
-    /aspell enable
+    /set spell.check.default_dict en
+    /set spell.check.suggestions 3
+    /set spell.color.suggestions *green
+    /spell enable
 
 
 #### Set the dictionnary based on the channel name
 
 
     /trigger add setdict signal *,irc_in2_join
-    /trigger set setdict conditions "${nick} == ${info:irc_nick,${server}} && ${channel} =~ [.-](fr|it|es)$ && ${aspell.dict.irc.${server}.${channel}} =="
+    /trigger set setdict conditions "${nick} == ${info:irc_nick,${server}} && ${channel} =~ [.-](fr|it|es)$ && ${spell.dict.irc.${server}.${channel}} =="
     /trigger set setdict regex "/.*[.-](fr|it|es)$/${re:1}/"
-    /trigger set setdict command "/set aspell.dict.irc.${server}.${channel} ${tg_signal_data}"
+    /trigger set setdict command "/set spell.dict.irc.${server}.${channel} ${tg_signal_data}"
     
 
 This trigger will set the french dictionnary for channel ending in _.fr_ and _-fr_ Same for it and es.
@@ -254,10 +253,10 @@ Note: you need conky-cli package on _Debian_, same for _Arch Linux_
 
 ## Weather with wttr.in
 
-    /set aspell.dict.exec.exec.weather fr
+    /set spell.dict.exec.exec.weather fr
     /trigger add weather command weather
     /trigger set weather regex "/\s/_/tg_argv_eol1"
-    /trigger set weather command "/exec -noflush -norc -noln -buffer weather curl -s http://wttr.in/${tg_argv_eol1}?lang=${aspell.dict.exec.exec.weather}"
+    /trigger set weather command "/exec -noflush -norc -noln -buffer weather curl -s http://wttr.in/${tg_argv_eol1}?lang=${spell.dict.exec.exec.weather}"
      
 I found something very similar on the [alias wiki page](https://github.com/weechat/weechat/wiki/Alias-examples) of WeeChat on GitHub. I adjust it for my own use. So when you type _/weather Montreal_, a new buffer will be created and will show the output of _curl -s http://wttr.in/Montreal_. (I created a trigger instead of an alias to replace space by _ in city name)
 
@@ -367,7 +366,7 @@ Note: This bar will be different from the already created one. I set the conditi
 ### Bar status
 
 
-    /bar add rootstatus root bottom 1 0 [time],[buffer_count],[buffer_plugin],buffer_number+:+buffer_name+(buffer_modes)+{buffer_nicklist_count}+buffer_filter,[bitlbee_typing_notice],[lag],[aspell_dict],[aspell_suggest],[hotlist],completion,scroll
+    /bar add rootstatus root bottom 1 0 [time],[buffer_count],[buffer_plugin],buffer_number+:+buffer_name+(buffer_modes)+{buffer_nicklist_count}+buffer_filter,[bitlbee_typing_notice],[lag],[spell_dict],[spell_suggest],[hotlist],completion,scroll
     /set weechat.bar.rootstatus.color_fg 31
     /set weechat.bar.rootstatus.color_bg 234
     /set weechat.bar.rootstatus.separator on
