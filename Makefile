@@ -93,17 +93,14 @@ git: ## Copy git config in $HOME dir
 		fi; \
 	done
 
-
 .PHONY: gpg
 gpg: ## Download the public gpg keys from github
 	gpg --fetch-keys https://github.com/fmount.gpg
-
 
 .PHONY: ssh
 ssh: ## Download public ssh keys from github
 	$(shell [ -d $(HOME)/.ssh ] && mkdir -p $(HOME)/.ssh)
 	curl https://github.com/fmount.keys >> ~/.ssh/authorized_keys
-
 
 .PHONY: test
 test: shellcheck ## Runs all the tests on the files in the repository.
@@ -134,15 +131,30 @@ systemd: ## Update $(HOME) user systemd units
 		echo "Applying systemd service: $$file"; \
 		cp $$file $(HOME)/.config/systemd/user; \
 		systemctl --user enable $$f; \
-		if [[ "$$f" == *"offlineimap"* ]]; then \
-			systemctl --user enable "$$f".timer; \
-		fi; \
 	done
-	@for dir in $(shell find $(CURDIR)/systemd/user -name "*.d"); do \
+
+.PHONY: neomutt
+neomutt: ## Update $(HOME) user mail config
+	@if [ ! -d $(CURDIR)/neomutt ]; then \
+		echo "Please import neomutt submodule"; \
+		exit 1; \
+	fi;
+	@echo "[neomutt] Applying systemd unit files"; \
+	for file in $(shell find $(CURDIR)/neomutt/systemd/user -name "*.service"); do \
+		f=$$(basename $$file); \
+		echo "Applying systemd service: $$file"; \
+		cp $$file $(HOME)/.config/systemd/user; \
+		systemctl --user enable $$f; \
+	done
+	@for dir in $(shell find $(CURDIR)/neomutt/systemd/user -name "*.d"); do \
 		echo "Applying systemd override: $$(basename $$dir)"; \
 		cp -R $$dir $(HOME)/.config/systemd/user/; \
 	done
 
+ifeq ($(RPI), 0)
+	@echo "[neomutt] Linking $(CURDIR)/neomutt $(CONFIG)/"
+	ln -sfn $(CURDIR)/neomutt $(CONFIG)/
+endif
 
 .PHONY: update
 update: ## Just update dotfiles
