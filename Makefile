@@ -2,7 +2,7 @@ SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 
 #PKG_MGR := pacman
-PKG_MGR := yaourt
+PKG_MGR := yay
 PKG_FLAGS := -Sy --noconfirm --needed
 ROOT := sudo -E
 
