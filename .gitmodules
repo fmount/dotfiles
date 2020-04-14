@@ -1,0 +1,3 @@
+[submodule "neomutt"]
+	path = neomutt
+	url = git@github.com:fmount/neomutt.git
