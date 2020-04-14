@@ -124,16 +124,23 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 		r.j3ss.co/shellcheck ./test.sh
 
 .PHONY: systemd
-systemd: ## Update $(HOME) user systemd units (Work in progress)
+systemd: ## Update $(HOME) user systemd units
 	@echo "Applying user systemd unit"
 	@if [ ! -d $(HOME)/.config/systemd/user ]; then \
-		echo "mkdir $(HOME)/.config/systemd/user"; \
+		mkdir -p $(HOME)/.config/systemd/user; \
 	fi; \
 	for file in $(shell find $(CURDIR)/systemd/user -name "*.service"); do \
 		f=$$(basename $$file); \
 		echo "Applying systemd service: $$file"; \
 		cp $$file $(HOME)/.config/systemd/user; \
 		systemctl --user enable $$f; \
+		if [[ "$$f" == *"offlineimap"* ]]; then \
+			systemctl --user enable "$$f".timer; \
+		fi; \
+	done
+	@for dir in $(shell find $(CURDIR)/systemd/user -name "*.d"); do \
+		echo "Applying systemd override: $$(basename $$dir)"; \
+		cp -R $$dir $(HOME)/.config/systemd/user/; \
 	done
 
 
