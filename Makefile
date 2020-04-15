@@ -135,26 +135,26 @@ systemd: ## Update $(HOME) user systemd units
 
 .PHONY: neomutt
 neomutt: ## Update $(HOME) user mail config
-	@if [ ! -d $(CURDIR)/neomutt ]; then \
+	@if [ -z "$(shell ls -A $(CURDIR)/neomutt)" ]; then \
 		echo "Please import neomutt submodule"; \
 		exit 1; \
 	fi;
-	@echo "[neomutt] Applying systemd unit files"; \
-	for file in $(shell find $(CURDIR)/neomutt/systemd/user -name "*.service"); do \
+ifeq ($(RPI), 0)
+	@echo "[neomutt] Linking $(CURDIR)/neomutt $(CONFIG)/"
+	ln -sfn $(CURDIR)/neomutt $(CONFIG)/
+	@echo "[neomutt] Applying systemd unit files";
+	@for file in $(shell find $(CURDIR)/neomutt/systemd/user -name "*.service" 2>/dev/null); do \
 		f=$$(basename $$file); \
 		echo "Applying systemd service: $$file"; \
 		cp $$file $(HOME)/.config/systemd/user; \
 		systemctl --user enable $$f; \
 	done
-	@for dir in $(shell find $(CURDIR)/neomutt/systemd/user -name "*.d"); do \
+	@for dir in $(shell find $(CURDIR)/neomutt/systemd/user -name "*.d" 2>/dev/null); do \
 		echo "Applying systemd override: $$(basename $$dir)"; \
 		cp -R $$dir $(HOME)/.config/systemd/user/; \
 	done
-
-ifeq ($(RPI), 0)
-	@echo "[neomutt] Linking $(CURDIR)/neomutt $(CONFIG)/"
-	ln -sfn $(CURDIR)/neomutt $(CONFIG)/
 endif
+
 
 .PHONY: update
 update: ## Just update dotfiles
