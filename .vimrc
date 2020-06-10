@@ -9,6 +9,13 @@ autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 "---------------------:
 
+" Set colorscheme
+if empty(glob('~/.vim/colors/jellybeans.vim'))
+silent !curl -fLo ~/.vim/colors/jellybeans.vim --create-dirs
+\ https://raw.githubusercontent.com/nanotech/jellybeans.vim/master/colors/jellybeans.vim
+endif
+"---------------------:
+
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
@@ -34,7 +41,7 @@ Plug 'lepture/vim-jinja'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-obsession'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'Valloric/YoucompleteMe'
+"Plug 'Valloric/YoucompleteMe'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 
