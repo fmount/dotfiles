@@ -1,7 +1,6 @@
 SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 
-#PKG_MGR := pacman
 PKG_MGR := yay
 PKG_FLAGS := -Sy --noconfirm --needed
 ROOT := sudo -E
@@ -30,8 +29,8 @@ check:  ## Check if the package manager is available
 
 .PHONY: pkgs
 pkgs:  ## Install the provided packages (pkglist)
-	@if [ -e $(CURDIR)/archlinux/pkglist ]; then \
-		$(PKG_MGR) $(PKG_FLAGS) $(< $(CURDIR)/archlinux/pkglist); \
+	@if [ -e $(CURDIR)/files/pkglist ]; then \
+		$(PKG_MGR) $(PKG_FLAGS) $(< $(CURDIR)/files/pkglist); \
 	fi; \
 
 
@@ -75,7 +74,7 @@ endif
 
 .PHONY: fonts
 fonts: ## Copy fonts on /usr/share/fonts
-	$(ROOT) cp $(CURDIR)/archlinux/*.ttf /usr/share/fonts/TTF
+	$(ROOT) cp $(CURDIR)/files/*.ttf /usr/share/fonts/TTF
 	$(ROOT) fc-cache -fv
 
 .PHONY: git
