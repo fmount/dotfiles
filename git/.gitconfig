@@ -29,6 +29,7 @@
     helper = store
 [http]
     cookiefile = /home/fmount/.gitcookies
+    sslVerify = false
 [gpg]
     program = gpg2
 
