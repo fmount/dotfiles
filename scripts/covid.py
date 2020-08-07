@@ -11,7 +11,7 @@ ITA_EP_TIMELINE = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dat
 def is_going_better(new_data, old_data):
     if ((new_data - old_data) > 0):
         return '+'
-    return '-'
+    return '' # the dataset contains the negative value
 
 def status_element(js):
 

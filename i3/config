@@ -264,4 +264,5 @@ exec --no-startup-id xdg-user-dir ~/.config/user-dirs.dirs &
 exec --no-startup-id redshift -c ~/.config/redshift.conf &
 exec xss-lock --ignore-sleep -- /bin/bash -c '(killall dunst; killall -9 gpg-agent; gpg-connect-agent /bye)& i3lock -n -c 000000'&
 exec --no-startup-id ~/dotfiles/scripts/i3scripts/i3floating.sh &
+exec --no-startup-id dockd --daemon &
 #exec --no-startup-id xiccd -d :0 &
