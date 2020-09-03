@@ -10,8 +10,8 @@ export GPG_KEY='1FCA0620'
 export GPG_SIGN_KEY='C66B3D3F'
 
 RSYNC=$(command -v rsync)
-RPI_HOST="192.168.1.160"
-RPI_USER="fmount"
+#RPI_HOST=""
+#RPI_USER=""
 TARGET="$HOME/backup"
 
 

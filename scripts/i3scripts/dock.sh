@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/env bash
 
 MODE=("auto" "off")
 CMD="$(command -v xrandr)"

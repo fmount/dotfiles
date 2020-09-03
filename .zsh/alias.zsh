@@ -42,31 +42,22 @@ alias jc='journalctl'
 alias hg='history 0 | grep'
 alias css='cscope -bqR'
 alias w1='watch -n1 '
-#alias wtf='dmesg'
 alias s='sudo'
 alias ipr='ip r'
 alias k='kubectl'
-
-# *** Spotify ***
-alias spn="~/script/sp next"
-alias spp="~/script/sp prev"
-alias sps="~/script/sp play"
-alias spc="~/script/sp current"
-alias sp="~/script/sp"
+alias newpsw='tr -cd "[:graph:][:alpha:]" < /dev/urandom | head -c 43'
 alias sysu="systemctl --user"
 
 # *** SUDO ***
 if [ $UID -eq 0 ]; then
 	alias mount='mount |column -t'
 	alias umount='umount '
-	#alias systemctl='systemctl '
 	alias netctl='netctl '
 	alias pc='pacman '
 	alias docker='docker '
 else
 	alias mount='sudo mount | column -t'
 	alias umount='sudo umount '
-	#alias systemctl=' systemctl '
 	alias netctl='sudo netctl '
 	alias pc='sudo pacman '
 	alias docker='sudo docker '
