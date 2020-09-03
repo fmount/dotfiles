@@ -46,7 +46,6 @@
 /set aspell.dict.exec.exec.weather en
 /trigger add weather command weather
 /trigger set weather command "/exec -noflush -norc -noln -buffer weather curl -s http://wttr.in/${tg_argv_eol1}?lang=en"
-/set irc.look.server_buffer independent
 /set buffers.look.indenting on
 /set buffers.color.current_fg 31
 /set buffers.color.current_bg white
@@ -157,3 +156,4 @@
 /set weechat.color.status_more 229
 /set weechat.color.status_name 195
 /set weechat.color.status_name_ssl 195
+/set irc.look.server_buffer independent
