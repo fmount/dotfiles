@@ -1,3 +1,4 @@
+## zsh main config
 
 zstyle ":completion:*:commands" rehash 1
 zstyle ':completion:::*:default' menu no select
