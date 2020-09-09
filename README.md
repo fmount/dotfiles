@@ -1,17 +1,13 @@
-dotfiles
+# dotfiles
 
+This is yet another dotfiles collection based on my Archlinux system.
 
-## Gentoo
+## Notes
 
-Make sure PKG_MGR is set to 'emerge' and flags are reset:
+PKG_MGR is moved to 'yay' since 'yaourt' is no longer supported.
 
-```console
-make PKG_MGR=emerge PKG_FLAGS="" check
-```
-
-Then, we can install the packages from the provided pkglist:
+This can always be overridden by running something like the following:
 
 ```console
-make PKG_MGR=emerge PKG_FLAGS="" pkgs
+make PKG_MGR=pacman PKG_FLAGS="" check
 ```
-
