@@ -17,8 +17,8 @@ alias la='ls -i'
 alias lla='ls -la -i'
 alias lt='ls -lha /tmp'
 alias ip='ip -c'
-alias vimtest='vim -u ~/.vimrctest'
-alias gvimtest='gvim -u ~/.vimrctest'
+#alias vimtest='vim -u ~/.vimrctest'
+#alias gvimtest='gvim -u ~/.vimrctest'
 alias gvim='gvim -geometry 55x39'
 alias pingg='ping -c 3 www.google.com'
 alias ping6='ping -6'
@@ -47,6 +47,12 @@ alias ipr='ip r'
 alias k='kubectl'
 alias newpsw='tr -cd "[:graph:][:alpha:]" < /dev/urandom | head -c 43'
 alias sysu="systemctl --user"
+
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+  alias gvim= 'nvim-qt --no-ext-tabline'
+  alias nvim-qt='nvim-qt --no-ext-tabline'
+fi
 
 # *** SUDO ***
 if [ $UID -eq 0 ]; then
