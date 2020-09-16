@@ -43,7 +43,8 @@ dot:  ## Install the $(HOME) dotfiles (excluding config)
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git*" ! -name ".*.swp" \
-		! -name ".config" ! -name "*.i3*" ! -path "*.vim/plugged/*"); do \
+		! -name ".config" ! -name "*.i3*" ! -path "*.vim/plugged/*" \
+		! -path "*.config/nvim/plugged/*"); do \
 		f=$$(basename $$file); \
 		echo "Processing element: $$file"; \
 		ln -sfn $$file $(HOME)/$$f; \
@@ -64,7 +65,12 @@ config: ## Install the .config dir
 		echo "[$$(basename $$item)] Linking $$item $(CONFIG)/$$(basename $$item)"; \
 		ln -sfn $$item $(CONFIG)/$$(basename $$item); \
 	done
-
+	
+	# NVIM time
+	$(shell [ ! -d $(CONFIG)/nvim ] && mkdir -p $(CONFIG)/nvim)
+	@echo "[NVIM] Linking $(CURDIR)/nvim $(CONFIG)/"
+	ln -sfn $(CURDIR)/nvim $(CONFIG)/
+	
 ifeq ($(RPI), 0)
 	$(shell [ ! -d $(CONFIG)/i3 ] && mkdir -p $(CONFIG)/i3)
 
