@@ -1,1 +1,0 @@
-echo "$(wmctrl -lp|grep `ps ax|grep "spotify/spotify$"|awk {'print $1'}`|sed 's\^. \\')"

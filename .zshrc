@@ -108,9 +108,10 @@ bindkey -M vicmd '\eOF' vi-end-of-line
 function zle-line-init zle-keymap-select {
     #RPS1="${${KEYMAP/vicmd/[NOR]}/(main|viins)/[INS]}"
     #RPS2=$RPS1
-	VIM_PROMPT="%{$fg_bold[yellow]%}[% NOR]% %{$reset_color%} "
-	NOR_PROMPT="%{$fg_bold[grey]%}[% INS]% %{$reset_color%} "
-	VIMPROMPT="${${KEYMAP/vicmd/${VIM_PROMPT}}/(main|viins)/${NOR_PROMPT}}"
+    VIM_PROMPT="%{$fg_bold[yellow]%}[% NOR]% %{$reset_color%} "
+    NOR_PROMPT="%{$fg_bold[grey]%}[% INS]% %{$reset_color%} "
+    VIMPROMPT="${${KEYMAP/vicmd/${VIM_PROMPT}}/(main|viins)/${NOR_PROMPT}}"
+    #_set_tmux_prefix
     zle reset-prompt
 }
 
