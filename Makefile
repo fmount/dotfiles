@@ -66,7 +66,7 @@ config: ## Install the .config dir
 		ln -sfn $$item $(CONFIG)/$$(basename $$item); \
 	done
 	
-	# NVIM time
+	# NVIM
 	$(shell [ ! -d $(CONFIG)/nvim ] && mkdir -p $(CONFIG)/nvim)
 	@echo "[NVIM] Linking $(CURDIR)/nvim $(CONFIG)/"
 	ln -sfn $(CURDIR)/nvim $(CONFIG)/
