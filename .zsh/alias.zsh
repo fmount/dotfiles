@@ -47,7 +47,7 @@ alias ipr='ip r'
 alias k='kubectl'
 alias newpsw='tr -cd "[:graph:][:alpha:]" < /dev/urandom | head -c 43'
 alias sysu="systemctl --user"
-alias head="sed11q"
+alias head="sed 11q"
 
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
@@ -57,18 +57,18 @@ fi
 
 # *** SUDO ***
 if [ $UID -eq 0 ]; then
-	alias mount='mount |column -t'
-	alias umount='umount '
-	alias netctl='netctl '
-	alias pc='pacman '
-	alias docker='docker '
+    alias mount='mount |column -t'
+    alias umount='umount '
+    alias netctl='netctl '
+    alias pc='pacman '
+    alias docker='docker '
 else
-	alias mount='sudo mount | column -t'
-	alias umount='sudo umount '
-	alias netctl='sudo netctl '
-	alias pc='sudo pacman '
-	alias docker='sudo docker '
-	alias sd='sudo docker '
+    alias mount='sudo mount | column -t'
+    alias umount='sudo umount '
+    alias netctl='sudo netctl '
+    alias pc='sudo pacman '
+    alias docker='sudo docker '
+    alias sd='sudo docker '
 fi
 
 #  *** GIT  ***
@@ -104,3 +104,5 @@ alias gp='git push '
 
 alias gsb='git status -sb'
 alias gs='git status -s'
+alias gr='git review'
+alias grd='git review -d'
