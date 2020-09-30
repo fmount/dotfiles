@@ -130,4 +130,4 @@ fi
 #RPROMPT='[%F{yellow}%?%f]'
 
 # show username@host if logged in through SSH
-[[ "$SSH_CONNECTION" != '' ]] && PROMPT=' %F{242}%n@%m%f > '
+[[ "$SSH_CONNECTION" != '' ]] && PROMPT='%F{242}%n@%m%f %(5~|%-1~/.../%3~|%4~) > '

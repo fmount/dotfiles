@@ -1,7 +1,7 @@
 [user]
-    email = fmount@REMOVED
+    email = francesco.pan001@gmail.com
     name = fmount
-    signingkey = REMOVED
+    signingkey = 2CA34D7B3191B657
 [core]
     editor = vim
     excludesfile = ~/.cvsignore

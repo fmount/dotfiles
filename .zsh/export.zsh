@@ -22,3 +22,4 @@ export LANG=en_US.UTF-8
 export TERM=xterm-256color
 #export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
 export PASSWORD_STORE_DIR=$HOME/.password-store_black
+export CVSROOT="anoncvs@anoncvs.ca.openbsd.org:/cvs"
