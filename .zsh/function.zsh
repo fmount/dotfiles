@@ -56,6 +56,10 @@ swapring(){
 }
 
 function aping {
-    if ! ping -c1 -w 5 "$1" &>/dev/null; then echo "Host is down"; else echo "isalive"; fi
+    if [[ -z "$1" ]]; then
+        echo "Usage: aping <host>"
+    elif ! ping -c1 -w 5 "$1" &>/dev/null; then
+	echo "Host is down"; else echo "isalive";
+    fi
 }
 

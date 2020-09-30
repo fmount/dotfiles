@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 # dotupdate.sh [force]
 # Script to check if updates are available for the dotfiles repo and eventually
@@ -11,7 +11,7 @@
 
 # Check if system is connected
 echo -n "Check connection...."
-if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
+if ping -q -c 1 8.8.8.8 >/dev/null; then
 	echo "connected"
 	echo
 else
