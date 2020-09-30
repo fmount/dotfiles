@@ -28,13 +28,11 @@ HISTTIMEFORMAT='%F %T  '
 unsetopt beep
 
 
-source ~/.zsh/export.zsh
+#source ~/.zsh/export.zsh
 source ~/.zsh/alias.zsh
-source ~/.zsh/docker.zsh
 source ~/.zsh/arch-git-prompt.zsh
 source ~/.zsh/function.zsh
-source ~/.zsh/termsupport.zsh
-source ~/.zsh/redhat.zsh
+#source ~/.zsh/termsupport.zsh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
@@ -148,5 +146,3 @@ setopt pushdminus
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
-
-source /usr/bin/virtualenvwrapper.sh

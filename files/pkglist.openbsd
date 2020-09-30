@@ -1,0 +1,11 @@
+shells/bash
+devel/git
+devel/gmake
+security/gnupg
+devel/quirks
+net/rsync
+devel/shellcheck
+sysutils/tree
+editors/vim
+net/znc
+shells/zsh

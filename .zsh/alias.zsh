@@ -11,14 +11,11 @@ alias -- -='cd -'
 alias d='dirs -v | head -10'
 alias c='clear'
 alias h='history'
-alias ls='ls --color=auto'
-alias ll='ls -i -lF --color=auto'
+alias ll='ls -i -lF'
 alias la='ls -i'
 alias lla='ls -la -i'
 alias lt='ls -lha /tmp'
 alias ip='ip -c'
-#alias vimtest='vim -u ~/.vimrctest'
-#alias gvimtest='gvim -u ~/.vimrctest'
 alias gvim='gvim -geometry 55x39'
 alias pingg='ping -c 3 www.google.com'
 alias ping6='ping -6'
@@ -47,13 +44,6 @@ alias ipr='ip r'
 alias k='kubectl'
 alias newpsw='tr -cd "[:graph:][:alpha:]" < /dev/urandom | head -c 43'
 alias sysu="systemctl --user"
-alias head="sed 11q"
-
-if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-  alias gvim= 'nvim-qt --no-ext-tabline'
-  alias nvim-qt='nvim-qt --no-ext-tabline'
-fi
 
 # *** SUDO ***
 if [ $UID -eq 0 ]; then
@@ -79,30 +69,25 @@ alias gb='git branch'
 alias gba='git branch -a'
 alias gbd='git branch -d'
 alias gbr='git branch --remote'
-
 alias gbis='git bisect'
-
 alias gc='git commit -S -v'
 alias gc!='git commit -v --amend'
 alias gca='git commit -v -a'
 alias gca!='git commit -v -a --amend'
-
 alias gl='git log --oneline --decorate'
 alias glo="git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-
 alias gco='git checkout '
-
 alias gcl='git clone --recursive'
-
 alias gd='git diff'
-
 alias gf='git fetch'
 alias gfa='git fetch --all '
 alias gfo='git fetch origin'
-
 alias gp='git push '
-
 alias gsb='git status -sb'
 alias gs='git status -s'
 alias gr='git review'
 alias grd='git review -d'
+
+# openBSD cvs update
+alias cvu='cvs -q up -Pd -A'
+alias dpb='/usr/ports/infrastructure/bin/dpb'
