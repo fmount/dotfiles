@@ -41,11 +41,6 @@ bindsym $mod+F4 kill
 # start dmenu (a program launcher)
 bindsym $mod+F2 exec dmenu_run -fn $dmenu_font #-l 10
 
-# bind to passmenu
-bindsym $mod+F3 exec ~/dotfiles/scripts/i3scripts/passmenu
-
-bindsym $mod+F10 exec dmenu_qutebrowser
-
 # change focus
 bindsym $mod+$down focus down
 bindsym $mod+$up focus up
@@ -186,9 +181,8 @@ mode "$mode_system" {
 
 bindsym XF86PowerOff mode "$mode_system"
 bindsym XF86Explorer mode "$mode_system"
-bindsym F12 mode "$mode_system"
-bindsym F11 mode "$mode_system"
-bindsym F7 mode "$mode_display"
+bindsym F10 mode "$mode_system"
+bindsym F8 mode "$mode_display"
 
 #bindsym Shift+Mod1+l exec loginctl lock-session
 
