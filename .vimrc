@@ -238,7 +238,7 @@ let g:lightline = {
 
 " *** nerdTree GIT Plugin *** "
 
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
     \ "Untracked" : "✭",
