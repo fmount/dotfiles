@@ -10,10 +10,6 @@ eval $(ssh-agent -s)
 # load Xresources
 xrdb -all $HOME/.Xresources
 
-# and add the keys
-ssh-add ~/.ssh/gogs
-ssh-add ~/.ssh/id_rsa.ansible
-
 setxkbmap -option compose:ralt &
 xmodmap -e "keycode 113 = Super_L"  # reassign Alt_R to Super_L
 xmodmap -e "remove mod1 = Super_L"  # make sure X keeps it out of the mod1 group

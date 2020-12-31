@@ -67,13 +67,10 @@ config: ## Install the .config dir
 	done
 	
 	# NVIM
-	$(shell [ ! -d $(CONFIG)/nvim ] && mkdir -p $(CONFIG)/nvim)
 	@echo "[NVIM] Linking $(CURDIR)/nvim $(CONFIG)/"
 	ln -sfn $(CURDIR)/nvim $(CONFIG)/
 	
 ifeq ($(RPI), 0)
-	$(shell [ ! -d $(CONFIG)/i3 ] && mkdir -p $(CONFIG)/i3)
-
 	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/"
 	ln -sfn $(CURDIR)/i3 $(CONFIG)/
 endif

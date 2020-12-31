@@ -35,6 +35,7 @@ source ~/.zsh/arch-git-prompt.zsh
 source ~/.zsh/function.zsh
 source ~/.zsh/termsupport.zsh
 source ~/.zsh/redhat.zsh
+source /usr/bin/virtualenvwrapper.sh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
@@ -149,4 +150,3 @@ setopt pushdminus
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
 
-source /usr/bin/virtualenvwrapper.sh
