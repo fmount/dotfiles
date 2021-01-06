@@ -31,7 +31,8 @@ unsetopt beep
 source ~/.zsh/export.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/docker.zsh
-source ~/.zsh/arch-git-prompt.zsh
+#source ~/.zsh/arch-git-prompt.zsh
+source ~/.zsh/prompt.zsh
 source ~/.zsh/function.zsh
 source ~/.zsh/termsupport.zsh
 source ~/.zsh/redhat.zsh

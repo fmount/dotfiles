@@ -20,14 +20,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
-"Plug 'rip-rip/clang_complete'
-"Plug 'tpope/vim-vinegar'
-"Plug 'Townk/vim-autoclose'
-"Plug 'davidhalter/jedi-vim'
-"Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -52,11 +46,12 @@ Plug 'mbbill/undotree'
 
 "For Fun
 Plug 'dansomething/vim-hackernews'
-
 Plug 'fmount/vim-notes'
 
-"DEV
-"Plug 'fmount/vim-notes'
+" Email
+Plug 'adborden/vim-notmuch-address'
+Plug 'rhysd/vim-grammarous'
+
 call plug#end()
 
 filetype plugin indent on    " required!

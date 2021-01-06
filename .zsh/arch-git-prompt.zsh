@@ -73,7 +73,6 @@ is_dirty(){
         echo "%F{grey}[%F{yellow}$GIT_BRANCH_CHANGED_SYMBOL%F{grey}$(is_ahead)|C:$(_commit_count)%{$reset_color%}]%F{grey}"
     elif [ -z "$(is_ahead)" ]; then
         echo "%F{grey}[%F{grey}$(_commit_count)%F{grey}%{$reset_color%}]%F{grey}"
-        #echo "  "
     else
         echo "%F{grey}[%F{grey}$(is_ahead)|C:$(_commit_count)%{$reset_color%}]%F{grey}"
     fi
