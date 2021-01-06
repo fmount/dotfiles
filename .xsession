@@ -14,6 +14,9 @@ setxkbmap -option compose:ralt &
 xmodmap -e "keycode 113 = Super_L"  # reassign Alt_R to Super_L
 xmodmap -e "remove mod1 = Super_L"  # make sure X keeps it out of the mod1 group
 
+echo UPDATESTARTUPTTY | gpg-connect-agent
+export SSH_AUTH_SOCK=/run/user/$UID/gnupg/S.gpg-agent.ssh
+
 # Statusbar loop
 #while true; do
 #   xsetroot -name "$(tput setaf 31; slstatus)"
