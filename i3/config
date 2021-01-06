@@ -181,8 +181,8 @@ mode "$mode_system" {
 
 bindsym XF86PowerOff mode "$mode_system"
 bindsym XF86Explorer mode "$mode_system"
-bindsym F10 mode "$mode_system"
-bindsym F8 mode "$mode_display"
+bindsym F8 mode "$mode_system"
+bindsym F7 mode "$mode_display"
 
 #bindsym Shift+Mod1+l exec loginctl lock-session
 
