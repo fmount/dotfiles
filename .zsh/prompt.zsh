@@ -106,7 +106,7 @@ check_path() {
 
 
 PROMPT=$'
-${VIMPROMPT}(%F{yellow}%?%f) %{$limegreen%}%$(check_path)${PR_RST}${vcs_info_msg_0_}]%F{red}
+${VIMPROMPT}(%F{yellow}%?%f) %{$limegreen%}%$(check_path)${PR_RST}${vcs_info_msg_0_}%F{red}
 > %F{grey}%{$reset_color%}% '
 
 #RPROMPT='[%F{yellow}%?%f]'
