@@ -55,7 +55,31 @@ swapring(){
 
 }
 
-function aping {
+aping() {
     if ! ping -c1 -w 5 "$1" &>/dev/null; then echo "Host is down"; else echo "isalive"; fi
 }
+
+_clone_and_fetch_PS() {
+    git clone "$1" "$2"
+    cd "$2"
+    git review -d "$2" && git checkout -b "$2"
+}
+
+git-clone-review() {
+    project="$1"
+    review="$2"
+
+    ERROR='\033[0;31m'
+    RESET='\033[0m'
+
+    BASE_URL="https://review.opendev.org/openstack"
+    TARGET="$BASE_URL/$project"
+    if [ -n "$review" ]; then
+        _clone_and_fetch_PS "$TARGET" "$review"
+    else
+        printf "${RED}ERROR you must provide the review ID${RESET}\n"
+    fi
+
+}
+
 
