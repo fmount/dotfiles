@@ -66,18 +66,18 @@ _clone_and_fetch_PS() {
 }
 
 git-clone-review() {
+    BASE_URL="https://review.opendev.org/openstack"
     project="$1"
     review="$2"
 
-    ERROR='\033[0;31m'
-    RESET='\033[0m'
+    [ -d "$project" ] && rm -rf "$project"
 
-    BASE_URL="https://review.opendev.org/openstack"
     TARGET="$BASE_URL/$project"
     if [ -n "$review" ]; then
         _clone_and_fetch_PS "$TARGET" "$review"
     else
-        printf "${RED}ERROR you must provide the review ID${RESET}\n"
+        git clone "$TARGET"
+        cd "$1"
     fi
 
 }
