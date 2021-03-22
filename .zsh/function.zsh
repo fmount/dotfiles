@@ -62,7 +62,8 @@ aping() {
 _clone_and_fetch_PS() {
     git clone "$1" "$2"
     cd "$2"
-    git review -d "$2" && git checkout -b "$2"
+    git review -d "$2"
+    git checkout -b "$2"
 }
 
 git-clone-review() {
