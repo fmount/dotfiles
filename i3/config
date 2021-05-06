@@ -25,8 +25,8 @@ set $ws8 ^
 set $ws9 \o/
 set $ws0 
 
-set $fp pango: Share Tech Mono 11
-set $dmenu_font "Share Tech Mono:11"
+set $fp pango: Spleen 11
+set $dmenu_font "Spleen:11"
 font $fp
 
 # Use Mouse+$mod to drag floating windows to their wanted position
