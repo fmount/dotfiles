@@ -22,3 +22,14 @@ export LANG=en_US.UTF-8
 export TERM=xterm-256color
 #export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
 export PASSWORD_STORE_DIR=$HOME/.password-store_black
+
+if [ -d "$HOME/.bookmarks" ]; then
+    autoload -U bashcompinit
+    bashcompinit
+    export CDPATH=".:$HOME/.bookmarks:/"
+    alias goto="cd -P"
+    _goto() {
+        local IFS=$'\n'
+        COMPREPLY=($(compgen -W "$(/bin/ls ~/.bookmarks)" -- ${COMP_WORDS[COMP_CWORD]}))
+    } && complete -F _goto goto
+fi
