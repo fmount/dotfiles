@@ -1,6 +1,8 @@
 set nocompatible               " be iMproved
 filetype off                   " required!
 
+set path+=**
+
 " Vim-plug auto download
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
 silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
@@ -20,32 +22,54 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-
 Plug 'qpkorr/vim-bufkill'
-Plug 'fatih/vim-go'
 Plug 'itchyny/lightline.vim'
-Plug 'neomake/neomake'
-Plug 'pearofducks/ansible-vim'
-Plug 'lepture/vim-jinja'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-obsession'
-Plug 'skywind3000/asyncrun.vim'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 
 "Write better
-Plug 'danielbmarques/vim-ditto'
-Plug 'junegunn/goyo.vim'
 Plug 'mbbill/undotree'
 
 "For Fun
-Plug 'dansomething/vim-hackernews'
 Plug 'fmount/vim-notes'
+
+" Collection of common configurations for the Nvim LSP client
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
+Plug 'simrat39/symbols-outline.nvim'
+
+" Completion framework
+Plug 'hrsh7th/nvim-cmp'
+
+" LSP completion source for nvim-cmp
+Plug 'hrsh7th/cmp-nvim-lsp'
+
+" Snippet completion source for nvim-cmp
+Plug 'hrsh7th/cmp-vsnip'
+
+" Other usefull completion sources
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+
+" To enable more of the features of rust-analyzer, such as inlay hints and more!
+Plug 'simrat39/rust-tools.nvim'
+
+" Snippet engine
+Plug 'hrsh7th/vim-vsnip'
+
+" Fuzzy finder
+Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'nvim-telescope/telescope-media-files.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
@@ -54,7 +78,7 @@ syntax on
 set wrap
 set number
 colorscheme jellybeans
-set shortmess+=IA
+set colorcolumn=80
 set selectmode=mouse
 set ignorecase
 set smartcase
@@ -83,14 +107,12 @@ set clipboard=unnamed
 
 " ** Setting Leader Key** "
 let mapleader=","
-"let mapleader=" "
 
 " *** Folding settings *** "
 set foldmethod=indent   "fold based on indent
 set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
-
 
 " Windows navigation "
 nmap <C-Down> :wincmd j<CR>
@@ -127,7 +149,7 @@ inoremap jj <Esc>
 "#cnoremap jj <Esc>
 "map jj <Esc>
 
-" *** Buffer2Tab Config and navigation *** "
+" *** Buffer navigation *** "
 set hidden
 nnoremap <C-N> :bnext!<CR>
 nnoremap <C-P> :bprevious!<CR>
@@ -158,43 +180,6 @@ map H ^
 map L $
 
 
-
-"Neomake conf
-
-autocmd! BufEnter,BufWritePost * Neomake
-
-let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_python_flake8_maker = { 'args': ['--ignore=E701,W191,E303,E302,E711, \
-            \ W191,F401,E128,E501,E502,E115,E265,W293'], }
-
-
-" YouCompleteMe conf
-let g:ycm_always_populate_location_list = 0
-
-"CtRLp
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-
-"Make Ctrl-P cache stuff in our temp directory.
-let g:ctrlp_cache_dir = expand("<sfile>:h").'/cache'
-" Remember things.
-let g:ctrlp_clear_cache_on_ext = 0
- "Enable some cool extensions.
-let g:ctrlp_extensions = [
-         \'tag', 'buffertag', 'quickfix', 'mixed', 'bookmarkdir',
-         \'autoignore' ]
-
-
-" Ctrl-P mappings.
-nnoremap <silent> <C-p> :CtrlPMixed<cr>
-nnoremap <silent> <C-o> :CtrlPBuffer<cr>
-nnoremap <silent> <C-u> :CtrlPTag<cr>
-nnoremap <silent> <C-y> :CtrlPQuickfix<cr>
-"nnoremap <silent> <Tab> :CtrlPMRUFiles<cr>
-"nnoremap <silent> <F8> :CtrlPBookmarkDir<cr>
-
-
 let g:gutentags_ctags_exclude = ['venv', 'build', 'static', 'node_modules']
 let g:gutentags_cache_dir = expand("<sfile>:h").'/tags'
 let g:gutentags_options_file = expand("<sfile>:h").'/ctagsrc'
@@ -213,13 +198,11 @@ let g:lightline = {
        \   'readonly': '%{&filetype=="help"?"":&readonly?"x":""}',
        \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
        \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
-       \   'async'   : '%{g:asyncrun_status=="running"?"ASYNC":""}'
        \ },
        \ 'component_visible_condition': {
        \   'readonly': '(&filetype!="help"&& &readonly)',
        \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
        \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
-       \   'async'   : '(g:asyncrun_status=="running")'
        \ },
 \ }
 
@@ -244,17 +227,6 @@ if has("persistent_undo")
     set undodir=~/.undodir/
     set undofile
 endif
-
-
-" *** Mark plugin configuration ***
-let g:mwDefaultHighlightingPalette = 'extended'
-nmap <C-A-F12>a <Plug>MarkSearchCurrentPrev
-nmap <C-A-F12>b <Plug>MarkSearchAnyNext
-nmap <C-A-F12>c <Plug>MarkRegex
-nmap <C-A-F12>d <Plug>MarkClear
-nmap <C-A-F12>e <Plug>MarkSearchCurrentNext
-nmap <C-A-F12>f <Plug>MarkSearchAnyPrev
-
 
 " *** FILE TYPES SETTINGS ***
 
@@ -287,22 +259,16 @@ autocmd FileType vim setlocal expandtab
 " *** Set cursor color ***
 highlight Cursor guifg=white guibg=#BC6A00
 
-" *** Load templates according to filetype *** "
-autocmd BufNewFile *.py 0r /usr/share/vim/vimfiles/python.spec
-autocmd BufNewFile *.sh 0r /usr/share/vim/vimfiles/bash.spec
-"
-
 "[GVIM]Try to write something about gui
-set guifont=Share\ Tech\ Mono\ 12
+"set guifont=Share\ Tech\ Mono\ 14
+"set guifont=Spleen\ 16x32\ 14
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
 set guioptions-=r  "scrollbar"
 
 set clipboard=unnamed
 
-
 " VIM-NOTES overrides "
-"
 let g:default_keymap = 0
 nmap <Leader>ni (note-new-cbox-inline)
 nmap <Leader>ni (note-new-cbox-inline)
@@ -314,3 +280,19 @@ imap <Leader>nO (note-new-cbox-above)
 nmap <Leader>nx :call notes#toggle_checkbox(line('.'))<cr>
 " Fast Export function
 nmap <leader>ne :call notes#export() <cr>
+
+
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing extra messages when using completion
+set shortmess+=c
+
+" treesitter
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+
+lua require('fmount.lsp')
