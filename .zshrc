@@ -117,10 +117,8 @@ function zle-line-init zle-keymap-select {
     zle reset-prompt
 }
 
-
 zle -N zle-line-init
 zle -N zle-keymap-select
-
 
 # *** Yank in the clipboard ***
 x-yank() {
@@ -149,6 +147,3 @@ setopt pushdignoredups
 setopt pushdminus
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/vault vault
-
-eval $(thefuck --alias)
