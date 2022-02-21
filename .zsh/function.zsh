@@ -16,14 +16,14 @@ _set_tmux_prefix() {
     fi
 }
 
-_settitle() {
-    printf "\033k$1\033\\"
-}
-
 ssh() {
-    _settitle "${@: -1}"
+  if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm= | cut -d : -f1)" = "tmux" ]; then
+    tmux rename-window "$(echo -- $* | awk '{print $NF}')"
     command ssh "$@"
-    _settitle "zsh"
+    tmux set-window-option automatic-rename "on" 1>/dev/null
+  else
+    command ssh "$@"
+  fi
 }
 
 # Old LaTeX Building
@@ -83,4 +83,19 @@ git-clone-review() {
 
 }
 
-
+n(){
+    local running_servers=$(nvr --serverlist)
+    local n_server_name=/tmp/nvr_nvim-qt
+    # if [ nvr -s --nostart --servername /tmp/nvr_nvim-qt  --remote-expr "'OK'" ]; then
+    if [[ -z "$running_servers" || -z $1 || $running_servers != *"$n_server_name"* ]]; then
+        NVIM_LISTEN_ADDRESS=$n_server_name nvim-qt $@
+    elif [[ $running_servers == *"$n_server_name"* ]]; then
+        local running_client=$(ps -fC nvim-qt | awk 'NR>1{print $8}')
+        if [[ $running_client == *"nvim-qt"* ]]; then
+            nvr --servername $n_server_name --remote-tab $@
+        else
+            \rm $n_server_name
+            NVIM_LISTEN_ADDRESS=$n_server_name nvim-qt $@
+        fi
+    fi
+}

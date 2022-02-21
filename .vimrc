@@ -19,15 +19,14 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-fugitive'
-Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
+Plug 'tpope/vim-fugitive'
 
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'qpkorr/vim-bufkill'
-Plug 'fatih/vim-go'
+Plug 'majutsushi/tagbar'
 Plug 'itchyny/lightline.vim'
 Plug 'neomake/neomake'
 Plug 'pearofducks/ansible-vim'
@@ -35,7 +34,6 @@ Plug 'lepture/vim-jinja'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tpope/vim-obsession'
 Plug 'skywind3000/asyncrun.vim'
-"Plug 'Valloric/YoucompleteMe'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 
@@ -269,7 +267,6 @@ nmap <C-A-F12>f <Plug>MarkSearchAnyPrev
 autocmd FileType markdown setlocal expandtab
 let g:markdown_fenced_languages = ['c', 'bash=sh']
 let g:markdown_syntax_conceal = 0
-au FileType markdown,text,tex DittoOn  " Turn on Ditto's autocmds
 
 " *** PYTHON *** "
 autocmd FileType python set et ts=4 | %retab!
