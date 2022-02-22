@@ -31,8 +31,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-obsession'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
+Plug 'ctrlpvim/ctrlp.vim'
 
-"Write better
 Plug 'mbbill/undotree'
 
 "For Fun
@@ -113,6 +113,16 @@ set foldmethod=indent   "fold based on indent
 set foldnestmax=10      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
+
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing extra messages when using completion
+set shortmess+=c
 
 " Windows navigation "
 nmap <C-Down> :wincmd j<CR>
@@ -228,33 +238,9 @@ if has("persistent_undo")
     set undofile
 endif
 
-" *** FILE TYPES SETTINGS ***
-
 " *** MARKDOWN ***
-autocmd FileType markdown setlocal expandtab
 let g:markdown_fenced_languages = ['c', 'bash=sh']
 let g:markdown_syntax_conceal = 0
-au FileType markdown,text,tex DittoOn  " Turn on Ditto's autocmds
-
-" *** PYTHON *** "
-autocmd FileType python set et ts=4 | %retab!
-" autocmd FileType python setlocal completeopt-=preview
-" autocmd FileType cpp set omnifunc=ccomplete#Complete
-
-" *** GO *** "
-"augroup GO
-"  autocmd FileType go set foldmethod=syntax
-"  autocmd BufEnter *.go :normal za<CR>
-"augroup END
-
-" *** YAML *** "
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd BufEnter * silent! lcd %:p:h
-
-" *** VIM FILES ***
-autocmd FileType vim setlocal fileformat=unix
-autocmd FileType vim setlocal expandtab
 
 " *** Set cursor color ***
 highlight Cursor guifg=white guibg=#BC6A00
@@ -282,17 +268,24 @@ nmap <Leader>nx :call notes#toggle_checkbox(line('.'))<cr>
 nmap <leader>ne :call notes#export() <cr>
 
 
-" Set completeopt to have a better completion experience
-" :help completeopt
-" menuone: popup even when there's only one match
-" noinsert: Do not insert text until a selection is made
-" noselect: Do not select, force user to select one from the menu
-set completeopt=menuone,noinsert,noselect
-
-" Avoid showing extra messages when using completion
-set shortmess+=c
-
 " treesitter
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 
 lua require('fmount.lsp')
+
+" *** GO *** "
+"augroup GO
+"  autocmd FileType go set foldmethod=syntax
+"  autocmd BufEnter *.go :normal za<CR>
+"augroup END
+augroup FMOUNT
+  autocmd FileType markdown setlocal expandtab
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType yml setlocal ts=2 sts=2 sw=2 expandtab
+  autocmd FileType python set et ts=4 | %retab!
+  autocmd BufEnter * silent! lcd %:p:h
+  autocmd FileType vim setlocal fileformat=unix
+  autocmd FileType vim setlocal expandtab
+  autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
+augroup END
+
