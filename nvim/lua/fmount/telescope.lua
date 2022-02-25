@@ -6,7 +6,18 @@ require('telescope').setup({
     },
     -- other defaults configuration here
   },
+  extensions = {
+    project = {
+      base_dirs = {
+        { path ='/home/fmount/projects'},
+        { path = '/home/fmount/devnull'},
+        {'/home/fmount/private', max_depth = 4},
+      },
+      hidden_files = true -- default: false
+    }
+  },
 })
+
 local M = {}
 local function set_background(content)
     vim.fn.system(
