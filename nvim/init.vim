@@ -70,6 +70,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-telescope/telescope-project.nvim'
 
 call plug#end()
 
@@ -270,8 +271,8 @@ nmap <leader>ne :call notes#export() <cr>
 
 " treesitter
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
-
 lua require('fmount.lsp')
+lua require('fmount.telescope')
 
 " *** GO *** "
 "augroup GO
@@ -288,4 +289,3 @@ augroup FMOUNT
   autocmd FileType vim setlocal expandtab
   autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
 augroup END
-
