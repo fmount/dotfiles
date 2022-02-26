@@ -287,5 +287,5 @@ augroup FMOUNT
   autocmd BufEnter * silent! lcd %:p:h
   autocmd FileType vim setlocal fileformat=unix
   autocmd FileType vim setlocal expandtab
-  autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require'lsp_extensions'.inlay_hints{}
+  autocmd BufEnter,BufWinEnter,TabEnter *.rs :compiler cargo
 augroup END
