@@ -1,3 +1,5 @@
 .vim/*
 .zsh/secrets.zsh
 .zsh/redhat.zsh
+nvim/autoload
+nvim/plugged
