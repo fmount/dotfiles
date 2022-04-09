@@ -13,7 +13,7 @@ require('telescope').setup({
         { path = '/home/fmount/devnull'},
         {'/home/fmount/private', max_depth = 4},
       },
-      hidden_files = true -- default: false
+      hidden_files = false
     }
   },
 })

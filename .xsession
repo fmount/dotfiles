@@ -17,6 +17,8 @@ xmodmap -e "remove mod1 = Super_L"  # make sure X keeps it out of the mod1 group
 echo UPDATESTARTUPTTY | gpg-connect-agent
 export SSH_AUTH_SOCK=/run/user/$UID/gnupg/S.gpg-agent.ssh
 
+export NOTES=$HOME/.notes
+
 # Statusbar loop
 #while true; do
 #   xsetroot -name "$(tput setaf 31; slstatus)"

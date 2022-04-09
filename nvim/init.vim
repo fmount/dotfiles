@@ -22,7 +22,6 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
-Plug 'majutsushi/tagbar'
 Plug 'ap/vim-buftabline'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -32,6 +31,8 @@ Plug 'tpope/vim-obsession'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'liuchengxu/vista.vim'
+Plug 'junegunn/gv.vim'
 
 Plug 'mbbill/undotree'
 
@@ -71,6 +72,7 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-telescope/telescope-project.nvim'
+Plug 'ThePrimeagen/harpoon'
 
 call plug#end()
 
@@ -170,7 +172,7 @@ let g:buftabline_separators=1
 
 
 " *** Some mappings *** "
-nmap <F2> :TagbarToggle<CR>
+nmap <F2> :Vista!!<CR>
 nmap <F3> :NERDTreeToggle<CR>
 nnoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 3 * &spell, 3)<CR>
 inoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 3 * &spell, 3)<CR>i
@@ -215,6 +217,9 @@ let g:lightline = {
        \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
        \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
        \ },
+      \ 'component_function': {
+      \   'method': 'NearestMethodOrFunction'
+      \ },
 \ }
 
 
@@ -273,6 +278,7 @@ nmap <leader>ne :call notes#export() <cr>
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 lua require('fmount.lsp')
 lua require('fmount.telescope')
+lua require("harpoon").setup()
 
 " *** GO *** "
 "augroup GO
