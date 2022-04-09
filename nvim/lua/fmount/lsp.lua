@@ -29,7 +29,6 @@ local opts = {
 }
 
 require('rust-tools').setup(opts)
-
 local cmp = require'cmp'
 cmp.setup({
   -- Enable LSP snippets
@@ -65,3 +64,4 @@ cmp.setup({
 
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.pylsp.setup{}
+require'lspconfig'.gopls.setup{ cmd = { "/home/fmount/golang-book/bin/gopls" } }
