@@ -65,3 +65,15 @@ cmp.setup({
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.pylsp.setup{}
 require'lspconfig'.gopls.setup{ cmd = { "/home/fmount/golang-book/bin/gopls" } }
+
+require'lspconfig'.ccls.setup {
+  init_options = {
+    compilationDatabaseDirectory = "build";
+    index = {
+      threads = 0;
+    };
+    clang = {
+      excludeArgs = { "-frounding-math"} ;
+    };
+  }
+}
