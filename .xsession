@@ -18,6 +18,13 @@ echo UPDATESTARTUPTTY | gpg-connect-agent
 export SSH_AUTH_SOCK=/run/user/$UID/gnupg/S.gpg-agent.ssh
 
 export NOTES=$HOME/.notes
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+export XDG_RUNTIME_DIR=/run/user/$UID
+export XDG_DATA_DIRS=/usr/local/share:/usr/share
+export XDG_CONFIG_DIRS=/etc/xdg
+export NVIM_QT_RUNTIME_PATH=/usr/share/nvim/runtime/
 
 # Statusbar loop
 #while true; do
