@@ -1,5 +1,7 @@
 GuiFont! Share\ Tech\ Mono:h12
+call GuiClipboard()
 
+set mouse=a
 set title
 
 augroup dirchange
