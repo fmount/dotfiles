@@ -35,6 +35,7 @@ Plug 'liuchengxu/vista.vim'
 Plug 'junegunn/gv.vim'
 
 Plug 'mbbill/undotree'
+Plug 'equalsraf/neovim-gui-shim'
 
 "For Fun
 Plug 'fmount/vim-notes'
@@ -75,6 +76,9 @@ Plug 'nvim-telescope/telescope-project.nvim'
 Plug 'ThePrimeagen/harpoon'
 
 call plug#end()
+
+
+lua require('lspconfig')
 
 filetype plugin indent on    " required!
 syntax on
@@ -262,6 +266,7 @@ set clipboard=unnamed
 
 " VIM-NOTES overrides "
 let g:default_keymap = 0
+let g:notes_template_path = "$HOME/.config/nvim/plugged/vim-notes/templates/template.M"
 nmap <Leader>ni (note-new-cbox-inline)
 nmap <Leader>ni (note-new-cbox-inline)
 imap <Leader>ni (note-new-cbox-inline)
