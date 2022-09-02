@@ -285,11 +285,14 @@ lua require('fmount.lsp')
 lua require('fmount.telescope')
 lua require("harpoon").setup()
 
-" *** GO *** "
-"augroup GO
-"  autocmd FileType go set foldmethod=syntax
-"  autocmd BufEnter *.go :normal za<CR>
-"augroup END
+" *** GO indentation *** "
+augroup GO
+  autocmd FileType go set noexpandtab
+  autocmd FileType go set shiftwidth=4
+  autocmd FileType go set softtabstop=4
+  autocmd FileType go set tabstop=4
+augroup END
+
 augroup FMOUNT
   autocmd FileType markdown setlocal expandtab
   autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
