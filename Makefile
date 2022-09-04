@@ -18,13 +18,19 @@ endef
 
 
 .PHONY: all
-all: check pkgs fonts dotfiles gpg ssh
-
+all: check refresh_keys pkgs fonts dotfiles gpg ssh
 
 .PHONY: check
 check:  ## Check if the package manager is available
 	@which $(PKG_MGR) > /dev/null
 	@echo "[C----o-] I can eat packages";
+
+.PHONY: check refresh_keys
+refresh_keys:  ## Refresh Archlinux pacman gpg keys
+	@which $(PKG_MGR) > /dev/null
+	pacman -Sy archlinux-keyring
+	pacman-key --refresh-keys
+	@echo "[Arch] - Keys refreshed!"
 
 
 .PHONY: pkgs
