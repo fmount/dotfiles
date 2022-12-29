@@ -48,7 +48,6 @@ alias k='kubectl'
 alias newpsw='tr -cd "[:graph:][:alpha:]" < /dev/urandom | head -c 43'
 alias sysu="systemctl --user"
 #alias head="sed 11q"
-eval $(thefuck --alias)
 
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
