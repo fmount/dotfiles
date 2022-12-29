@@ -22,8 +22,8 @@ setopt extended_history
 setopt PROMPT_SUBST
 #setopt inc_append_history
 HISTFILE=~/.histfile
-HISTSIZE=50000
-SAVEHIST=50000
+HISTSIZE=50000000
+SAVEHIST=50000000
 HISTTIMEFORMAT='%F %T  '
 unsetopt beep
 
@@ -31,12 +31,10 @@ unsetopt beep
 source ~/.zsh/export.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/docker.zsh
-#source ~/.zsh/arch-git-prompt.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/function.zsh
 source ~/.zsh/termsupport.zsh
-source ~/.zsh/redhat.zsh
-source /usr/bin/virtualenvwrapper.sh
+#source ~/.zsh/redhat.zsh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
