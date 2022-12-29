@@ -83,6 +83,7 @@ endif
 
 .PHONY: fonts
 fonts: ## Copy fonts on /usr/share/fonts
+	mkdir -p $(HOME)/.fontconfig
 	$(ROOT) cp $(CURDIR)/files/*.ttf /usr/share/fonts/TTF
 	$(ROOT) fc-cache -fv
 
