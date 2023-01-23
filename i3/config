@@ -189,26 +189,26 @@ bindsym F7 mode "$mode_display"
 # resize window (you can also use the mouse for that)
 mode "resize" {
 
-	bindsym $left       resize shrink width 10 px or 10 ppt
-	bindsym $down       resize grow height 10 px or 10 ppt
-	bindsym $up         resize shrink height 10 px or 10 ppt
-	bindsym $right      resize grow width 10 px or 10 ppt
+    bindsym $left       resize shrink width 10 px or 10 ppt
+    bindsym $down       resize grow height 10 px or 10 ppt
+    bindsym $up         resize shrink height 10 px or 10 ppt
+    bindsym $right      resize grow width 10 px or 10 ppt
 
 # Speedup resize
-	bindsym Shift+$left       resize shrink width 70 px or 70 ppt
-	bindsym Shift+$down       resize grow height 70 px or 70 ppt
-	bindsym Shift+$up         resize shrink height 70 px or 70 ppt
-	bindsym Shift+$right      resize grow width 70 px or 70 ppt
+    bindsym Shift+$left       resize shrink width 70 px or 70 ppt
+    bindsym Shift+$down       resize grow height 70 px or 70 ppt
+    bindsym Shift+$up         resize shrink height 70 px or 70 ppt
+    bindsym Shift+$right      resize grow width 70 px or 70 ppt
 
 # same bindings, but for the arrow keys
-	bindsym Left        resize shrink width 10 px or 10 ppt
-	bindsym Down        resize grow height 10 px or 10 ppt
-	bindsym Up          resize shrink height 10 px or 10 ppt
-	bindsym Right       resize grow width 10 px or 10 ppt
+    bindsym Left        resize shrink width 10 px or 10 ppt
+    bindsym Down        resize grow height 10 px or 10 ppt
+    bindsym Up          resize shrink height 10 px or 10 ppt
+    bindsym Right       resize grow width 10 px or 10 ppt
 
 # back to normal: Enter or Escape
-	bindsym Return mode "default"
-	bindsym Escape mode "default"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
 
@@ -220,8 +220,8 @@ bindsym $mod+g exec i3-input -F '[con_mark=%s] focus' -P 'Go to mark: ' -f $fp
 # Assigning applications
 #for_window [class="Spotify"] move to workspace $ws5
 for_window [class="(?i)keybase"] move to scratchpad
-#assign [class="Firefox"] $ws1
-#assign [class="Thunderbird"] $ws2
+assign [class="Firefox"] $ws1
+assign [class="Thunderbird"] $ws2
 assign [class="(?i)qutebrowser"] $ws1
 
 # Disable focus following mouse movement
@@ -233,9 +233,9 @@ workspace_layout tabbed
 bar {
     status_command i3blocks -c ~/.config/i3/i3blocks.conf
     #status_command i3status
-	position top
-	workspace_buttons yes
-	mode dock
+    position top
+    workspace_buttons yes
+    mode dock
     #output               HDMI2
     #output               VGA1
     #mode                 hide
@@ -243,11 +243,12 @@ bar {
     tray_output          eDP1
     binding_mode_indicator yes
 
-	colors{
-		separator #1f70aa
-		urgent_workspace   #ffffff #900000
-	}
+    colors{
+        separator #1f70aa
+        urgent_workspace   #ffffff #900000
+    }
 }
+
 exec --no-startup-id ~/.fehbg &
 exec --no-startup-id xcompmgr &
 exec --no-startup-id setxkbmap -option compose:ralt &
@@ -258,5 +259,5 @@ exec --no-startup-id xdg-user-dir ~/.config/user-dirs.dirs &
 exec --no-startup-id redshift -c ~/.config/redshift.conf &
 exec xss-lock --ignore-sleep -- /bin/bash -c '(killall dunst; killall -9 gpg-agent; gpg-connect-agent /bye)& i3lock -n -c 000000'&
 exec --no-startup-id ~/dotfiles/scripts/i3scripts/i3floating.sh &
-exec --no-startup-id dockd --daemon &
-#exec --no-startup-id xiccd -d :0 &
+# exec --no-startup-id dockd --daemon &
+# exec --no-startup-id xiccd -d :0 &
