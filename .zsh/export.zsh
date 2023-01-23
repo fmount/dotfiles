@@ -14,7 +14,7 @@ export VISUAL="nvim"
 export EDITOR="nvim"
 export NVIM_LISTEN_ADDRESS=/tmp/nvr_nvim-qt
 export GOPATH=$HOME/golang-book
-export PATH="$PATH:$HOME/.gem/ruby/2.3.0/bin":$GOPATH/bin:$HOME/.cargo/bin
+export PATH="$PATH:$HOME/.gem/ruby/2.3.0/bin":$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin
 export GPG_TTY=$(tty)
 export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -24,6 +24,7 @@ export TERM=xterm-256color
 export PASSWORD_STORE_DIR=$HOME/.password-store_black
 export DOTFILES=$HOME/dotfiles
 export NOTES=$HOME/.notes
+export WEECHAT_HOME=$HOME/.weechat
 
 if [ -d "$HOME/.bookmarks" ]; then
     autoload -U bashcompinit
