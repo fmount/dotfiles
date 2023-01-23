@@ -79,4 +79,4 @@ function single_monitor_clone() {
     esac
 }
 
-single_monitor_clone
+single_monitor_clone "$@"
