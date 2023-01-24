@@ -47,8 +47,8 @@ function screenconnect() {
 
 
 function single_monitor_clone() {
-    TARGET=$("$CMD" | awk '/\Wconnected/ {print $1}' | grep -v "$PRIMARY")
     PRIMARY=${PRIMARY:-"eDP1"}
+    TARGET=$("$CMD" | awk '/\Wconnected/ {print $1}' | grep -v "$PRIMARY")
     case "$1" in
         "dock")
             ${CMD} --output "${PRIMARY}" --"${MODE[1]}" --output "${TARGET}" --"${MODE[0]}" \
