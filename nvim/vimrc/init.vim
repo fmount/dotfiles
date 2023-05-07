@@ -22,6 +22,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'ap/vim-buftabline'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -79,6 +80,10 @@ call plug#end()
 
 
 lua require('lspconfig')
+
+" cursor flickering issue
+hi EndOfBuffer ctermbg=NONE ctermfg=200 cterm=NONE
+hi Normal ctermbg=NONE ctermfg=200 cterm=NONE
 
 filetype plugin indent on    " required!
 syntax on
@@ -183,6 +188,9 @@ inoremap <F4> <Esc>:set spell!<CR><Bar>:echo "Spell Check: " . strpart("OffOn", 
 nnoremap <F5> <Esc>:redraw!<CR>
 inoremap <F5> <Esc>:redraw!<CR>
 nmap <F6> :UndotreeToggle<CR>
+" *** don't mess w/ nerdtree window! ***
+autocmd FileType nerdtree noremap <buffer> <C-N> <nop>
+autocmd FileType nerdtree noremap <buffer> <C-P> <nop>
 
 " *** Windows Resizing ***
 nnoremap < :vertical resize +5<CR>
@@ -257,7 +265,7 @@ highlight Cursor guifg=white guibg=#BC6A00
 
 "[GVIM]Try to write something about gui
 "set guifont=Share\ Tech\ Mono\ 14
-"set guifont=Spleen\ 16x32\ 14
+"set guifont=Spleen
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
 set guioptions-=r  "scrollbar"
@@ -283,6 +291,7 @@ nmap <leader>ne :call notes#export() <cr>
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
 lua require('fmount.lsp')
 lua require('fmount.telescope')
+lua require('fmount.diagnostics')
 lua require("harpoon").setup()
 
 " *** GO indentation *** "
@@ -303,3 +312,18 @@ augroup FMOUNT
   autocmd FileType vim setlocal expandtab
   autocmd BufEnter,BufWinEnter,TabEnter *.rs :compiler cargo
 augroup END
+
+let s:fontsize = 12
+function! AdjustFontSize(amount)
+  let s:fontsize = s:fontsize+a:amount
+  :execute "GuiFont! Share\ Tech\ Mono:h" . s:fontsize
+endfunction
+
+" Font resize
+noremap <C-ScrollWheelUp> :call AdjustFontSize(1)<CR>
+noremap <C-ScrollWheelDown> :call AdjustFontSize(-1)<CR>
+inoremap <C-ScrollWheelUp> <Esc>:call AdjustFontSize(1)<CR>a
+inoremap <C-ScrollWheelDown> <Esc>:call AdjustFontSize(-1)<CR>a
+
+"Child mode
+set mouse=
