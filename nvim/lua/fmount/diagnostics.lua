@@ -1,5 +1,5 @@
 vim.diagnostic.config({
-  virtual_text = false, -- Turn off inline diagnostics
+  virtual_text = true, -- Turn off inline diagnostics
 })
 
 -- Use this if you want it to automatically show all diagnostics on the
