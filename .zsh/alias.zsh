@@ -51,8 +51,8 @@ alias sysu="systemctl --user"
 
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
-  alias gvim= 'nvim-qt --no-ext-tabline'
-  alias nvim-qt='nvim-qt --no-ext-tabline'
+  alias gvim= 'nvim-qt'
+  alias vimdiff= 'nvim -d'
 fi
 
 # *** SUDO ***
@@ -62,6 +62,8 @@ if [ $UID -eq 0 ]; then
     alias netctl='netctl '
     alias pc='pacman '
     alias docker='docker '
+    alias vim='nvim '
+    alias vimdiff= 'nvim -d'
 else
     alias mount='sudo mount | column -t'
     alias umount='sudo umount '

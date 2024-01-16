@@ -99,3 +99,26 @@ n(){
         fi
     fi
 }
+
+nsstat() {
+    awk '
+    function hextodec(str,ret,n,i,k,c){
+        ret = 0
+        n = length(str)
+        for (i = 1; i <= n; i++) {
+            c = tolower(substr(str, i, 1))
+            k = index("123456789abcdef", c)
+            ret = ret * 16 + k
+        }
+        return ret
+    }
+    function getIP(str,ret){
+        ret=hextodec(substr(str,index(str,":")-2,2));
+        for (i=5; i>0; i-=2) {
+            ret = ret"."hextodec(substr(str,i,2))
+        }
+        ret = ret":"hextodec(substr(str,index(str,":")+1,4))
+        return ret
+    }
+    $4 == "0A" { print getIP($2) }' /proc/net/tcp /proc/net/tcp6
+}
