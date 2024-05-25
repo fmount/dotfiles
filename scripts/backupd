@@ -1,37 +1,41 @@
 #!/usr/bin/bash
 
-echo "Backup duplicity job"
-# s3 params
-export AWS_ACCESS_KEY_ID=''
-export AWS_SECRET_ACCESS_KEY=''
-
-# gpg pub key
-export GPG_KEY='1FCA0620'
-export GPG_SIGN_KEY='C66B3D3F'
-
-RSYNC=$(command -v rsync)
-#RPI_HOST=""
-#RPI_USER=""
-TARGET="$HOME/backup"
+SRC=$HOME/apps
+TARGET=rpi4
+MEGA=mega://fmount@mega.nz
+LOG="$HOME/.duplicity/notice.log"
+IGNORE="$HOME/.duplicity/ignore"
+CLEAN=0
 
 
-function dupl() {
-    source=""  # what I want to backup
-    bucket="" # destination (target), where I want to put my enc files
-
-    user=""
-    psw=""
-
-    duplicity --verbosity notice --encrypt-key "$GPG_KEY" --sign-key "$GPG_SIGN_KEY" \
-        --full-if-older-than 7D --asynchronous-upload --volsize=100 --log-file \
-        "$HOME/.duplicity/notice.log" $source mega://$user:$psw@mega.nz/$bucket
-
+function init() {
+    [ ! -d "$HOME/.duplicity" ] && mkdir -p "$HOME/.duplicity"
+    for i in notice.log ignore; do
+        if [ ! -f "$HOME/.duplicity/$i" ]; then
+                echo "NOT FOUND"
+                touch "$HOME/.duplicity/$i"
+        fi
+    done
+    [ -z "$HOME/.duplicity" ] && mkdir -p "$HOME/.duplicity"
+}
+function backup() {
+    #duplicity backup --verbosity notice --full-if-older-than 1M --log-file "${LOG}" --exclude-filelist "${IGNORE}" "${SRC}" ${MEGA}/${TARGET}
+    duplicity --verbosity notice full --progress --log-file "${LOG}" --exclude-filelist "${IGNORE}" "${SRC}" ${MEGA}/${TARGET}
 }
 
-function rPi() {
-
-    sudo "$RSYNC" "$RPI_USER"@"$RPI_HOST":/ -avzP --numeric-ids \
-        --exclude={"/dev/*","/boot/*","/proc/*","/sys/*","/tmp/*", \
-        "/run/*","/mnt/*","/media/*","/lost+found","swapfile","/var/*"} \
-        "$TARGET"
+function restore() {
+    echo "Restoring backup"
+    duplicity restore "${SRC}" ${MEGA}/${TARGET}
 }
+
+function cleanup() {
+    local days=${days:-7D}
+    duplicity remove-older-than "$days ${MEGA}/${TARGET}"
+}
+
+init
+backup
+[ "${CLEAN}" -eq 1 ] && cleanup
+
+# CHECK
+# duplicity collection-status --progress mega://fmount@mega.nz/rpi4
