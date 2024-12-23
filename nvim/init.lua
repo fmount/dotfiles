@@ -7,3 +7,4 @@ vim.cmd('source ~/.config/nvim/vimrc/init.vim')
 vim.opt.background = 'dark'
 vim.cmd('colorscheme jellybeans')
 vim.cmd('syntax enable')
+vim.o.colorcolumn = '80'
