@@ -40,6 +40,7 @@ Plug 'equalsraf/neovim-gui-shim'
 
 "For Fun
 Plug 'fmount/vim-notes'
+Plug 'junegunn/goyo.vim'
 
 " Collection of common configurations for the Nvim LSP client
 Plug 'neovim/nvim-lspconfig'
@@ -74,10 +75,8 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-telescope/telescope-media-files.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-telescope/telescope-project.nvim'
-Plug 'ThePrimeagen/harpoon'
 
 call plug#end()
-
 
 lua require('lspconfig')
 
@@ -164,6 +163,7 @@ inoremap <Down> <nop>
 inoremap <Left> <nop>
 inoremap <Right> <nop>
 noremap <F1> <Nop>
+noremap <C-F1> <Nop>
 
 " *** ESC like a boss ***
 "#noremap jj <Esc>
@@ -264,7 +264,7 @@ let g:markdown_syntax_conceal = 0
 highlight Cursor guifg=white guibg=#BC6A00
 
 "[GVIM]Try to write something about gui
-"set guifont=Share\ Tech\ Mono\ 14
+"set guifont=Share\ Tech\ Mono:h14
 "set guifont=Spleen
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar"
@@ -292,7 +292,7 @@ lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incr
 lua require('fmount.lsp')
 lua require('fmount.telescope')
 lua require('fmount.diagnostics')
-lua require("harpoon").setup()
+lua require("fmount.term")
 
 " *** GO indentation *** "
 augroup GO
@@ -316,7 +316,8 @@ augroup END
 let s:fontsize = 12
 function! AdjustFontSize(amount)
   let s:fontsize = s:fontsize+a:amount
-  :execute "GuiFont! Share\ Tech\ Mono:h" . s:fontsize
+   :execute "GuiFont! Share\ Tech\ Mono:h" . s:fontsize
+   ":execute "GuiFont! Spleen\ 32x64:h" . s:fontsize
 endfunction
 
 " Font resize
@@ -327,3 +328,4 @@ inoremap <C-ScrollWheelDown> <Esc>:call AdjustFontSize(-1)<CR>a
 
 "Child mode
 set mouse=
+
