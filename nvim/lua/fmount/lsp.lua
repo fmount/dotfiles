@@ -64,8 +64,7 @@ cmp.setup({
 
 require'lspconfig'.bashls.setup{}
 require'lspconfig'.pylsp.setup{}
-require'lspconfig'.gopls.setup{ cmd = { "/home/fmount/golang-book/bin/gopls" } }
-
+require'lspconfig'.gopls.setup{ cmd = { "/usr/bin/gopls" } }
 require'lspconfig'.ccls.setup {
   init_options = {
     compilationDatabaseDirectory = "build";
