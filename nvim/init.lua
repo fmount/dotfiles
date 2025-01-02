@@ -8,3 +8,4 @@ vim.opt.background = 'dark'
 vim.cmd('colorscheme jellybeans')
 vim.cmd('syntax enable')
 vim.o.colorcolumn = '80'
+vim.g.startify_custom_header = ''
