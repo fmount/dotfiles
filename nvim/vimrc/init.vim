@@ -27,7 +27,7 @@ Plug 'ap/vim-buftabline'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'qpkorr/vim-bufkill'
-Plug 'itchyny/lightline.vim'
+Plug 'nvim-lualine/lualine.nvim'
 Plug 'tpope/vim-obsession'
 Plug 'mhinz/vim-startify'
 Plug 'ryanoasis/vim-devicons'
@@ -114,7 +114,6 @@ set showcmd
 set backspace=2 "more powerful backspacing
 set diffopt+=iwhite
 set clipboard=unnamed
-"set timeoutlen=30  "Fix for the lightline lag on ESC !!
 
 " ** Setting Leader Key** "
 let mapleader=","
@@ -210,31 +209,6 @@ let g:gutentags_cache_dir = expand("<sfile>:h").'/tags'
 let g:gutentags_options_file = expand("<sfile>:h").'/ctagsrc'
 
 
-" *** Configurations for ligthline ***
-
-set laststatus=2
-let g:lightline = {
-       \ 'active': {
-       \   'left': [ [ 'mode', 'paste' ],
-       \             [ 'filename', 'readonly', 'modified' ],
-       \             [ 'fugitive', 'async' ] ]
-       \ },
-       \ 'component': {
-       \   'readonly': '%{&filetype=="help"?"":&readonly?"x":""}',
-       \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-       \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
-       \ },
-       \ 'component_visible_condition': {
-       \   'readonly': '(&filetype!="help"&& &readonly)',
-       \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-       \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
-       \ },
-      \ 'component_function': {
-      \   'method': 'NearestMethodOrFunction'
-      \ },
-\ }
-
-
 " *** nerdTree GIT Plugin *** "
 
 let g:NERDTreeGitStatusIndicatorMapCustom = {
@@ -289,6 +263,7 @@ nmap <leader>ne :call notes#export() <cr>
 
 " treesitter
 lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+lua require("fmount.start")
 lua require('fmount.lsp')
 lua require('fmount.telescope')
 lua require('fmount.diagnostics')
