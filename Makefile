@@ -118,16 +118,17 @@ test: shellcheck ## Runs all the tests on the files in the repository.
 	# so that the user can send e.g. ^C through.
 	INTERACTIVE := $(shell [ -t 0 ] && echo 1 || echo 0)
 	ifeq ($(INTERACTIVE), 1)
-		DOCKER_FLAGS += -t
+		CONTAINER_FLAGS += -t
 	endif
 
 .PHONY: shellcheck
+shellcheck: export CONTAINER_CLI="podman"
 shellcheck: ## Runs the shellcheck tests on the scripts.
-	$(ROOT) docker run --rm -i $(DOCKER_FLAGS) \
-		--name df-shellcheck \
+	$(CONTAINER_CLI) run --rm -i $(CONTAINER_FLAGS) \
+		--name shellcheck \
 		-v $(CURDIR):/usr/src:ro \
 		--workdir /usr/src \
-		r.j3ss.co/shellcheck ./test.sh
+		docker.io/jess/shellcheck ./test.sh
 
 .PHONY: systemd
 systemd: ## Update $(HOME) user systemd units

@@ -33,15 +33,15 @@ fi
 
 # Update
 ## Obtain dotfile folder
-FULL_PATH=$(ls -l ~/.vimrc|awk {'print $11'})
-JUST_PATH=${FULL_PATH%%/.vimrc}
+FULL_PATH=$(ls -l ~/.config/nvim/vimrc/init.vim|awk {'print $11'})
+JUST_PATH=${FULL_PATH%%/init.vim}
 
 echo "dotfile path: ${JUST_PATH}"
 cd "${JUST_PATH}" || exit 1
 git pull --rebase
 
 # Reload configuration vim
-vim +PlugUpgrade +PlugUpdate +qa
+nvim +PlugUpgrade +PlugUpdate +qa
 
 # If YouCompleteMe is present we need to recompile YcmServer
 if [ -d ~/.vim/plugged/YoucompleteMe ] ; then
