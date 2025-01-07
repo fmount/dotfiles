@@ -23,4 +23,3 @@ else
 	echo "These files failed shellcheck: ${ERRORS[*]}"
 	exit 1
 fi
-
