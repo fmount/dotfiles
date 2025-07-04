@@ -13,6 +13,7 @@
     st = status
     pr = "!f() { git fetch $1 refs/pull/$2/head:pr/$1/$2 && git checkout pr/$1/$2;  } ; f"
     obr = "!f() { git fetch $1 refs/heads/$2:obr/$1/$2 && git checkout obr/$1/$2;  } ; f"
+    recent-branches = "!git for-each-ref --sort=-committerdate refs/heads/ --format='%(committerdate:iso8601) %(refname:short)'"
 [color]
     ui = auto
 [push]
@@ -41,3 +42,4 @@
 
 [includeIf "gitdir:~/private/**"]
     path = ~/.config/gitconfig/gitconfig-fmount
+
