@@ -41,7 +41,7 @@ pkgs:  ## Install the provided packages (pkglist)
 
 
 .PHONY: dotfiles
-dotfiles: dot config update ## Install the dotfiles
+dotfiles: dot config i3 update ## Install the dotfiles
 
 .PHONY: dot
 dot:  ## Install the $(HOME) dotfiles (excluding config)
@@ -76,9 +76,13 @@ config: ## Install the .config dir
 	@echo "[NVIM] Linking $(CURDIR)/nvim $(CONFIG)/"
 	ln -sfn $(CURDIR)/nvim $(CONFIG)/
 	
+.PHONY: i3
+i3: ## Install i3/sway config files in the .config dir
 ifeq ($(RPI), 0)
 	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/"
 	ln -sfn $(CURDIR)/i3 $(CONFIG)/
+	@echo "[i3-sway] Linking $(CURDIR)/sway $(CONFIG)/"
+	ln -sfn $(CURDIR)/sway $(CONFIG)/
 endif
 
 .PHONY: fonts
