@@ -256,7 +256,7 @@ seat * hide_cursor 8000
 output * bg ~/Pictures/bg.jpg  fill
 
 exec --no-startup-id $HOME/dotfiles/scripts/i3scripts/dockland.sh "init" &
-exec --no-startup-id ~/.config/i3/sway/sway-defaults &
+exec --no-startup-id ~/.config/sway/sway-defaults &
 exec --no-startup-id dunst &
 exec --no-startup-id xdg-user-dir ~/.config/user-dirs.dirs &
 exec --no-startup-id redshift -c ~/.config/redshift.conf &
