@@ -33,8 +33,8 @@ fi
 
 # Update
 ## Obtain dotfile folder
-FULL_PATH=$(ls -l ~/.config/nvim/vimrc/init.vim|awk {'print $11'})
-JUST_PATH=${FULL_PATH%%/init.vim}
+FULL_PATH=$(ls -l ~/.config/nvim/vimrc/init.vim|awk '{print $9}')
+JUST_PATH=${FULL_PATH%%/vimrc/*}
 
 echo "dotfile path: ${JUST_PATH}"
 cd "${JUST_PATH}" || exit 1
@@ -42,12 +42,6 @@ git pull --rebase
 
 # Reload configuration vim
 nvim +PlugUpgrade +PlugUpdate +qa
-
-# If YouCompleteMe is present we need to recompile YcmServer
-if [ -d ~/.vim/plugged/YoucompleteMe ] ; then
-    "$HOME"/.vim/plugged/YoucompleteMe/install.py --clang-completer \
-        --go-completer --system-boost --system-libclang
-fi
 
 TMUX_MGR="$HOME/.tmux/plugins/tpm"
 [ ! -d ~/.tmux/plugins/tpm ] && git clone https://github.com/tmux-plugins/tpm \
