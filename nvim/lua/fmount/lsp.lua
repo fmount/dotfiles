@@ -1,78 +1,55 @@
-local nvim_lsp = require('lspconfig')
-local opts = {
-    tools = { -- rust-tools options
-        autoSetHints = true,
-        -- hover_with_actions = true,
-        inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
-        },
-    },
-    -- all the opts to send to nvim-lspconfig
-    -- these override the defaults set by rust-tools.nvim
-    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
-    server = {
-        -- on_attach is a callback called when the language server attachs to the buffer
-        -- on_attach = on_attach,
-        settings = {
-            -- to enable rust-analyzer settings visit:
-            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-            ["rust-analyzer"] = {
-                -- enable clippy on save
-                checkOnSave = {
-                    command = "clippy"
-                },
-            }
-        }
-    },
-}
+-- Setup nvim-cmp and lsp server
 
-require('rust-tools').setup(opts)
-local cmp = require'cmp'
+-- Completion requires:
+-- 'hrsh7th/nvim-cmp'
+-- 'hrsh7th/cmp-nvim-lsp'
+-- 'hrsh7th/cmp-buffer'
+-- 'hrsh7th/cmp-path'
+
+local cmp = require('cmp')
+
 cmp.setup({
-  -- Enable LSP snippets
-  snippet = {
-    expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-    end,
+  completion = {
+    autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged },
   },
-  mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    -- Add tab support
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+  mapping = cmp.mapping.preset.insert({
     ['<Tab>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
-    ['<CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true,
-    })
-  },
-
-  -- Installed sources
-  sources = {
+  }),
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-    { name = 'path' },
     { name = 'buffer' },
+    { name = 'path' },
+  }),
+  window = {
+    documentation = cmp.config.window.bordered(),
   },
 })
 
-require'lspconfig'.bashls.setup{}
-require'lspconfig'.pylsp.setup{}
-require'lspconfig'.gopls.setup{ cmd = { "/usr/bin/gopls" } }
-require'lspconfig'.ccls.setup {
-  init_options = {
-    compilationDatabaseDirectory = "build";
-    index = {
-      threads = 0;
-    };
-    clang = {
-      excludeArgs = { "-frounding-math"} ;
-    };
-  }
+-- Get capabilities for LSP
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- LSP server configurations
+vim.lsp.config.bashls = { capabilities = capabilities }
+vim.lsp.config.pylsp = { capabilities = capabilities }
+vim.lsp.config.gopls = { 
+  cmd = { "/usr/bin/gopls" },
+  capabilities = capabilities,
 }
+vim.lsp.config.ccls = {
+  capabilities = capabilities,
+  init_options = {
+    compilationDatabaseDirectory = "build",
+    index = {
+      threads = 0,
+    },
+    clang = {
+      excludeArgs = { "-frounding-math" },
+    },
+  },
+}
+
+-- Enable the LSP servers
+vim.lsp.enable({ 'bashls', 'pylsp', 'gopls', 'ccls' })
