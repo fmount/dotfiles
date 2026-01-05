@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-CMD="swaymsg output"
-
 function get_outputs() {
     swaymsg -t get_outputs -r | jq -r '.[] | select(.active == true) | .name'
 }

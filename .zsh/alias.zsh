@@ -10,6 +10,7 @@ alias .....='cd ../../../..'
 alias -- -='cd -'
 alias d='dirs -v | head -10'
 alias c='clear'
+alias e='$EDITOR'
 alias h='history'
 alias ls='ls --color=auto'
 alias ll='ls -i -lF --color=auto'
@@ -19,7 +20,7 @@ alias lt='ls -lha /tmp'
 alias ip='ip -c'
 #alias vimtest='vim -u ~/.vimrctest'
 #alias gvimtest='gvim -u ~/.vimrctest'
-alias gvim='gvim -geometry 55x39'
+#alias gvim='gvim -geometry 55x39'
 alias pingg='ping -c 3 www.google.com'
 alias ping6='ping -6'
 alias ping8='ping -c 3 8.8.8.8'
@@ -30,10 +31,10 @@ alias mountt='sudo mount -t ntfs-3g $1 $2'
 alias cysnc='sudo chronyc waitsync'
 alias myip='curl ifconfig.me'
 alias netctl-current='netctl list | grep "*"'
-alias nopaste="curl -F 'f:1=<-' ix.io"
+alias nopaste="nc termbin.com 9999"
 alias t="todo.sh"
 alias st='st -e /bin/zsh'
-alias windows='xfreerdp +clipboard /u:francesco /v:192.168.122.56 /size:1920x1040 /drive:linuz,/home/fmount/Downloads'
+alias windows='xfreerdp +clipboard /u:francesco /v:192.168.122.56 /size:1920x1040 /drive:linuz,$HOME/Downloads'
 alias jekylldraft='jekyll server --watch --drafts'
 alias k9='kill -9'
 alias vp="vim -c 'set nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' -c 'colorscheme jellybeans' - "
@@ -45,15 +46,15 @@ alias w1='watch -n1 '
 alias s='sudo'
 alias ipr='ip r'
 alias k='kubectl'
-alias newpsw='tr -cd "[:graph:][:alpha:]" < /dev/urandom | head -c 43'
+alias newpwd="tr -dc '[:print:]' < /dev/urandom | head -c 32 | base64"
 alias sysu="systemctl --user"
 #alias head="sed 11q"
 
-if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-  alias gvim= 'nvim-qt'
-  alias vimdiff= 'nvim -d'
-fi
+#if type nvim > /dev/null 2>&1; then
+#  alias vim='nvim'
+#  alias gvim= 'nvim-qt'
+#  alias vimdiff= 'nvim -d'
+#fi
 
 # *** SUDO ***
 if [ $UID -eq 0 ]; then
@@ -62,8 +63,8 @@ if [ $UID -eq 0 ]; then
     alias netctl='netctl '
     alias pc='pacman '
     alias docker='docker '
-    alias vim='nvim '
-    alias vimdiff= 'nvim -d'
+    #alias vim='nvim '
+    #alias vimdiff= 'nvim -d'
 else
     alias mount='sudo mount | column -t'
     alias umount='sudo umount '

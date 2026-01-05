@@ -10,17 +10,14 @@ export GPG_SIGN_KEY='7301D458'
 ## ZSH EXPORT SETTINGS ##
 export KEYTIMEOUT=20
 export SSH_ASKPASS=''
-export VISUAL="nvim"
-export EDITOR="nvim"
-export NVIM_LISTEN_ADDRESS=/tmp/nvr_nvim-qt
+export VISUAL="vim"
+export EDITOR="vim"
 export GOPATH=$HOME/golang-book
-export PATH="$PATH:$HOME/.gem/ruby/2.3.0/bin":$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin
+export PATH=$PATH:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin
 export GPG_TTY=$(tty)
 export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
-#export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' - \""
 export TERM=xterm-256color
-#export SSH_AUTH_SOCK="/run/user/$(id -u)/gnupg/S.gpg-agent.ssh"
 export PASSWORD_STORE_DIR=$HOME/.password-store_black
 export DOTFILES=$HOME/dotfiles
 export NOTES=$HOME/.notes
