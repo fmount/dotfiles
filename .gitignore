@@ -3,3 +3,4 @@
 .zsh/redhat.zsh
 nvim/autoload
 nvim/plugged
+.gnupg

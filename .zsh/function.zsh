@@ -84,19 +84,12 @@ git-clone-review() {
 }
 
 n(){
-    local running_servers=$(nvr --serverlist)
-    local n_server_name=/tmp/nvr_nvim-qt
-    # if [ nvr -s --nostart --servername /tmp/nvr_nvim-qt  --remote-expr "'OK'" ]; then
-    if [[ -z "$running_servers" || -z $1 || $running_servers != *"$n_server_name"* ]]; then
+    #local running_servers=$(nvr --serverlist)
+    local n_server_name=/tmp/nvim
+    if [[ $(nvr -s --nostart --servername $n_server_name  --remote-expr "'OK'") == "OK" ]]; then
+        nvr --servername $n_server_name $@
+    else
         NVIM_LISTEN_ADDRESS=$n_server_name nvim-qt $@
-    elif [[ $running_servers == *"$n_server_name"* ]]; then
-        local running_client=$(ps -fC nvim-qt | awk 'NR>1{print $8}')
-        if [[ $running_client == *"nvim-qt"* ]]; then
-            nvr --servername $n_server_name --remote-tab $@
-        else
-            \rm $n_server_name
-            NVIM_LISTEN_ADDRESS=$n_server_name nvim-qt $@
-        fi
     fi
 }
 
@@ -121,4 +114,13 @@ nsstat() {
         return ret
     }
     $4 == "0A" { print getIP($2) }' /proc/net/tcp /proc/net/tcp6
+}
+
+
+jekyll() {
+    if (( $# == 0 )) then
+        echo usage: jekyll [blog-path] ...;
+    fi
+    podman run --rm --name blog_instance --volume="$1:/srv/jekyll" \
+        -p 4000:4000 -it jekyll/jekyll:latest jekyll serve --watch --drafts
 }
