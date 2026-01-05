@@ -25,7 +25,7 @@ set $ws7 7
 set $ws8 8
 set $ws9 9
 
-set $fp pango: Spleen 11
+set $fp pango: NeoSpleen 11
 font $fp
 
 # Use Mouse+$mod to drag floating windows to their wanted position
