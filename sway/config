@@ -162,7 +162,7 @@ set $mode_system System (l) lock, (e) logout, (x) suspend, (r) reboot, (s) shutd
 mode "$mode_system" {
     bindsym l exec --no-startup-id swaylock -c 0x000000
     bindsym e exec --no-startup-id swaymsg exit, mode "default"
-    bindsym x exec --no-startup-id swaylock -c 0x000000 && systemctl suspend, mode "default"
+    bindsym x exec --no-startup-id swaylock -c 0x000000 & sleep 1 && systemctl suspend, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym s exec --no-startup-id systemctl poweroff, mode "default"
 
