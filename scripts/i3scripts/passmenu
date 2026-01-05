@@ -9,7 +9,6 @@ DEFAULT_LEN=10
 
 function reload_agent(){
 	rl=$(gpg-connect-agent reloadagent /bye)
-	
 	case $rl in
 		OK) 
 		 sleep 1;
@@ -19,19 +18,17 @@ function reload_agent(){
 	esac
 }
 
-
 function agent_profile_toggle(){
 	if [ $# -eq 0 ]; then
 		echo "::ERROR"
 	else
 		# Change gpg configuration and reload the agent
-		sed -i "s/'$1'/'$2'/g" $GPGAGENTHOME
+		sed -i "s/\"$1\"/\"$2\"/g" "$GPGAGENTHOME"
 		
 		#Reload gpg-agent
 		reload_agent
 	fi
 }
-
 
 typeit=0
 if [[ $1 == "--type" ]]; then
@@ -54,10 +51,7 @@ agent_profile_toggle "curses" "gtk"
 if [[ $typeit -eq 0 ]]; then
 	pass show -c "$password" 2>/dev/null
 else
-
-	pass show "$password" | { read -r pass; printf %s "$pass"; } | 
-		xdotool type --clearmodifiers --file -
-	
+	pass show "$password" | { read -r pass; printf %s "$pass"; } | xdotool type --clearmodifiers --file -
 fi
 
 agent_profile_toggle "gtk" "curses"

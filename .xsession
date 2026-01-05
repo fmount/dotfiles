@@ -25,6 +25,7 @@ export XDG_RUNTIME_DIR=/run/user/$UID
 export XDG_DATA_DIRS=/usr/local/share:/usr/share
 export XDG_CONFIG_DIRS=/etc/xdg
 export NVIM_QT_RUNTIME_PATH=/usr/share/nvim/runtime/
+echo VIMRUNTIME=/usr/share/nvim/runtime
 
 # Statusbar loop
 #while true; do
