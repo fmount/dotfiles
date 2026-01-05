@@ -28,13 +28,14 @@ HISTTIMEFORMAT='%F %T  '
 unsetopt beep
 
 
-source ~/.zsh/export.zsh
-source ~/.zsh/alias.zsh
-source ~/.zsh/docker.zsh
-source ~/.zsh/prompt.zsh
-source ~/.zsh/function.zsh
-source ~/.zsh/termsupport.zsh
-#source ~/.zsh/redhat.zsh
+source $HOME/.zsh/export.zsh
+source $HOME/.zsh/alias.zsh
+source $HOME/.zsh/prompt.zsh
+source $HOME/.zsh/function.zsh
+source $HOME/.zsh/termsupport.zsh
+
+# dev
+source ~/.zsh/operator.zsh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
@@ -91,8 +92,9 @@ bindkey -M vicmd 'L' vi-end-of-line
 bindkey -M vicmd '?' history-incremental-search-backward
 bindkey -v "^[[3~"   delete-char
 bindkey -v "^[3;5~"  delete-char
-# ** Fix backspace
-bindkey -v '^?' backward-delete-char
+
+# ** Fix backspace delete bind!!
+bindkey -v '^H' backward-delete-char
 
 # Home key variants
 bindkey '\eOH' vi-beginning-of-line
@@ -109,7 +111,7 @@ function zle-line-init zle-keymap-select {
     #RPS1="${${KEYMAP/vicmd/[NOR]}/(main|viins)/[INS]}"
     #RPS2=$RPS1
     VIM_PROMPT="%{$fg_bold[yellow]%}[% NOR]% %{$reset_color%} "
-    NOR_PROMPT="%{$fg_bold[grey]%}[% INS]% %{$reset_color%} "
+    NOR_PROMPT="%{$fg_bold[blue]%}[% INS]% %{$reset_color%} "
     VIMPROMPT="${${KEYMAP/vicmd/${VIM_PROMPT}}/(main|viins)/${NOR_PROMPT}}"
     #_set_tmux_prefix
     zle reset-prompt
@@ -145,6 +147,3 @@ setopt pushdignoredups
 setopt pushdminus
 
 autoload -U +X bashcompinit && bashcompinit
-alias kcli='podman run --net host -it --rm --security-opt label=disable -v /home/fmount/.kcli:/root/.kcli -v /home/fmount/.ssh:/root/.ssh -v /var/lib/libvirt/images:/var/lib/libvirt/images -v /var/run/libvirt:/var/run/libvirt -v $PWD:/workdir quay.io/karmab/kcli'
-alias kclishell='podman run --net host -it --rm --security-opt label=disable -v /home/fmount/.kcli:/root/.kcli -v /home/fmount/.ssh:/root/.ssh -v /var/lib/libvirt/images:/var/lib/libvirt/images -v /var/run/libvirt:/var/run/libvirt -v $PWD:/workdir --entrypoint=/bin/sh quay.io/karmab/kcli'
-alias kweb='podman run -p 9000:9000 --net host -it --rm --security-opt label=disable -v /home/fmount/.kcli:/root/.kcli -v /home/fmount/.ssh:/root/.ssh -v /var/lib/libvirt/images:/var/lib/libvirt/images -v /var/run/libvirt:/var/run/libvirt -v $PWD:/workdir --entrypoint=/usr/bin/kweb quay.io/karmab/kcli'
