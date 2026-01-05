@@ -2,7 +2,7 @@
 
 SRC=$HOME/apps
 TARGET=rpi4
-MEGA=mega://fmount@mega.nz
+MEGA=mega://$USER@mega.nz
 LOG="$HOME/.duplicity/notice.log"
 IGNORE="$HOME/.duplicity/ignore"
 CLEAN=0
@@ -19,7 +19,6 @@ function init() {
     [ -z "$HOME/.duplicity" ] && mkdir -p "$HOME/.duplicity"
 }
 function backup() {
-    #duplicity backup --verbosity notice --full-if-older-than 1M --log-file "${LOG}" --exclude-filelist "${IGNORE}" "${SRC}" ${MEGA}/${TARGET}
     duplicity --verbosity notice full --progress --log-file "${LOG}" --exclude-filelist "${IGNORE}" "${SRC}" ${MEGA}/${TARGET}
 }
 
@@ -38,4 +37,4 @@ backup
 [ "${CLEAN}" -eq 1 ] && cleanup
 
 # CHECK
-# duplicity collection-status --progress mega://fmount@mega.nz/rpi4
+# duplicity collection-status --progress mega://$USER@mega.nz/rpi4
