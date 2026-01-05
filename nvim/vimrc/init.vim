@@ -230,7 +230,7 @@ map L $
 let s:fontsize = 12
 function! AdjustFontSize(amount)
   let s:fontsize = s:fontsize+a:amount
-   :execute "GuiFont! Spleen\ 32x64:h" . s:fontsize
+   :execute "GuiFont! NeoSpleen:h" . s:fontsize
 endfunction
 
 " Font resize
