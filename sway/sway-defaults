@@ -9,3 +9,6 @@ export XDG_CONFIG_DIRS=/etc/xdg
 export NVIM_QT_RUNTIME_PATH=/usr/share/nvim/runtime/
 echo VIMRUNTIME=/usr/share/nvim/runtime
 export SWAYSOCK=/run/user/1000/sway-ipc.1000-2237.sock
+eval $(ssh-agent -s)
+ssh-add -l
+
