@@ -257,7 +257,11 @@ output * bg ~/Pictures/bg.jpg  fill
 
 exec --no-startup-id $HOME/dotfiles/scripts/i3scripts/dockland.sh "init" &
 exec --no-startup-id ~/.config/sway/sway-defaults &
-exec --no-startup-id dunst &
 exec --no-startup-id xdg-user-dir ~/.config/user-dirs.dirs &
 exec --no-startup-id redshift -c ~/.config/redshift.conf &
 exec gpg-connect-agent updatestartuptty /bye &
+exec dunst &
+exec_always {
+    systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+    dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+}
