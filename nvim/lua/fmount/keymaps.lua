@@ -4,7 +4,7 @@ local keymap = vim.keymap.set
 -- Telescope builtins
 keymap('n', '<leader>ff', telescope.find_files, { desc = 'Find files' })
 keymap('n', '<leader>fg', telescope.live_grep, { desc = 'Live grep' })
-keymap('n', '<leader>fb', telescope.buffers, { desc = 'Buffers' })
+keymap('n', '<leader>b', telescope.buffers, { desc = 'Buffers' })
 keymap('n', '<leader>fh', telescope.help_tags, { desc = 'Help tags' })
 keymap('n', '<leader>fr', telescope.lsp_references, { desc = 'LSP references' })
 
@@ -29,3 +29,4 @@ end, { desc = 'Projects' })
 keymap('n', '<leader>do', vim.diagnostic.open_float, { desc = 'Open diagnostic' })
 keymap('n', '<leader>dn', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
 keymap('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
+keymap('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })
