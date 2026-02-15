@@ -34,6 +34,7 @@ Plug 'mbbill/undotree'
 "Writing and take notes
 Plug 'fmount/vim-notes'
 Plug 'junegunn/goyo.vim'
+Plug 'OXY2DEV/markview.nvim'
 
 " Collection of common configurations for the Nvim LSP client
 Plug 'equalsraf/neovim-gui-shim'
