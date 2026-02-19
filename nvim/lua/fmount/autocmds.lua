@@ -24,6 +24,15 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Set .note files to use markdown syntax
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  group = "DEFAULT",
+  pattern = "*.note",
+  callback = function()
+    vim.bo.filetype = "markdown"
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   group = "DEFAULT",
   pattern = { "yaml", "yml" },
