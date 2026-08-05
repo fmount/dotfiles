@@ -6,6 +6,7 @@
 #export GPG_SIGN_KEY='C66B3D3F'
 export GPG_KEY='F41BD75C'
 export GPG_SIGN_KEY='7301D458'
+export AGENT_ALERT_MODE=tmux-window-color,dunst
 
 ## ZSH EXPORT SETTINGS ##
 export KEYTIMEOUT=20
@@ -22,6 +23,7 @@ export PASSWORD_STORE_DIR=$HOME/.password-store_black
 export DOTFILES=$HOME/dotfiles
 export NOTES=$HOME/.notes
 export WEECHAT_HOME=$HOME/.weechat
+export MOZ_ENABLE_WAYLAND=1
 
 if [ -d "$HOME/.bookmarks" ]; then
     autoload -U bashcompinit

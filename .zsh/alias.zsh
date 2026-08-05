@@ -35,7 +35,6 @@ alias nopaste="nc termbin.com 9999"
 alias t="todo.sh"
 alias st='st -e /bin/zsh'
 alias windows='xfreerdp +clipboard /u:francesco /v:192.168.122.56 /size:1920x1040 /drive:linuz,$HOME/Downloads'
-alias jekylldraft='jekyll server --watch --drafts'
 alias k9='kill -9'
 alias vp="vim -c 'set nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' -c 'colorscheme jellybeans' - "
 alias gvp="gvim -c 'set nomod nolist nonu noma' -c 'nm q <Esc>:q<CR>' -c 'colorscheme jellybeans' - "

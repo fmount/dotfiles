@@ -121,6 +121,11 @@ jekyll() {
     if (( $# == 0 )) then
         echo usage: jekyll [blog-path] ...;
     fi
-    podman run --rm --name blog_instance --volume="$1:/srv/jekyll" \
-        -p 4000:4000 -it jekyll/jekyll:latest jekyll serve --watch --drafts
+    podman run --rm -it \
+      -v "$1:/srv/jekyll:Z" \
+      -e JEKYLL_ROOTLESS=1 \
+      -e BUNDLE_PATH='/srv/.bundle' \
+      -p 4000:4000 \
+      jekyll/jekyll bash -c "bundle update && jekyll serve --watch --drafts --future"
+
 }
