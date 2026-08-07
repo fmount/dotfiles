@@ -1,9 +1,17 @@
 SHELL := bash
 .SHELLFLAGS := -eu -o pipefail -c
 
-PKG_MGR := yay
-PKG_FLAGS := -Sy --noconfirm --needed
-ROOT := sudo -E
+UNAME := $(shell uname -s)
+
+ifeq ($(UNAME), Darwin)
+    PKG_MGR := brew
+    PKG_FLAGS := install
+    ROOT :=
+else
+    PKG_MGR := yay
+    PKG_FLAGS := -Sy --noconfirm --needed
+    ROOT := sudo -E
+endif
 
 CURDIR := $(HOME)/dotfiles
 CONFIG := ~/.config
@@ -12,45 +20,64 @@ BACKUP_DIR := $(HOME)/devnull
 # Set this flag if configuring rPI
 RPI := 0
 
+ifeq ($(UNAME), Darwin)
+    PKGLIST := $(CURDIR)/files/pkglist.darwin
+else
+    PKGLIST := $(CURDIR)/files/pkglist
+endif
+
 define backup_old_config
     mv $(1) $(BACKUP_DIR)
 endef
 
 
 .PHONY: all
+ifeq ($(UNAME), Darwin)
+all: check pkgs fonts dotfiles gpg ssh
+else
 all: check refresh_keys pkgs fonts dotfiles gpg ssh
+endif
 
 .PHONY: check
 check:  ## Check if the package manager is available
 	@which $(PKG_MGR) > /dev/null
 	@echo "[C----o-] I can eat packages";
 
-.PHONY: check refresh_keys
+.PHONY: refresh_keys
 refresh_keys:  ## Refresh Archlinux pacman gpg keys
+ifneq ($(UNAME), Darwin)
 	@which $(PKG_MGR) > /dev/null
 	pacman -Sy archlinux-keyring
 	pacman-key --refresh-keys
 	@echo "[Arch] - Keys refreshed!"
+else
+	@echo "[macOS] - Skipping pacman key refresh"
+endif
 
 
 .PHONY: pkgs
 pkgs:  ## Install the provided packages (pkglist)
-	@if [ -e $(CURDIR)/files/pkglist ]; then \
-		$(PKG_MGR) $(PKG_FLAGS) $(< $(CURDIR)/files/pkglist); \
+	@if [ -e $(PKGLIST) ]; then \
+		$(PKG_MGR) $(PKG_FLAGS) $$(cat $(PKGLIST)); \
 	fi; \
 
 
 .PHONY: dotfiles
+ifeq ($(UNAME), Darwin)
+dotfiles: dot config update ## Install the dotfiles
+else
 dotfiles: dot config i3 update ## Install the dotfiles
+endif
 
 .PHONY: dot
 dot:  ## Install the $(HOME) dotfiles (excluding config)
-	
+
 	# (STAGE 1) add aliases for dotfiles that are expected to be found in $(HOME) dir
 	@for file in $(shell find $(CURDIR) -name ".*" ! -name ".gitignore" \
 		! -name ".travis.yml" ! -name ".git*" ! -name ".*.swp" \
 		! -name ".config" ! -name "*.i3*" ! -path "*.vim/plugged/*" \
-		! -path "*.config/nvim/plugged/*"); do \
+		! -path "*.config/nvim/plugged/*" \
+		$(if $(filter Darwin,$(UNAME)),! -name ".xinitrc" ! -name ".xsession" ! -name ".Xmodmap" ! -name ".Xresources")); do \
 		f=$$(basename $$file); \
 		echo "Processing element: $$file"; \
 		ln -sfn $$file $(HOME)/$$f; \
@@ -63,7 +90,8 @@ config: ## Install the .config dir
 	$(shell [ ! -d $(HOME)/.config ] && mkdir $(HOME)/.config)
 
 	# (STAGE 3) Configure .config
-	@for item in $(shell find $(CURDIR)/.config -maxdepth 1 ! -name ".config"); do \
+	@for item in $(shell find $(CURDIR)/.config -maxdepth 1 ! -name ".config" \
+		$(if $(filter Darwin,$(UNAME)),! -name "dunstrc" ! -name "redshift.conf")); do \
 		if [ -d $(HOME)/.config/$$(basename $$item) ]; then \
 			echo "[$$(basename $$item)] ...BACKUP"; \
 			$(call backup_old_config, $(HOME)/.config/$$(basename $$item)); \
@@ -71,25 +99,32 @@ config: ## Install the .config dir
 		echo "[$$(basename $$item)] Linking $$item $(CONFIG)/$$(basename $$item)"; \
 		ln -sfn $$item $(CONFIG)/$$(basename $$item); \
 	done
-	
+
 	# NVIM
 	@echo "[NVIM] Linking $(CURDIR)/nvim $(CONFIG)/"
 	ln -sfn $(CURDIR)/nvim $(CONFIG)/
-	
+
 .PHONY: i3
 i3: ## Install i3/sway config files in the .config dir
 ifeq ($(RPI), 0)
+ifneq ($(UNAME), Darwin)
 	@echo "[i3] Linking $(CURDIR)/i3 $(CONFIG)/"
 	ln -sfn $(CURDIR)/i3 $(CONFIG)/
 	@echo "[i3-sway] Linking $(CURDIR)/sway $(CONFIG)/"
 	ln -sfn $(CURDIR)/sway $(CONFIG)/
 endif
+endif
 
 .PHONY: fonts
-fonts: ## Copy fonts on /usr/share/fonts
+fonts: ## Copy fonts
+ifeq ($(UNAME), Darwin)
+	mkdir -p $(HOME)/Library/Fonts
+	cp $(CURDIR)/files/*.ttf $(HOME)/Library/Fonts/
+else
 	mkdir -p $(HOME)/.fontconfig
 	$(ROOT) cp $(CURDIR)/files/*.ttf /usr/share/fonts/TTF
 	$(ROOT) fc-cache -fv
+endif
 
 .PHONY: git
 git: ## Copy git config in $HOME dir
@@ -136,6 +171,7 @@ shellcheck: ## Runs the shellcheck tests on the scripts.
 
 .PHONY: systemd
 systemd: ## Update $(HOME) user systemd units
+ifneq ($(UNAME), Darwin)
 	@echo "Applying user systemd unit"
 	@if [ ! -d $(HOME)/.config/systemd/user ]; then \
 		mkdir -p $(HOME)/.config/systemd/user; \
@@ -146,6 +182,9 @@ systemd: ## Update $(HOME) user systemd units
 		cp $$file $(HOME)/.config/systemd/user; \
 		systemctl --user enable $$f; \
 	done
+else
+	@echo "[macOS] - Skipping systemd units"
+endif
 
 .PHONY: email
 email: ## Update $(HOME) user mail config
@@ -156,6 +195,7 @@ email: ## Update $(HOME) user mail config
 ifeq ($(RPI), 0)
 	@echo "[neomutt] Linking $(CURDIR)/email/neomutt $(CONFIG)/"
 	ln -sfn $(CURDIR)/email/neomutt $(CONFIG)/
+ifneq ($(UNAME), Darwin)
 	@echo "[neomutt] Applying systemd unit files";
 	@for file in $(shell find $(CURDIR)/email/neomutt/systemd/user -name "*.service" 2>/dev/null); do \
 		f=$$(basename $$file); \
@@ -167,6 +207,7 @@ ifeq ($(RPI), 0)
 		echo "Applying systemd override: $$(basename $$dir)"; \
 		cp -R $$dir $(HOME)/.config/systemd/user/; \
 	done
+endif
 endif
 
 

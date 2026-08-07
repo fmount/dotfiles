@@ -53,6 +53,14 @@ swapring(){
 
 }
 
+aping() {
+    if [[ "$(uname)" == "Darwin" ]]; then
+        if ! ping -c1 -t 5 "$1" &>/dev/null; then echo "Host is down"; else echo "isalive"; fi
+    else
+        if ! ping -c1 -w 5 "$1" &>/dev/null; then echo "Host is down"; else echo "isalive"; fi
+    fi
+}
+
 _clone_and_fetch_PS() {
     local target=$1 review=$2
 
@@ -97,26 +105,30 @@ n(){
 }
 
 nsstat() {
-    awk '
-    function hextodec(str,ret,n,i,k,c){
-        ret = 0
-        n = length(str)
-        for (i = 1; i <= n; i++) {
-            c = tolower(substr(str, i, 1))
-            k = index("123456789abcdef", c)
-            ret = ret * 16 + k
+    if [[ "$(uname)" == "Darwin" ]]; then
+        lsof -iTCP -sTCP:LISTEN -P -n
+    else
+        awk '
+        function hextodec(str,ret,n,i,k,c){
+            ret = 0
+            n = length(str)
+            for (i = 1; i <= n; i++) {
+                c = tolower(substr(str, i, 1))
+                k = index("123456789abcdef", c)
+                ret = ret * 16 + k
+            }
+            return ret
         }
-        return ret
-    }
-    function getIP(str,ret){
-        ret=hextodec(substr(str,index(str,":")-2,2));
-        for (i=5; i>0; i-=2) {
-            ret = ret"."hextodec(substr(str,i,2))
+        function getIP(str,ret){
+            ret=hextodec(substr(str,index(str,":")-2,2));
+            for (i=5; i>0; i-=2) {
+                ret = ret"."hextodec(substr(str,i,2))
+            }
+            ret = ret":"hextodec(substr(str,index(str,":")+1,4))
+            return ret
         }
-        ret = ret":"hextodec(substr(str,index(str,":")+1,4))
-        return ret
-    }
-    $4 == "0A" { print getIP($2) }' /proc/net/tcp /proc/net/tcp6
+        $4 == "0A" { print getIP($2) }' /proc/net/tcp /proc/net/tcp6
+    fi
 }
 
 

@@ -115,20 +115,40 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 # *** Yank in the clipboard ***
-x-yank() {
-    zle copy-region-as-kill
-    print -rn -- $CUTBUFFER | xclip -in -selection clipboard
-}
-zle -N x-yank
+if [[ "$(uname)" == "Darwin" ]]; then
+    x-yank() {
+        zle copy-region-as-kill
+        print -rn -- $CUTBUFFER | pbcopy
+    }
+    zle -N x-yank
 
-x-cut() {
-    zle kill-region
-    print -rn -- $CUTBUFFER | xclip -in -selection clipboard
-}
-zle -N x-cut
+    x-cut() {
+        zle kill-region
+        print -rn -- $CUTBUFFER | pbcopy
+    }
+    zle -N x-cut
 
-x-paste() {
-    CUTBUFFER=$(xclip -selection clipboard -o)
-    zle yank
-}
-zle -N x-paste
+    x-paste() {
+        CUTBUFFER=$(pbpaste)
+        zle yank
+    }
+    zle -N x-paste
+else
+    x-yank() {
+        zle copy-region-as-kill
+        print -rn -- $CUTBUFFER | xclip -in -selection clipboard
+    }
+    zle -N x-yank
+
+    x-cut() {
+        zle kill-region
+        print -rn -- $CUTBUFFER | xclip -in -selection clipboard
+    }
+    zle -N x-cut
+
+    x-paste() {
+        CUTBUFFER=$(xclip -selection clipboard -o)
+        zle yank
+    }
+    zle -N x-paste
+fi
