@@ -1,0 +1,176 @@
+# AeroSpace config — i3-like tiling for macOS
+# Alt as mod key, vim-style navigation, i3 keybindings
+
+config-version = 2
+start-at-login = true
+auto-reload-config = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+automatically-unhide-macos-hidden-apps = false
+focus-follows-mouse.enabled = false
+key-mapping.preset = 'qwerty'
+
+persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+# SketchyBar integration — notify on workspace change
+exec-on-workspace-change = ['/bin/bash', '-c',
+    'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# Ensure Homebrew is in PATH for exec-and-forget
+[exec.env-vars]
+    PATH = '/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
+
+# ─── GAPS (like i3 gaps) ───────────────────────────────
+[gaps]
+    inner.horizontal = 4
+    inner.vertical = 4
+    outer.left = 4
+    outer.right = 4
+    outer.top = 4
+    outer.bottom = 4
+
+# ─── WINDOW RULES ──────────────────────────────────────
+# Same as i3: assign [class="Firefox"] $ws1
+[[on-window-detected]]
+    if.app-id = 'org.mozilla.firefox'
+    run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+    if.app-id = 'org.mozilla.thunderbird'
+    run = 'move-node-to-workspace 2'
+
+# Float system preferences (like for_window [...] floating enable)
+[[on-window-detected]]
+    if.app-id = 'com.apple.systempreferences'
+    check-further-callbacks = true
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.SystemPreferences'
+    check-further-callbacks = true
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.calculator'
+    check-further-callbacks = true
+    run = 'layout floating'
+
+# ─── MAIN BINDINGS ─────────────────────────────────────
+[mode.main.binding]
+
+    # Focus (Alt + h/j/k/l) — same as i3
+    alt-h = 'focus left'
+    alt-j = 'focus down'
+    alt-k = 'focus up'
+    alt-l = 'focus right'
+
+    # Focus with arrow keys
+    alt-left = 'focus left'
+    alt-down = 'focus down'
+    alt-up = 'focus up'
+    alt-right = 'focus right'
+
+    # Move windows (Alt+Shift + h/j/k/l) — same as i3
+    alt-shift-h = 'move left'
+    alt-shift-j = 'move down'
+    alt-shift-k = 'move up'
+    alt-shift-l = 'move right'
+
+    # Move with arrow keys
+    alt-shift-left = 'move left'
+    alt-shift-down = 'move down'
+    alt-shift-up = 'move up'
+    alt-shift-right = 'move right'
+
+    # Layout — i3 equivalents
+    # Alt+e = toggle split (i3: layout toggle split)
+    alt-e = 'layout tiles horizontal vertical'
+    # Alt+s = stacking → accordion vertical (closest to i3 stacking)
+    alt-s = 'layout accordion vertical'
+    # Alt+w = tabbed → accordion horizontal (closest to i3 tabbed)
+    alt-w = 'layout accordion horizontal'
+
+    # Fullscreen toggle (Alt+f) — same as i3
+    alt-f = 'fullscreen'
+
+    # Float toggle (Alt+Shift+Space) — same as i3
+    alt-shift-space = 'layout floating tiling'
+
+    # Focus parent (Alt+a) — same as i3
+    alt-a = 'focus parent'
+
+    # Kill focused window (Alt+F4) — same as i3
+    alt-f4 = 'close'
+
+    # Workspaces (Alt+1-9) — same as i3
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-3 = 'workspace 3'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
+    alt-9 = 'workspace 9'
+
+    # Move to workspace (Alt+Shift+1-9) — same as i3
+    alt-shift-1 = 'move-node-to-workspace 1'
+    alt-shift-2 = 'move-node-to-workspace 2'
+    alt-shift-3 = 'move-node-to-workspace 3'
+    alt-shift-4 = 'move-node-to-workspace 4'
+    alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
+    alt-shift-9 = 'move-node-to-workspace 9'
+
+    # Scratchpad (workspace "S" as hidden scratchpad)
+    # Alt+Shift+minus = send to scratchpad — same as i3
+    alt-shift-minus = 'move-node-to-workspace S'
+    # Alt+minus = show scratchpad — same as i3
+    alt-minus = 'workspace S'
+
+    # Workspace back-and-forth (useful with scratchpad)
+    alt-tab = 'workspace-back-and-forth'
+
+    # Multi-monitor
+    alt-period = 'focus-monitor --wrap-around next'
+    alt-comma = 'focus-monitor --wrap-around prev'
+    alt-shift-period = 'move-workspace-to-monitor --wrap-around next'
+    alt-shift-comma = 'move-workspace-to-monitor --wrap-around prev'
+
+    # Reload config (Alt+Shift+c) — same as i3
+    alt-shift-c = 'reload-config'
+
+    # Resize mode (Alt+r) — same as i3
+    alt-r = 'mode resize'
+
+# ─── RESIZE MODE ───────────────────────────────────────
+# Same as i3: h/j/k/l to resize, Escape/Enter to exit
+[mode.resize.binding]
+    h = 'resize width -50'
+    j = 'resize height +50'
+    k = 'resize height -50'
+    l = 'resize width +50'
+
+    # Speedup with Shift (like i3 Shift+h/j/k/l for 70px)
+    shift-h = 'resize width -200'
+    shift-j = 'resize height +200'
+    shift-k = 'resize height -200'
+    shift-l = 'resize width +200'
+
+    # Arrow keys
+    left = 'resize width -50'
+    down = 'resize height +50'
+    up = 'resize height -50'
+    right = 'resize width +50'
+
+    enter = 'mode main'
+    esc = 'mode main'
