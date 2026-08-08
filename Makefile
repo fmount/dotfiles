@@ -20,6 +20,9 @@ BACKUP_DIR := $(HOME)/devnull
 # Set this flag if configuring rPI
 RPI := 0
 
+# macOS window manager: aerospace or amethyst
+WM := aerospace
+
 ifeq ($(UNAME), Darwin)
     PKGLIST := $(CURDIR)/files/pkglist.darwin
 else
@@ -78,7 +81,8 @@ dot:  ## Install the $(HOME) dotfiles (excluding config)
 		! -name ".config" ! -name "*.i3*" ! -path "*.vim/plugged/*" \
 		! -path "*.config/nvim/plugged/*" \
 		$(if $(filter Darwin,$(UNAME)),! -name ".xinitrc" ! -name ".xsession" ! -name ".Xmodmap" ! -name ".Xresources") \
-		$(if $(filter Linux,$(UNAME)),! -name ".amethyst.yml" ! -name ".hammerspoon")); do \
+		$(if $(filter Linux,$(UNAME)),! -name ".amethyst.yml" ! -name ".hammerspoon") \
+		$(if $(filter aerospace,$(WM)),! -name ".amethyst.yml" ! -name ".hammerspoon")); do \
 		f=$$(basename $$file); \
 		echo "Processing element: $$file"; \
 		ln -sfn $$file $(HOME)/$$f; \
@@ -93,7 +97,8 @@ config: ## Install the .config dir
 	# (STAGE 3) Configure .config
 	@for item in $(shell find $(CURDIR)/.config -maxdepth 1 ! -name ".config" \
 		$(if $(filter Darwin,$(UNAME)),! -name "dunstrc" ! -name "redshift.conf") \
-		$(if $(filter Linux,$(UNAME)),! -name "aerospace" ! -name "sketchybar")); do \
+		$(if $(filter Linux,$(UNAME)),! -name "aerospace" ! -name "sketchybar") \
+		$(if $(filter amethyst,$(WM)),! -name "aerospace")); do \
 		if [ -d $(HOME)/.config/$$(basename $$item) ]; then \
 			echo "[$$(basename $$item)] ...BACKUP"; \
 			$(call backup_old_config, $(HOME)/.config/$$(basename $$item)); \
