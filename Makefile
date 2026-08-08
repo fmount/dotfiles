@@ -92,7 +92,8 @@ config: ## Install the .config dir
 
 	# (STAGE 3) Configure .config
 	@for item in $(shell find $(CURDIR)/.config -maxdepth 1 ! -name ".config" \
-		$(if $(filter Darwin,$(UNAME)),! -name "dunstrc" ! -name "redshift.conf")); do \
+		$(if $(filter Darwin,$(UNAME)),! -name "dunstrc" ! -name "redshift.conf") \
+		$(if $(filter Linux,$(UNAME)),! -name "aerospace" ! -name "sketchybar")); do \
 		if [ -d $(HOME)/.config/$$(basename $$item) ]; then \
 			echo "[$$(basename $$item)] ...BACKUP"; \
 			$(call backup_old_config, $(HOME)/.config/$$(basename $$item)); \
