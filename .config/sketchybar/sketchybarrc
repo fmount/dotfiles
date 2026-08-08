@@ -1,0 +1,182 @@
+#!/bin/bash
+
+# sketchybar config — i3bar/i3blocks style
+# Black bar, white text, blue separators, top position
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+# ─── BAR ────────────────────────────────────────────────
+sketchybar --bar \
+    position=top \
+    height=28 \
+    color=0xff000000 \
+    border_width=0 \
+    shadow=off \
+    padding_left=8 \
+    padding_right=8 \
+    display=all \
+    topmost=off \
+    sticky=on \
+    font_smoothing=on
+
+# ─── DEFAULTS ───────────────────────────────────────────
+sketchybar --default \
+    icon.font="Hack Nerd Font:Regular:13.0" \
+    icon.color=0xffffffff \
+    icon.padding_left=6 \
+    icon.padding_right=4 \
+    label.font="Hack Nerd Font:Regular:13.0" \
+    label.color=0xffffffff \
+    label.padding_left=4 \
+    label.padding_right=6 \
+    background.drawing=off \
+    update_freq=10
+
+# ─── SEPARATOR STYLE ───────────────────────────────────
+# i3 uses a thin vertical line as separator; we use a pipe
+SEP_COLOR=0xff1f70aa
+
+# ─── LEFT: SPACES (workspace indicators) ──────────────
+SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9")
+
+for i in "${!SPACE_ICONS[@]}"; do
+    sid=$((i + 1))
+    sketchybar --add space space.$sid left \
+        --set space.$sid \
+            space=$sid \
+            icon="${SPACE_ICONS[$i]}" \
+            icon.color=0xff888888 \
+            icon.highlight_color=0xffffffff \
+            icon.padding_left=8 \
+            icon.padding_right=8 \
+            background.drawing=off \
+            label.drawing=off \
+            script="$PLUGIN_DIR/space.sh" \
+            click_script="yabai -m space --focus $sid 2>/dev/null || true"
+done
+
+# ─── LEFT: FRONT APP ──────────────────────────────────
+sketchybar --add item front_app left \
+    --set front_app \
+        icon.drawing=off \
+        label.color=0xffffffff \
+        label.font="Hack Nerd Font:Bold:13.0" \
+        label.padding_left=12 \
+        script="$PLUGIN_DIR/front_app.sh" \
+    --subscribe front_app front_app_switched
+
+# ─── RIGHT SIDE (added right-to-left) ─────────────────
+
+# Weather (rightmost)
+sketchybar --add item weather right \
+    --set weather \
+        icon="" \
+        icon.color=$SEP_COLOR \
+        update_freq=3600 \
+        script="$PLUGIN_DIR/weather.sh"
+
+# Separator
+sketchybar --add item sep.6 right \
+    --set sep.6 icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# Time
+sketchybar --add item time right \
+    --set time \
+        icon="" \
+        update_freq=5 \
+        script="$PLUGIN_DIR/time.sh"
+
+# Separator
+sketchybar --add item sep.5 right \
+    --set sep.5 icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# Date
+sketchybar --add item date right \
+    --set date \
+        icon="" \
+        update_freq=30 \
+        script="$PLUGIN_DIR/date.sh"
+
+# Separator
+sketchybar --add item sep.4 right \
+    --set sep.4 icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# Battery
+sketchybar --add item battery right \
+    --set battery \
+        update_freq=30 \
+        script="$PLUGIN_DIR/battery.sh" \
+    --subscribe battery power_source_change system_woke
+
+# Separator
+sketchybar --add item sep.3 right \
+    --set sep.3 icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# CPU load
+sketchybar --add item cpu right \
+    --set cpu \
+        icon="" \
+        update_freq=10 \
+        script="$PLUGIN_DIR/cpu.sh"
+
+# Separator
+sketchybar --add item sep.2 right \
+    --set sep.2 icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# VPN
+sketchybar --add item vpn right \
+    --set vpn \
+        icon="" \
+        icon.color=0xff00ff00 \
+        label.color=0xff00ff00 \
+        update_freq=10 \
+        script="$PLUGIN_DIR/vpn.sh"
+
+# Separator
+sketchybar --add item sep.1b right \
+    --set sep.1b icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# WiFi
+sketchybar --add item wifi right \
+    --set wifi \
+        icon="" \
+        icon.color=0xff00ff00 \
+        update_freq=10 \
+        script="$PLUGIN_DIR/wifi.sh" \
+    --subscribe wifi wifi_change
+
+# Separator
+sketchybar --add item sep.1 right \
+    --set sep.1 icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# Disk usage
+sketchybar --add item disk right \
+    --set disk \
+        icon="" \
+        update_freq=30 \
+        script="$PLUGIN_DIR/disk.sh"
+
+# Separator
+sketchybar --add item sep.0b right \
+    --set sep.0b icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# Memory
+sketchybar --add item memory right \
+    --set memory \
+        icon="" \
+        update_freq=30 \
+        script="$PLUGIN_DIR/memory.sh"
+
+# Separator
+sketchybar --add item sep.0 right \
+    --set sep.0 icon="|" icon.color=$SEP_COLOR label.drawing=off icon.padding_left=4 icon.padding_right=4
+
+# Volume (rightmost of the left-ordered right items)
+sketchybar --add item volume right \
+    --set volume \
+        icon="" \
+        script="$PLUGIN_DIR/volume.sh" \
+    --subscribe volume volume_change
+
+# ─── INIT ──────────────────────────────────────────────
+sketchybar --update
