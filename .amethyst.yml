@@ -1,0 +1,189 @@
+# Amethyst config — i3-like tiling for macOS
+# Mod1 = Alt (Option), Mod2 = Alt+Shift
+
+mod1:
+  - option
+
+mod2:
+  - option
+  - shift
+
+layouts:
+  - tall
+  - wide
+  - fullscreen
+  - column
+  - 3column-left
+  - bsp
+  - floating
+
+# Disable focus follows mouse (matches i3: focus_follows_mouse no)
+focus-follows-mouse: false
+mouse-follows-focus: false
+mouse-swaps-windows: false
+mouse-resizes-windows: false
+
+# Window margins (like i3 gaps)
+window-margins: true
+smart-window-margins: true
+window-margin-size: 4
+
+# Float small windows (dialogs, preferences, etc.)
+float-small-windows: true
+
+# New windows go to main pane
+new-windows-to-main: false
+
+# Follow window when thrown to another space
+follow-space-thrown-windows: true
+
+# Resize step (percentage per keystroke)
+window-resize-step: 5
+
+# Layout HUD
+enables-layout-hud: true
+enables-layout-hud-on-space-change: true
+
+# Restore layouts across launches
+restore-layouts-on-launch: true
+
+# Apps that should always float
+floating:
+  - com.apple.systempreferences
+  - com.apple.SystemPreferences
+  - com.apple.calculator
+  - com.apple.Preview
+  - com.apple.ActivityMonitor
+floating-is-blacklist: true
+
+# --- FOCUS (Alt + h/j/k/l) ---
+# Amethyst uses clockwise/counter-clockwise, not directional
+# CW = down/right in the window list, CCW = up/left
+focus-ccw:
+  mod: mod1
+  key: k
+focus-cw:
+  mod: mod1
+  key: j
+focus-main:
+  mod: mod1
+  key: m
+
+# --- MOVE/SWAP (Alt+Shift + h/j/k/l) ---
+swap-ccw:
+  mod: mod2
+  key: k
+swap-cw:
+  mod: mod2
+  key: j
+swap-main:
+  mod: mod2
+  key: return
+
+# --- RESIZE (Alt + h/l to shrink/expand) ---
+shrink-main:
+  mod: mod1
+  key: h
+expand-main:
+  mod: mod1
+  key: l
+
+# --- LAYOUTS ---
+# Alt+Space to cycle layout (like Alt+e toggle split in i3)
+cycle-layout:
+  mod: mod1
+  key: space
+cycle-layout-backward:
+  mod: mod2
+  key: space
+
+# Direct layout selection (like i3 Alt+s/w/e)
+select-tall-layout:
+  mod: mod1
+  key: s
+select-wide-layout:
+  mod: mod1
+  key: w
+select-fullscreen-layout:
+  mod: mod1
+  key: f
+select-column-layout:
+  mod: mod1
+  key: e
+select-floating-layout:
+  mod: mod2
+  key: f
+select-bsp-layout:
+  mod: mod1
+  key: b
+
+# --- FLOAT TOGGLE (Alt+Shift+Space, same as i3) ---
+toggle-float:
+  mod: mod2
+  key: space
+
+# --- SPACES / WORKSPACES ---
+# Alt+1-9 to throw focused window to space (move container)
+throw-space-1:
+  mod: mod2
+  key: "1"
+throw-space-2:
+  mod: mod2
+  key: "2"
+throw-space-3:
+  mod: mod2
+  key: "3"
+throw-space-4:
+  mod: mod2
+  key: "4"
+throw-space-5:
+  mod: mod2
+  key: "5"
+throw-space-6:
+  mod: mod2
+  key: "6"
+throw-space-7:
+  mod: mod2
+  key: "7"
+throw-space-8:
+  mod: mod2
+  key: "8"
+throw-space-9:
+  mod: mod2
+  key: "9"
+
+# --- SCREENS (multi-monitor) ---
+focus-screen-cw:
+  mod: mod1
+  key: "."
+focus-screen-ccw:
+  mod: mod1
+  key: ","
+throw-screen-cw:
+  mod: mod2
+  key: "."
+throw-screen-ccw:
+  mod: mod2
+  key: ","
+
+# --- MAIN PANE COUNT ---
+increase-main:
+  mod: mod1
+  key: ","
+decrease-main:
+  mod: mod1
+  key: "."
+
+# --- UTILITY ---
+reevaluate-windows:
+  mod: mod2
+  key: r
+display-current-layout:
+  mod: mod1
+  key: i
+toggle-tiling:
+  mod: mod2
+  key: t
+relaunch-amethyst:
+  mod: mod2
+  key: z

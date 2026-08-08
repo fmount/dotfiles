@@ -77,7 +77,8 @@ dot:  ## Install the $(HOME) dotfiles (excluding config)
 		! -name ".travis.yml" ! -name ".git*" ! -name ".*.swp" \
 		! -name ".config" ! -name "*.i3*" ! -path "*.vim/plugged/*" \
 		! -path "*.config/nvim/plugged/*" \
-		$(if $(filter Darwin,$(UNAME)),! -name ".xinitrc" ! -name ".xsession" ! -name ".Xmodmap" ! -name ".Xresources")); do \
+		$(if $(filter Darwin,$(UNAME)),! -name ".xinitrc" ! -name ".xsession" ! -name ".Xmodmap" ! -name ".Xresources") \
+		$(if $(filter Linux,$(UNAME)),! -name ".amethyst.yml" ! -name ".hammerspoon")); do \
 		f=$$(basename $$file); \
 		echo "Processing element: $$file"; \
 		ln -sfn $$file $(HOME)/$$f; \
