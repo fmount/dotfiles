@@ -5,7 +5,7 @@ local REDUCT = 3
 local TITLE = "Terminal"
 
 local function lua_terminal_window_size()
-    return tonumber(vim.api.nvim_exec("echo &lines", true)) / REDUCT
+    return math.floor(vim.o.lines / REDUCT)
 end
 
 -- Open a Terminal and set some basic options

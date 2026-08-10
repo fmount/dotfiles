@@ -1,4 +1,4 @@
-require("claude-code").setup({
+require("claudecode").setup({
   -- Terminal window settings
   window = {
     split_ratio = 0.3,      -- Percentage of screen for the terminal window (height for horizontal, width for vertical splits)

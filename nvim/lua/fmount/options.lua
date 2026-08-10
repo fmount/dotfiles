@@ -58,10 +58,12 @@ end
 vim.g.markdown_fenced_languages = { "c", "bash=sh" }
 vim.g.markdown_syntax_conceal = 0
 
--- GUI settings
-vim.opt.guioptions:remove("m") -- remove menu bar
-vim.opt.guioptions:remove("T") -- remove toolbar
-vim.opt.guioptions:remove("r") -- remove scrollbar
+-- GUI settings (guioptions is Vim-only, neovim-qt uses GuiFont etc.)
+if vim.fn.has('nvim') == 0 then
+  vim.opt.guioptions:remove("m")
+  vim.opt.guioptions:remove("T")
+  vim.opt.guioptions:remove("r")
+end
 
 -- Mouse settings
 vim.opt.mouse = ""

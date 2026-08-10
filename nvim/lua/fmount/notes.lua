@@ -12,9 +12,9 @@ local del_note_opts = {
     -- override default select action
     actions.select_default:replace(function()
         -- local selection = actions_state.get_selected_entry()
-        confirmation_question = "Do you really wanna delete the note %s? [Y/n] "
-        success_message = "Deleted note: %s"
-        error_message = 'Error when deleting note: %s. Returned code: "%s"'
+        local confirmation_question = "Do you really want to delete the note %s? [Y/n] "
+        local success_message = "Deleted note: %s"
+        local error_message = 'Error when deleting note: %s. Returned code: "%s"'
         local selection = require("telescope.actions.state").get_selected_entry(
             prompt_bufnr
         )
@@ -24,7 +24,7 @@ local del_note_opts = {
             return
         end
         vim.fn.delete(selection.cwd .. "/" .. selection.value)
-        local _, ret, stderr = utils.get_os_command_output({ "ls", "-l", selection.cwd .. "/" .. selection.value}, cwd)
+        local _, ret, stderr = utils.get_os_command_output({ "ls", "-l", selection.cwd .. "/" .. selection.value}, selection.cwd)
         if ret == 0 then
             print(string.format(error_message, selection.value, ret))
         else
