@@ -70,14 +70,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = "DEFAULT",
-  pattern = "*",
-  callback = function()
-    -- Change to file directory
-    vim.cmd("silent! lcd %:p:h")
-  end,
-})
 
 vim.api.nvim_create_autocmd("FileType", {
   group = "DEFAULT",
@@ -103,11 +95,15 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
--- Colorscheme and transparency
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    vim.cmd("hi EndOfBuffer ctermbg=NONE ctermfg=200 cterm=NONE")
-    vim.cmd("hi Normal ctermbg=NONE ctermfg=200 cterm=NONE")
-    vim.cmd("colorscheme jellybeans")
-  end,
-})
+-- Set colorscheme immediately
+vim.cmd("colorscheme jellybeans")
+
+-- Transparency overrides (terminal only, not needed in GUI)
+if not vim.g.GuiLoaded then
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    callback = function()
+      vim.cmd("hi EndOfBuffer ctermbg=NONE ctermfg=200 cterm=NONE")
+      vim.cmd("hi Normal ctermbg=NONE ctermfg=200 cterm=NONE")
+    end,
+  })
+end

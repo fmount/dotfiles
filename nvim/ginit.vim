@@ -1,4 +1,4 @@
-GuiFont! NeoSpleen:h12
+" GuiFont! NeoSpleen:h14
 call GuiClipboard()
 
 set mouse=a

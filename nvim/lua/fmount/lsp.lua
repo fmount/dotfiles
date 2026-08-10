@@ -34,22 +34,28 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- LSP server configurations
 vim.lsp.config.bashls = { capabilities = capabilities }
 vim.lsp.config.pylsp = { capabilities = capabilities }
-vim.lsp.config.gopls = { 
+vim.lsp.config.gopls = {
   cmd = { "/usr/bin/gopls" },
   capabilities = capabilities,
 }
-vim.lsp.config.ccls = {
+vim.lsp.config.clangd = {
   capabilities = capabilities,
-  init_options = {
-    compilationDatabaseDirectory = "build",
-    index = {
-      threads = 0,
-    },
-    clang = {
-      excludeArgs = { "-frounding-math" },
-    },
-  },
 }
 
+-- LSP keymaps (buffer-local, only active when a server attaches)
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local opts = { buffer = args.buf }
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>fs', vim.lsp.buf.signature_help, opts)
+  end,
+})
+
 -- Enable the LSP servers
-vim.lsp.enable({ 'bashls', 'pylsp', 'gopls', 'ccls' })
+vim.lsp.enable({ 'bashls', 'pylsp', 'gopls', 'clangd' })

@@ -26,10 +26,9 @@ keymap('n', '<leader>vp', function()
 end, { desc = 'Projects' })
 
 -- Diagnostics
-keymap('n', '<leader>do', vim.diagnostic.open_float, { desc = 'Open diagnostic' })
-keymap('n', '<leader>dn', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
-keymap('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
-keymap('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude Code' })
+keymap('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open diagnostic' })
+keymap('n', '<leader>d', vim.diagnostic.goto_next, { desc = 'Next diagnostic' })
+keymap('n', '<leader>d', vim.diagnostic.goto_prev, { desc = 'Previous diagnostic' })
 
 -- Legacy keymaps from init.vim
 
@@ -55,6 +54,12 @@ keymap('i', '<Left>', '<nop>', { desc = 'Disabled' })
 keymap('i', '<Right>', '<nop>', { desc = 'Disabled' })
 keymap('n', '<F1>', '<Nop>', { desc = 'Disabled' })
 keymap('n', '<C-F1>', '<Nop>', { desc = 'Disabled' })
+keymap('n', '<PageUp>', '<Nop>', { desc = 'Disabled' })
+keymap('n', '<PageDown>', '<Nop>', { desc = 'Disabled' })
+keymap('i', '<PageUp>', '<Nop>', { desc = 'Disabled' })
+keymap('i', '<PageDown>', '<Nop>', { desc = 'Disabled' })
+-- Use jj instead
+keymap('i', '<Esc>', '<Nop>', { desc = 'Disabled' })
 
 -- ESC with jj
 keymap('i', 'jj', '<Esc>', { desc = 'Exit insert mode' })

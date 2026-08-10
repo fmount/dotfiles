@@ -14,8 +14,14 @@ return {
 
   -- UI and appearance
   { "ap/vim-buftabline", event = "VeryLazy" },
-  { "itchyny/lightline.vim", event = "VeryLazy" },
-  { "ryanoasis/vim-devicons", lazy = false },
+  {
+    "itchyny/lightline.vim",
+    lazy = false,
+    init = function()
+      vim.g.lightline = { colorscheme = "jellybeans" }
+    end,
+  },
+  { "ryanoasis/vim-devicons", event = "VeryLazy" },
   { 
     "mhinz/vim-startify", 
     lazy = false,
@@ -37,8 +43,6 @@ return {
   -- Writing and notes
   { "fmount/vim-notes", ft = "markdown" },
   { "junegunn/goyo.vim", cmd = "Goyo" },
-  { "OXY2DEV/markview.nvim", ft = "markdown" },
-
   -- GUI support
   { "equalsraf/neovim-gui-shim", lazy = false },
 
@@ -97,16 +101,37 @@ return {
     build = ":TSUpdate",
   },
 
-  -- LSP extensions
-  { "nvim-lua/lsp_extensions.nvim", event = "LspAttach" },
-
-  -- Claude Code integration
+ -- Claude Code integration
   {
-    "greggh/claude-code.nvim",
-    cmd = "ClaudeCode",
-    keys = {
-      { "<leader>cc", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude Code" },
-      { "<C-,>", "<cmd>ClaudeCode<cr>", desc = "Toggle Claude Code" },
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    cmd = { "ClaudeCode", "ClaudeCodeFocus", "ClaudeCodeAdd", "ClaudeCodeSend", "ClaudeCodeDiffAccept", "ClaudeCodeDiffDeny", "ClaudeCodeTreeAdd" },
+    opts = {
+      -- terminal_cmd = vim.fn.exepath("/sbin/claude"), -- lets Neovim resolve it at runtime
+      terminal = {
+        provider = "snacks",
+        split_side = "right",
+        split_width_percentage = 0.50,
+      },
     },
+    keys = {
+      { "<leader>cc", "<cmd>ClaudeCode<cr>",           desc = "Toggle Claude" },
+      { "<C-,>",      "<cmd>ClaudeCodeFocus<cr>",      desc = "Focus Claude",  mode = { "n", "x" } },
+      { "<leader>ca", "<cmd>ClaudeCodeAdd %<cr>",      desc = "Add buffer to Claude" },
+      { "<leader>cs", "<cmd>ClaudeCodeSend<cr>",       mode = "v", desc = "Send selection to Claude" },
+      { "<leader>cn", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>cx", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+      -- NERDTree integration
+      { "<leader>ca", "<cmd>ClaudeCodeTreeAdd<cr>",    desc = "Add file to Claude", ft = { "nerdtree" } },
+    },
+  },
+
+  -- OpenCode integration
+  {
+    "nickjvandyke/opencode.nvim",
+    cmd = "OpenCode",
+    config = function()
+      require('fmount.opencode')
+    end,
   },
 }
