@@ -2,8 +2,6 @@
 # v.0.1alpha
 
 # gpg pub key
-#export GPG_KEY='1FCA0620'
-#export GPG_SIGN_KEY='C66B3D3F'
 export GPG_KEY='F41BD75C'
 export GPG_SIGN_KEY='7301D458'
 export AGENT_ALERT_MODE=tmux-window-color,dunst
@@ -18,7 +16,6 @@ export PATH=$PATH:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin
 export GPG_TTY=$(tty)
 export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
-export PASSWORD_STORE_DIR=$HOME/.password-store_black
 export DOTFILES=$HOME/dotfiles
 export NOTES=$HOME/.notes
 export WEECHAT_HOME=$HOME/.weechat

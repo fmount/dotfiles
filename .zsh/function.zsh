@@ -1,8 +1,6 @@
 # vim: ft=zsh
 # # *** FUNCTIONS ***
 #
-#
-#
 
 _set_tmux_prefix() {
     if [[ -z $(ss | grep -i ssh) ]] then
