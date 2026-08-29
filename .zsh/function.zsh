@@ -32,14 +32,15 @@ texbuild(){
     extension="${filename##*.}"
     filename="${filename%.*}"
     if [ -f "$1" ]; then
-        latex $filename
-        latex $filename
+        latex "$filename"
+        latex "$filename"
         echo "Making dvi.."
-        dvips $filename.dvi #-o $filename.ps
+        dvips "$filename.dvi" #-o "$filename.ps"
         echo "Making ps.."
-        ps2pdf $filename.ps
+        ps2pdf "$filename.ps"
         echo "Making pdf"
-        rm *.log *.ps *.dvi *.out *.aux
+        rm -f -- "$filename.log" "$filename.ps" "$filename.dvi" \
+            "$filename.out" "$filename.aux"
     fi
 }
 
@@ -55,10 +56,6 @@ swapring(){
 
 }
 
-aping() {
-    if ! ping -c1 -w 5 "$1" &>/dev/null; then echo "Host is down"; else echo "isalive"; fi
-}
-
 _clone_and_fetch_PS() {
     git clone "$1" "$2"
     cd "$2"
@@ -71,7 +68,10 @@ git-clone-review() {
     project="$1"
     review="$2"
 
-    [ -d "$project" ] && rm -rf "$project"
+    if [[ -e $project ]]; then
+        print -u2 -- "git-clone-review: destination already exists: $project"
+        return 1
+    fi
 
     TARGET="$BASE_URL/$project"
     if [ -n "$review" ]; then

@@ -1,6 +1,5 @@
 ## zsh main config
 
-zstyle ":completion:*:commands" rehash 1
 zstyle ':completion:::*:default' menu no select
 zstyle ':completion:*' rehash true
 #zstyle ':completion:*' hosts off
@@ -22,8 +21,8 @@ setopt extended_history
 setopt PROMPT_SUBST
 #setopt inc_append_history
 HISTFILE=~/.histfile
-HISTSIZE=50000000
-SAVEHIST=50000000
+HISTSIZE=100000
+SAVEHIST=100000
 HISTTIMEFORMAT='%F %T  '
 unsetopt beep
 
@@ -34,18 +33,16 @@ source $HOME/.zsh/prompt.zsh
 source $HOME/.zsh/function.zsh
 source $HOME/.zsh/termsupport.zsh
 
-# dev
-source ~/.zsh/operator.zsh
-
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
   dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
   [[ -d $dirstack[1] ]] && cd $dirstack[1]
 fi
 
-chpwd() {
-  print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
+_save_dirstack() {
+  print -rl -- "$PWD" "${(u)dirstack[@]}" >| "$DIRSTACKFILE"
 }
+add-zsh-hook chpwd _save_dirstack
 
 DIRSTACKSIZE=20
 
@@ -138,12 +135,3 @@ x-paste() {
     zle yank
 }
 zle -N x-paste
-
-
-setopt autopushd pushdsilent pushdtohome
-## Remove duplicate entries
-setopt pushdignoredups
-### This reverts the +/- operators.
-setopt pushdminus
-
-autoload -U +X bashcompinit && bashcompinit

@@ -18,7 +18,6 @@ export PATH=$PATH:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin
 export GPG_TTY=$(tty)
 export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
-export TERM=xterm-256color
 export PASSWORD_STORE_DIR=$HOME/.password-store_black
 export DOTFILES=$HOME/dotfiles
 export NOTES=$HOME/.notes
