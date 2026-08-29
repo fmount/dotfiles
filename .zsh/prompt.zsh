@@ -16,7 +16,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=grey'
 # staged, unstaged, untracked, deleted, renamed, and conflicted files.
 function +vi-git-status() {
     local line x y porcelain branch
-    local behind=0 ahead=0
+    local behind=0 ahead=0 commits=0
     local staged=false unstaged=false
 
     branch=$(command git symbolic-ref --quiet --short HEAD 2>/dev/null) || \
@@ -48,6 +48,12 @@ function +vi-git-status() {
             hook_com[misc]+='%F{166}↑%f'
         fi
     fi
+
+    commits=$(command git rev-list --count HEAD 2>/dev/null) || commits=0
+    if [[ -n ${hook_com[staged]} || -n ${hook_com[unstaged]} || -n ${hook_com[misc]} ]]; then
+        hook_com[misc]+=' '
+    fi
+    hook_com[misc]+="C:${commits}"
 }
 
 function _update_vcs_info() {
