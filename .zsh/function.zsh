@@ -2,44 +2,43 @@
 # # *** FUNCTIONS ***
 #
 
-_set_tmux_prefix() {
-    if [[ -z $(ss | grep -i ssh) ]] then
-        # No SSH sessions should be active
-        tmux set-option -g prefix Escape
-    else
-        # SSH session is there, we want
-        # backtick as prefix to avoid
-        # overlapping w/ (N)VIM escape
-        tmux set-option -g prefix '`'
-    fi
-}
-
 ssh() {
-  if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm= | cut -d : -f1)" = "tmux" ]; then
-    tmux rename-window "$(echo -- $* | awk '{print $NF}')"
+  local ssh_status
+
+  if [[ -n $TMUX ]]; then
+    tmux rename-window -- "${@[-1]}"
     command ssh "$@"
-    tmux set-window-option automatic-rename "on" 1>/dev/null
-  else
-    command ssh "$@"
+    ssh_status=$?
+    tmux set-window-option automatic-rename on >/dev/null
+    return $ssh_status
   fi
+
+  command ssh "$@"
 }
 
 # Old LaTeX Building
 texbuild(){
-    filename=$(basename "$1")
-    extension="${filename##*.}"
-    filename="${filename%.*}"
-    if [ -f "$1" ]; then
-        latex "$filename"
-        latex "$filename"
+    if (( $# != 1 )) || [[ ! -f $1 ]]; then
+        print -u2 'usage: texbuild FILE.tex'
+        return 2
+    fi
+
+    local source_file=${1:A}
+    local source_dir=${source_file:h}
+    local filename=${source_file:t:r}
+
+    (
+        cd "$source_dir" || return
+        latex "$filename" || return
+        latex "$filename" || return
         echo "Making dvi.."
-        dvips "$filename.dvi" #-o "$filename.ps"
+        dvips "$filename.dvi" || return
         echo "Making ps.."
-        ps2pdf "$filename.ps"
+        ps2pdf "$filename.ps" || return
         echo "Making pdf"
         rm -f -- "$filename.log" "$filename.ps" "$filename.dvi" \
             "$filename.out" "$filename.aux"
-    fi
+    )
 }
 
 # pass function to select the specified ring
@@ -55,28 +54,34 @@ swapring(){
 }
 
 _clone_and_fetch_PS() {
-    git clone "$1" "$2"
-    cd "$2"
-    git review -d "$2"
-    git checkout -b "$2"
+    local target=$1 review=$2
+
+    git clone "$target" "$review" || return
+    cd "$review" || return
+    git review -d "$review" || return
+    git checkout -b "$review"
 }
 
 git-clone-review() {
-    BASE_URL="https://review.opendev.org/openstack"
-    project="$1"
-    review="$2"
+    local base_url="https://review.opendev.org/openstack"
+    local project=$1 review=$2 target
+
+    if [[ -z $project ]]; then
+        print -u2 'usage: git-clone-review PROJECT [REVIEW]'
+        return 2
+    fi
 
     if [[ -e $project ]]; then
         print -u2 -- "git-clone-review: destination already exists: $project"
         return 1
     fi
 
-    TARGET="$BASE_URL/$project"
+    target="$base_url/$project"
     if [ -n "$review" ]; then
-        _clone_and_fetch_PS "$TARGET" "$review"
+        _clone_and_fetch_PS "$target" "$review"
     else
-        git clone "$TARGET"
-        cd "$1"
+        git clone "$target" || return
+        cd "$project"
     fi
 
 }
@@ -85,9 +90,9 @@ n(){
     #local running_servers=$(nvr --serverlist)
     local n_server_name=/tmp/nvim
     if [[ $(nvr -s --nostart --servername $n_server_name  --remote-expr "'OK'") == "OK" ]]; then
-        nvr --servername $n_server_name $@
+        nvr --servername "$n_server_name" "$@"
     else
-        NVIM_LISTEN_ADDRESS=$n_server_name nvim-qt $@
+        NVIM_LISTEN_ADDRESS=$n_server_name nvim-qt "$@"
     fi
 }
 
@@ -117,7 +122,8 @@ nsstat() {
 
 jekyll() {
     if (( $# == 0 )) then
-        echo usage: jekyll [blog-path] ...;
+        print -u2 'usage: jekyll BLOG_PATH'
+        return 2
     fi
     podman run --rm -it \
       -v "$1:/srv/jekyll:Z" \

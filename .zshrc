@@ -7,9 +7,8 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 #zstyle ':completion:*' use-cache on
 #zstyle ':completion:*' cache-path ~/.zsh/cache
 
-autoload -Uz compinit promptinit colors
-compinit
-promptinit
+autoload -Uz compinit colors
+compinit -C
 colors
 
 
@@ -20,6 +19,7 @@ setopt hist_ignore_space
 setopt extended_history
 setopt PROMPT_SUBST
 #setopt inc_append_history
+setopt inc_append_history_time
 HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
@@ -31,7 +31,6 @@ source $HOME/.zsh/export.zsh
 source $HOME/.zsh/alias.zsh
 source $HOME/.zsh/prompt.zsh
 source $HOME/.zsh/function.zsh
-source $HOME/.zsh/termsupport.zsh
 
 DIRSTACKFILE="$HOME/.cache/zsh/dirs"
 if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
@@ -65,8 +64,6 @@ zle -N down-line-or-beginning-search
 bindkey "^R" history-incremental-search-backward
 bindkey "^A" history-beginning-search-backward
 bindkey "^B" history-beginning-search-forward
-
-typeset -A key
 
 # Searching autocompl using <Ctrl>j/k
 bindkey '^k' up-line-or-beginning-search

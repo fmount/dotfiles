@@ -1,7 +1,3 @@
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt pushdminus
-
 # *** Common ***
 alias ..='cd ..'
 alias ...='cd ../..'

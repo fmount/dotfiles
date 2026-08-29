@@ -15,38 +15,51 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=grey'
 # Gather all extra Git state once per prompt. The porcelain XY columns cover
 # staged, unstaged, untracked, deleted, renamed, and conflicted files.
 function +vi-git-status() {
-    local line x y porcelain branch
+    local line x y porcelain branch oid ahead_field behind_field
     local behind=0 ahead=0 commits=0
     local staged=false unstaged=false
 
-    branch=$(command git symbolic-ref --quiet --short HEAD 2>/dev/null) || \
-        branch=$(command git rev-parse --short HEAD 2>/dev/null)
-    [[ -n $branch ]] && hook_com[branch]=$branch
-
-    porcelain=$(command git status --porcelain=v1 --untracked-files=normal 2>/dev/null)
+    porcelain=$(command git status --porcelain=v2 --branch --untracked-files=normal 2>/dev/null)
     while IFS= read -r line; do
         [[ -z $line ]] && continue
-        x=${line[1]}
-        y=${line[2]}
-        if [[ $x == '?' ]]; then
-            unstaged=true
-        else
-            [[ $x != ' ' ]] && staged=true
-            [[ $y != ' ' ]] && unstaged=true
-        fi
+        case $line in
+            '# branch.oid '*)
+                oid=${line#\# branch.oid }
+                ;;
+            '# branch.head '*)
+                branch=${line#\# branch.head }
+                ;;
+            '# branch.ab '*)
+                read -r ahead_field behind_field <<< "${line#\# branch.ab }"
+                ahead=${ahead_field#+}
+                behind=${behind_field#-}
+                ;;
+            [12u]' '*)
+                x=${line[3]}
+                y=${line[4]}
+                [[ $x != '.' ]] && staged=true
+                [[ $y != '.' ]] && unstaged=true
+                ;;
+            '? '*)
+                unstaged=true
+                ;;
+        esac
     done <<< "$porcelain"
+
+    if [[ $branch == '(detached)' ]]; then
+        branch=${oid[1,7]}
+    fi
+    [[ -n $branch ]] && hook_com[branch]=$branch
 
     $staged && hook_com[staged]='%F{green}+%f'
     $unstaged && hook_com[unstaged]='%F{yellow}*%f'
 
-    if read -r behind ahead <<< "$(command git rev-list --left-right --count '@{upstream}...HEAD' 2>/dev/null)"; then
-        if (( behind && ahead )); then
-            hook_com[misc]+='%F{166}↕%f'
-        elif (( behind )); then
-            hook_com[misc]+='%F{166}↓%f'
-        elif (( ahead )); then
-            hook_com[misc]+='%F{166}↑%f'
-        fi
+    if (( behind && ahead )); then
+        hook_com[misc]+='%F{166}↕%f'
+    elif (( behind )); then
+        hook_com[misc]+='%F{166}↓%f'
+    elif (( ahead )); then
+        hook_com[misc]+='%F{166}↑%f'
     fi
 
     commits=$(command git rev-list --count HEAD 2>/dev/null) || commits=0

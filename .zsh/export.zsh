@@ -12,7 +12,8 @@ export SSH_ASKPASS=''
 export VISUAL="vim"
 export EDITOR="vim"
 export GOPATH=$HOME/golang-book
-export PATH=$PATH:$GOPATH/bin:$HOME/.cargo/bin:$HOME/.local/bin
+typeset -U path PATH
+path+=("$GOPATH/bin" "$HOME/.cargo/bin" "$HOME/.local/bin")
 export GPG_TTY=$(tty)
 export LC_COLLATE=en_US.UTF-8
 export LANG=en_US.UTF-8
