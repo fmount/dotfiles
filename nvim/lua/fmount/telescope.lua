@@ -1,3 +1,9 @@
+local home = vim.env.HOME or vim.fn.expand('~')
+
+local function home_path(path)
+  return vim.fs.joinpath(home, path)
+end
+
 require('telescope').setup({
   defaults = {
     layout_config = {
@@ -9,9 +15,9 @@ require('telescope').setup({
   extensions = {
     project = {
       base_dirs = {
-        { path ='/home/fmount/projects'},
-        { path = '/home/fmount/devnull'},
-        {'/home/fmount/private', max_depth = 4},
+        { path = home_path('projects') },
+        { path = home_path('devnull') },
+        { home_path('private'), max_depth = 4 },
       },
       hidden_files = false
     }
@@ -22,7 +28,7 @@ local M = {}
 M.search_dotfiles = function()
     require("telescope.builtin").find_files({
         prompt_title = "< VimRC >",
-        cwd = vim.env.DOTFILES,
+        cwd = vim.env.DOTFILES or home_path('dotfiles'),
         hidden = true,
     })
 end

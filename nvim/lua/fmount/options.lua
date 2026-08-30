@@ -50,7 +50,7 @@ vim.opt.shortmess:append("c")
 
 -- Persistent undo
 if vim.fn.has("persistent_undo") == 1 then
-  vim.opt.undodir = vim.fn.expand("$HOME/.undodir/")
+  vim.opt.undodir = vim.fn.stdpath("state") .. "/undo"
   vim.opt.undofile = true
 end
 

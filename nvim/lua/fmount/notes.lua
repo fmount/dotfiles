@@ -3,9 +3,10 @@ local actions = require("telescope.actions")
 local utils = require("telescope.utils")
 
 local M = {}
+local notes_dir = vim.env.NOTES or vim.fs.joinpath(vim.env.HOME or vim.fn.expand('~'), '.notes')
 local del_note_opts = {
     prompt_title = "< Delete Note >",
-    cwd = vim.env.NOTES,
+    cwd = notes_dir,
     hidden = false,
     attach_mappings =function(prompt_bufnr,map)
     -- selected entry (entry.value will give its value)
@@ -43,7 +44,7 @@ end
 M.search_notes = function()
     require('telescope.builtin').find_files({
         prompt_title = "< Open Note >",
-        cwd = vim.env.NOTES,
+        cwd = notes_dir,
         hidden = false
     })
 end

@@ -35,7 +35,6 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 vim.lsp.config.bashls = { capabilities = capabilities }
 vim.lsp.config.pylsp = { capabilities = capabilities }
 vim.lsp.config.gopls = {
-  cmd = { "/usr/bin/gopls" },
   capabilities = capabilities,
 }
 vim.lsp.config.clangd = {
